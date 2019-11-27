@@ -57,7 +57,24 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(3, head.next.next.next.next.val)
         self.assertEqual(4, head.next.next.next.next.next.val)
 
-        pass
+    def test_removeDuplicates_26(self):
+        arr = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+        length = self.solution.removeDuplicates_26(arr)
+        self.assertEqual([0, 1, 2, 3, 4], arr[0:length])
+
+    def test_removeElement_27(self):
+        arr = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+        length = self.solution.removeElement_27(arr, 1)
+        self.assertEqual([0, 0, 2, 2, 3, 3, 4], arr[0:length])
+
+    def test_strStr_28(self):
+        self.assertEqual(2, self.solution.strStr_28('Hello', 'll'))
+
+    def test_searchInsert_35(self):
+        self.assertEqual(2, self.solution.searchInsert_35([2, 3, 5, 6, 7], 5))
+
+    def test_maxSubArray_53(self):
+        self.assertEqual(6, self.solution.maxSubArray_53([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
 
 
 if __name__ == '__main__':

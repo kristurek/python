@@ -116,6 +116,75 @@ class Solution:
 
         return head.next
 
+    def removeDuplicates_26(self, nums: List[int]) -> int:
+        j = 0
+        for i in range(0, len(nums) - 1):
+            if nums[i] != nums[i + 1]:
+                nums[j] = nums[i]
+                j += 1
+            i += 1
+
+        nums[j] = nums[len(nums) - 1]
+        return j + 1
+
+    def removeElement_27(self, nums: List[int], val: int) -> int:
+        j = 0
+        for i in range(0, len(nums) - 1):
+            if nums[i] != val:
+                nums[j] = nums[i]
+                j += 1
+            i += 1
+
+        nums[j] = nums[len(nums) - 1]
+        return j + 1
+        pass
+
+    def strStr_28(self, haystack: str, needle: str) -> int:
+        i = 0
+        j = 0
+        while i < len(haystack):
+            if haystack[i] == needle[j]:
+                j += 1
+            else:
+                if j != 0:
+                    i = i - j
+                j = 0
+            i += 1
+
+            if j == len(needle):
+                return i - len(needle)
+
+        return -1
+
+    def searchInsert_35(self, nums: List[int], target: int) -> int:
+        l = 0
+        h = len(nums) - 1
+
+        while l < h:
+            mid = l + int((h - l) / 2)
+            if nums[mid] < target:
+                l = mid + 1
+            elif nums[mid] > target:
+                h = mid - 1
+            else:
+                return mid
+        return l
+
+    def maxSubArray_53(self, nums: List[int]) -> int:
+        sum = 0
+        max = float('-inf')
+
+        for num in nums:
+            if sum < 0:
+                sum = num
+            else:
+                sum += num
+
+            if sum > max:
+                max = sum
+
+        return max
+
 
 def main():
     pass
