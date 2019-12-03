@@ -76,6 +76,50 @@ class SolutionTest(unittest.TestCase):
     def test_maxSubArray_53(self):
         self.assertEqual(6, self.solution.maxSubArray_53([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
 
+    def test_lengthOfLastWord_58(self):
+        self.assertEqual(5, self.solution.lengthOfLastWord_58('Hello World'))
+
+    def test_plusOne_66(self):
+        self.assertEqual([1, 2, 4], self.solution.plusOne_66([1, 2, 3]))
+        self.assertEqual([1, 0, 0, 0], self.solution.plusOne_66([9, 9, 9]))
+        self.assertEqual([1, 2, 0], self.solution.plusOne_66([1, 1, 9]))
+
+    def test_addBinary_67(self):
+        self.assertEqual('10', self.solution.addBinary_67('1', '1'))
+        self.assertEqual('110', self.solution.addBinary_67('11', '11'))
+        self.assertEqual('101', self.solution.addBinary_67('10', '11'))
+
+    def test_mySqrt_69(self):
+        self.assertEqual(2, self.solution.mySqrt_69(4))
+        self.assertEqual(2, self.solution.mySqrt_69(8))
+
+    def test_climbStairs_70(self):
+        self.assertEqual(0, self.solution.climbStairs_70(0));
+        self.assertEqual(1, self.solution.climbStairs_70(1));
+        self.assertEqual(2, self.solution.climbStairs_70(2));
+        self.assertEqual(3, self.solution.climbStairs_70(3));
+        self.assertEqual(5, self.solution.climbStairs_70(4));
+        self.assertEqual(8, self.solution.climbStairs_70(5));
+
+    def test_deleteDuplicates_83(self):
+        head = ListNode(1)
+        head.next = ListNode(1)
+        head.next.next = ListNode(2)
+        head.next.next.next = ListNode(3)
+        head.next.next.next.next = ListNode(3)
+
+        head = self.solution.deleteDuplicates_83(head)
+
+        self.assertEqual(1, head.val)
+        self.assertEqual(2, head.next.val)
+        self.assertEqual(3, head.next.next.val)
+
+    def test_merge_88(self):
+        a = [1, 2, 3, 0, 0, 0]
+        b = [1, 2, 3]
+        self.solution.merge_88(a, 3, b, 3)
+        self.assertEqual([1, 1, 2, 2, 3, 3], a)
+
 
 if __name__ == '__main__':
     unittest.main()

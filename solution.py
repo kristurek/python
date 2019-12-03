@@ -185,6 +185,138 @@ class Solution:
 
         return max
 
+    def lengthOfLastWord_58(self, s: str) -> int:
+        s = str.strip(s)
+
+        i = len(s) - 1
+        size = i
+        while i >= 0:
+            if s[i] == ' ':
+                return size - i
+            i -= 1
+
+        return 0
+
+    def plusOne_66(_self, digits: List[int]) -> List[int]:
+        i = len(digits) - 1
+
+        while i >= 0:
+            if digits[i] == 9:
+                digits[i] = 0
+            else:
+                digits[i] = digits[i] + 1
+                return digits
+            i -= 1
+
+        digits.insert(0, 1)
+
+        return digits
+
+    def addBinary_67(self, a: str, b: str) -> str:
+        i = len(a) - 1
+        j = len(b) - 1
+
+        carry = 0
+        digits = []
+
+        while i >= 0 or j >= 0:
+            sum = carry
+            if i >= 0:
+                sum += int(a[i])
+            if j >= 0:
+                sum += int(b[j])
+
+            digits.append(sum % 2)
+            carry = int(sum / 2)
+
+            i -= 1
+            j -= 1
+
+        if carry != 0:
+            digits.append(1)
+
+        return ''.join(map(str, reversed(digits)))
+
+    def mySqrt_69(self, x: int) -> int:
+        l = 0
+        h = x
+        ans = -1
+
+        while (l <= h):
+            m = l + int((h - l) / 2)
+
+            if m * m < x:
+                l = m + 1
+                ans = m
+            elif m * m > x:
+                h = m - 1
+            else:
+                return m
+
+        return ans
+
+    def climbStairs_70(self, n: int) -> int:
+        if n == 0:
+            return 0
+        if n == 1:
+            return 1
+        if n == 2:
+            return 2
+
+        firstStep = 1
+        secondStep = 2
+
+        for i in range(3, n + 1):
+            thirdStep = firstStep + secondStep
+
+            firstStep = secondStep
+            secondStep = thirdStep
+
+        return secondStep
+
+    def deleteDuplicates_83(self, head: ListNode) -> ListNode:
+        currentNode = head
+
+        while currentNode and currentNode.next:
+            if currentNode.val == currentNode.next.val:
+                currentNode.next = currentNode.next.next
+            else:
+                currentNode = currentNode.next
+
+        return head
+
+    def merge_88(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        m = m - 1
+        n = n - 1
+        k = m + n + 1
+
+        while k >= 0:
+            if m >= 0 and n < 0:
+                nums1[k] = nums1[m]
+                k -= 1
+                m -= 1
+            elif m < 0 and n >= 0:
+                nums1[k] = nums2[n]
+                k -= 1
+                n -= 1
+            else:
+                if nums1[m] > nums2[n]:
+                    nums1[k] = nums1[m]
+                    k -= 1
+                    m -= 1
+                elif nums1[m] < nums2[n]:
+                    nums1[k] = nums2[n]
+                    k -= 1
+                    n -= 1
+                else:
+                    nums1[k] = nums1[m]
+                    k -= 1
+                    m -= 1
+                    nums1[k] = nums2[n]
+                    k -= 1
+                    n -= 1
+        pass
+
 
 def main():
     pass
