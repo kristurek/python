@@ -1,6 +1,8 @@
 from typing import List
 
 from common import ListNode
+from common import TreeNode
+from collections import deque
 
 
 class Solution:
@@ -316,6 +318,40 @@ class Solution:
                     k -= 1
                     n -= 1
         pass
+
+    def isSameTree_100(self, p: TreeNode, q: TreeNode) -> bool:
+        quene1 = deque()
+        quene2 = deque()
+
+        quene1.append(p)
+        quene2.append(q)
+
+        while len(quene1) > 0 and len(quene2) > 0:
+            tn1 = quene1.popleft()
+            tn2 = quene2.popleft()
+
+            if tn1.val != tn2.val:
+                return False
+            elif tn1.left == None and tn2.left != None:
+                return False
+            elif tn1.left != None and tn2.left == None:
+                return False
+            elif tn1.right == None and tn2.right != None:
+                return False
+            elif tn1.right != None and tn2.right == None:
+                return False
+
+            if tn1.left != None:
+                quene1.append(tn1.left)
+            if tn1.right != None:
+                quene1.append(tn1.right)
+
+            if tn2.left != None:
+                quene2.append(tn2.left)
+            if tn2.right != None:
+                quene2.append(tn2.right)
+
+        return len(quene1) == 0 and len(quene2) == 0
 
 
 def main():

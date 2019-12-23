@@ -1,6 +1,7 @@
 import unittest
 
 from common import ListNode
+from common import TreeNode
 from solution import Solution
 
 
@@ -119,6 +120,17 @@ class SolutionTest(unittest.TestCase):
         b = [1, 2, 3]
         self.solution.merge_88(a, 3, b, 3)
         self.assertEqual([1, 1, 2, 2, 3, 3], a)
+
+    def test_isSameTree_100(self):
+        root = TreeNode(1);
+        root.left = TreeNode(2);
+        root.right = TreeNode(3);
+        root.left.left = TreeNode(4);
+        root.left.right = TreeNode(5);
+        root.right.left = TreeNode(6);
+        root.right.right = TreeNode(7);
+
+        self.assertEqual(True, self.solution.isSameTree_100(root, root))
 
 
 if __name__ == '__main__':
