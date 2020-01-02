@@ -1,9 +1,10 @@
+from collections import deque
 from typing import List
 
 from common import ListNode
 from common import TreeNode
-from collections import deque
 
+import math
 
 class Solution:
 
@@ -320,15 +321,15 @@ class Solution:
         pass
 
     def isSameTree_100(self, p: TreeNode, q: TreeNode) -> bool:
-        quene1 = deque()
-        quene2 = deque()
+        queue1 = deque()
+        queue2 = deque()
 
-        quene1.append(p)
-        quene2.append(q)
+        queue1.append(p)
+        queue2.append(q)
 
-        while len(quene1) > 0 and len(quene2) > 0:
-            tn1 = quene1.popleft()
-            tn2 = quene2.popleft()
+        while len(queue1) > 0 and len(queue2) > 0:
+            tn1 = queue1.popleft()
+            tn2 = queue2.popleft()
 
             if tn1.val != tn2.val:
                 return False
@@ -342,16 +343,101 @@ class Solution:
                 return False
 
             if tn1.left != None:
-                quene1.append(tn1.left)
+                queue1.append(tn1.left)
             if tn1.right != None:
-                quene1.append(tn1.right)
+                queue1.append(tn1.right)
 
             if tn2.left != None:
-                quene2.append(tn2.left)
+                queue2.append(tn2.left)
             if tn2.right != None:
-                quene2.append(tn2.right)
+                queue2.append(tn2.right)
 
-        return len(quene1) == 0 and len(quene2) == 0
+        return len(queue1) == 0 and len(queue2) == 0
+
+    def isSymmetric_101(self, root: TreeNode) -> bool:
+        queue = deque()
+
+        queue.append(root)
+        queue.append(root)
+
+        while len(queue) > 1:
+            tn1 = queue.popleft()
+            tn2 = queue.popleft()
+
+            if tn1 == None and tn2 == None:
+                continue
+            elif tn1 != None and tn2 == None:
+                return False
+            elif tn1 == None and tn2 != None:
+                return False
+            elif tn1.val != tn2.val:
+                return False
+            else:
+                queue.append(tn1.left)
+                queue.append(tn2.right)
+                queue.append(tn1.right)
+                queue.append(tn2.left)
+
+        return True
+
+    def maxDepth_104(self, root: TreeNode) -> int:
+        queue = deque()
+        queue.append(root)
+        depth = 0
+
+        while len(queue) > 0:
+            size = len(queue)
+            while size > 0:
+                size -= 1
+
+                tn = queue.popleft()
+                if tn.left is not None:
+                    queue.append(tn.left)
+                if tn.right is not None:
+                    queue.append(tn.right)
+
+            depth += 1
+
+        return depth
+
+    def levelOrderBottom_107(self, root: TreeNode) -> List[List[int]]:
+        queue = deque()
+        queue.append(root)
+        levels = []
+
+        while len(queue) > 0:
+            size = len(queue)
+            level = []
+            while size > 0:
+                size -= 1
+
+                tn = queue.popleft()
+                level.append(tn.val)
+
+                if tn.left is not None:
+                    queue.append(tn.left)
+                if tn.right is not None:
+                    queue.append(tn.right)
+
+            levels.append(level)
+
+        levels.reverse()
+
+        return levels
+
+    def sortedArrayToBST_108(self, nums: List[int]) -> TreeNode:
+        return self.sortedArrayToBST_108_recursive(nums, 0, len(nums) - 1)
+
+    def sortedArrayToBST_108_recursive(self, nums: List[int], l: int, h: int) -> TreeNode:
+        if l > h:
+            return None
+
+        m = math.ceil(l + (h - l) / 2)
+        node = TreeNode(nums[m])
+        node.left = self.sortedArrayToBST_108_recursive(nums, l, m - 1)
+        node.right = self.sortedArrayToBST_108_recursive(nums, m + 1, h)
+
+        return node
 
 
 def main():

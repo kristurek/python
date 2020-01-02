@@ -95,12 +95,12 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(2, self.solution.mySqrt_69(8))
 
     def test_climbStairs_70(self):
-        self.assertEqual(0, self.solution.climbStairs_70(0));
-        self.assertEqual(1, self.solution.climbStairs_70(1));
-        self.assertEqual(2, self.solution.climbStairs_70(2));
-        self.assertEqual(3, self.solution.climbStairs_70(3));
-        self.assertEqual(5, self.solution.climbStairs_70(4));
-        self.assertEqual(8, self.solution.climbStairs_70(5));
+        self.assertEqual(0, self.solution.climbStairs_70(0))
+        self.assertEqual(1, self.solution.climbStairs_70(1))
+        self.assertEqual(2, self.solution.climbStairs_70(2))
+        self.assertEqual(3, self.solution.climbStairs_70(3))
+        self.assertEqual(5, self.solution.climbStairs_70(4))
+        self.assertEqual(8, self.solution.climbStairs_70(5))
 
     def test_deleteDuplicates_83(self):
         head = ListNode(1)
@@ -122,15 +122,57 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual([1, 1, 2, 2, 3, 3], a)
 
     def test_isSameTree_100(self):
-        root = TreeNode(1);
-        root.left = TreeNode(2);
-        root.right = TreeNode(3);
-        root.left.left = TreeNode(4);
-        root.left.right = TreeNode(5);
-        root.right.left = TreeNode(6);
-        root.right.right = TreeNode(7);
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
 
         self.assertEqual(True, self.solution.isSameTree_100(root, root))
+
+    def test_isSymmetric_101(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(2)
+        root.left.left = TreeNode(3)
+        root.left.right = TreeNode(4)
+        root.right.left = TreeNode(4)
+        root.right.right = TreeNode(3)
+
+        self.assertEqual(True, self.solution.isSymmetric_101(root))
+
+    def test_maxDepth_104(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(2)
+        root.left.left = TreeNode(3)
+        root.left.right = TreeNode(4)
+        root.right.right = TreeNode(3)
+        root.right.right.right = TreeNode(3)
+
+        self.assertEqual(4, self.solution.maxDepth_104(root))
+
+    def test_levelOrderBottom_107(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        self.assertEqual([[4, 5, 6, 7], [2, 3], [1]], self.solution.levelOrderBottom_107(root))
+
+    def test_sortedArrayToBST_108(self):
+        root = self.solution.sortedArrayToBST_108([-10, -3, 0, 5, 9]);
+
+        self.assertEqual(0, root.val)
+        self.assertEqual(-3, root.left.val)
+        self.assertEqual(9, root.right.val)
+        self.assertEqual(-10, root.left.left.val)
+        self.assertEqual(5, root.right.left.val)
 
 
 if __name__ == '__main__':
