@@ -174,6 +174,60 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(-10, root.left.left.val)
         self.assertEqual(5, root.right.left.val)
 
+    def test_minDepth_111(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        self.assertEqual(2, self.solution.minDepth_111(root))
+
+    def test_hasPathSum_112(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        self.assertEqual(True, self.solution.hasPathSum_112(root, 11))
+
+    def test_generate_118(self):
+        results = [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]]
+
+        self.assertEqual(results, self.solution.generate_118(5))
+
+    def test_getRow_119(self):
+        results = [1, 4, 6, 4, 1]
+
+        self.assertEqual(results, self.solution.getRow_119(4))
+
+    def test_maxProfit_121(self):
+        self.assertEqual(5, self.solution.maxProfit_121([7, 1, 5, 3, 6, 4]))
+        self.assertEqual(0, self.solution.maxProfit_121([7, 6, 4, 3, 1]))
+
+    def test_maxProfit_122(self):
+        self.assertEqual(7, self.solution.maxProfit_122([7, 1, 5, 3, 6, 4]))
+        self.assertEqual(4, self.solution.maxProfit_122([1, 2, 3, 4, 5]))
+        self.assertEqual(0, self.solution.maxProfit_122([7, 6, 4, 3, 1]))
+
+    def test_isPalindrome_125(self):
+        self.assertEqual(True, self.solution.isPalindrome_125("A man, a plan, a canal: Panama"))
+        self.assertEqual(False, self.solution.isPalindrome_125("race a car"))
+
+    def test_singleNumber_136(self):
+        self.assertEqual(1, self.solution.singleNumber_136([2, 2, 1]))
+        self.assertEqual(4, self.solution.singleNumber_136([4, 1, 2, 1, 2]))
+
+    def test_hasCycle_141(self):
+        head = ListNode(0)
+        head.next = ListNode(1)
+        head.next.next = ListNode(2)
+        head.next.next.next = ListNode(3)
+        head.next.next.next.next = head.next
+
+        self.assertEqual(True, self.solution.hasCycle_141(head))
+
 
 if __name__ == '__main__':
     unittest.main()

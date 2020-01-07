@@ -1,10 +1,11 @@
+import math
+import re
 from collections import deque
 from typing import List
 
 from common import ListNode
 from common import TreeNode
 
-import math
 
 class Solution:
 
@@ -438,6 +439,156 @@ class Solution:
         node.right = self.sortedArrayToBST_108_recursive(nums, m + 1, h)
 
         return node
+
+    def minDepth_111(self, root: TreeNode) -> int:
+        queue = deque()
+        queue.append(root)
+
+        level = 0
+
+        while len(queue) > 0:
+            level += 1
+            size = len(queue)
+
+            while size > 0:
+                size -= 1
+
+                tn = queue.popleft()
+                if tn.left is None and tn.right is None:
+                    return level
+
+                if tn.left is not None:
+                    queue.append(tn.left)
+                if tn.right is not None:
+                    queue.append(tn.right)
+
+        return level
+
+    def hasPathSum_112(self, root: TreeNode, sum: int) -> bool:
+        if not isinstance(root, TreeNode):
+            return False
+
+        queue = deque()
+        queue.append(root)
+        sums = deque()
+        sums.append(root.val)
+
+        while len(queue) > 0:
+            tn = queue.pop()
+            pathSum = sums.pop()
+
+            if tn.left is None and tn.right is None and sum == pathSum:
+                return True
+
+            if tn.right is not None:
+                queue.append(tn.right)
+                sums.append(pathSum + tn.right.val)
+            if tn.left is not None:
+                queue.append(tn.left)
+                sums.append(pathSum + tn.left.val)
+
+        return False
+
+    def generate_118(self, numRows: int) -> List[List[int]]:
+        results = []
+
+        if numRows <= 0:
+            return results
+
+        for i in range(0, numRows):
+            row = [0] * (i + 1)
+            for j in range(0, i + 1):
+                if j == 0:
+                    row[j] = 1
+                elif j == i:
+                    row[i] = 1
+                else:
+                    row[j] = results[i - 1][j - 1] + results[i - 1][j]
+
+            results.append(row)
+
+        return results
+
+    def getRow_119(self, rowIndex: int) -> List[int]:
+        results = []
+        numRows = rowIndex + 1
+
+        if numRows < 0:
+            return results
+
+        for i in range(0, numRows):
+            row = [0] * (i + 1)
+            for j in range(0, i + 1):
+                if j == 0:
+                    row[j] = 1
+                elif j == i:
+                    row[i] = 1
+                else:
+                    row[j] = results[i - 1][j - 1] + results[i - 1][j]
+
+            results.append(row)
+
+        return results[rowIndex]
+
+    def maxProfit_121(self, prices: List[int]) -> int:
+        max = 0
+        for i in range(0, len(prices)):
+            for j in range(i + 1, len(prices)):
+                profit = prices[j] - prices[i]
+                if profit > max:
+                    max = profit
+        return max
+
+    def maxProfit_122(self, prices: List[int]) -> int:
+        max = 0
+        for i in range(1, len(prices)):
+            if prices[i] > prices[i - 1]:
+                max += prices[i] - prices[i - 1]
+
+        return max
+
+    def isPalindrome_125(self, s: str) -> bool:
+        if s == None:
+            return False
+        if len(s) == 0:
+            return True
+
+        s = re.sub('\W+', '', s).lower()
+        i = 0
+        j = len(s) - 1
+
+        while i < j:
+            if s[i] == s[j]:
+                i += 1
+                j -= 1
+            else:
+                return False
+
+        return True
+
+    def singleNumber_136(self, nums: List[int]) -> int:
+        sNums = set()
+
+        for i in range(0, len(nums)):
+            if nums[i] in sNums:
+                sNums.remove(nums[i])
+            else:
+                sNums.add(nums[i])
+
+        return sNums.pop()
+
+    def hasCycle_141(self, head: ListNode) -> bool:
+        duplicates = set()
+
+        while head != None:
+            if head in duplicates:
+                return True
+            else:
+                duplicates.add(head)
+
+            head = head.next
+
+        return False
 
 
 def main():
