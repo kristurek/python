@@ -1,5 +1,5 @@
 from typing import List
-
+from collections import deque
 from common import ListNode
 from common import TreeNode
 
@@ -141,6 +141,186 @@ class Solution2:
             i += 1
 
         return -1
+
+    def _35_searchInsert(self, nums: List[int], target: int) -> int:
+        l = 0
+        h = len(nums) - 1
+
+        while l <= h:
+            m = l + int((h - l) / 2)
+
+            if nums[m] < target:
+                l = m + 1
+            elif nums[m] > target:
+                h = m - 1
+            else:
+                return m
+
+        return l
+
+    def _53_maxSubArray(self, nums: List[int]) -> int:
+        sum = 0
+        max = float('-inf')
+
+        for num in nums:
+            if sum < 0:
+                sum = num
+            else:
+                sum += num
+
+            if sum > max:
+                max = sum
+
+        return max
+
+    def _58_lengthOfLastWord(self, s: str) -> int:
+        ss = s.strip().split(' ')
+        return len(ss[len(ss) - 1])
+
+    def _66_plusOne(self, digits: List[int]) -> List[int]:
+        for i in reversed(range(len(digits))):
+            if digits[i] == 9:
+                digits[i] = 0
+            else:
+                digits[i] += 1
+                return digits
+
+        digits = [0] * (len(digits) + 1)
+        digits[0] = 1
+
+        return digits
+
+    def _67_addBinary(self, a: str, b: str) -> str:
+        i = len(a) - 1
+        j = len(b) - 1
+        carry = 0
+        c = []
+
+        while i >= 0 or j >= 0:
+            sum = carry
+            if i >= 0:
+                sum += int(a[i])
+                i -= 1
+            if j >= 0:
+                sum += int(b[j])
+                j -= 1
+
+            c.append(str(int(sum % 2)))
+            carry = int(sum / 2)
+
+        if carry != 0:
+            c.append('1')
+
+        return "".join(reversed(c))
+
+    def _69_mySqrt(self, x: int) -> int:
+        l = 0
+        h = x
+        answer = -1
+
+        while l <= h:
+            m = l + int((h - l) / 2)
+            if m * m < x:
+                l = m + 1
+                answer = m
+            elif m * m > x:
+                h = m - 1
+            else:
+                return m
+
+        return answer
+
+    def _70_climbStairs(self, n: int) -> int:
+        if n == 0:
+            return 0
+        if n == 1:
+            return 1
+        if n == 2:
+            return 2
+
+        firstStep = 1
+        secondStep = 2
+
+        for i in range(2, n):
+            thirdStep = firstStep + secondStep
+
+            firstStep = secondStep
+            secondStep = thirdStep
+
+        return secondStep
+
+    def _83_deleteDuplicates(self, ln: ListNode) -> ListNode:
+        current = ln
+        head = current
+
+        while ln is not None:
+            if ln.val != current.val:
+                current.next = ln
+                current = current.next
+
+            ln = ln.next
+
+        current.next = None
+
+        return head
+
+    def _88_merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        i = m - 1
+        j = n - 1
+        k = m + n - 1
+
+        while i >= 0 or j >= 0:
+            if i >= 0 and j >= 0:
+                if nums1[i] >= nums2[j]:
+                    nums1[k] = nums1[i]
+                    k -= 1
+                    i -= 1
+                else:
+                    nums1[k] = nums2[j]
+                    k -= 1
+                    j -= 1
+            elif i >= 0:
+                nums1[k] = nums1[i]
+                k -= 1
+                i -= 1
+            else:
+                nums1[k] = nums2[j]
+                k -= 1
+                j -= 1
+
+    def _100_isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        queue1 = deque()
+        queue2 = deque()
+
+        queue1.append(p)
+        queue2.append(q)
+
+        while len(queue1) != 0 and len(queue2) != 0:
+            tn1 = queue1.popleft()
+            tn2 = queue2.popleft()
+
+            if tn1.left is None and tn2.left is not None:
+                return False
+            if tn1.right is None and tn2.right is not None:
+                return False
+            if tn2.left is None and tn1.left is not None:
+                return False
+            if tn2.right is None and tn1.right is not None:
+                return False
+            if tn1.val != tn2.val:
+                return False
+
+            if tn1.left is not None:
+                queue1.append(tn1.left)
+            if tn1.right is not None:
+                queue1.append(tn1.right)
+
+            if tn2.left is not None:
+                queue2.append(tn2.left)
+            if tn2.right is not None:
+                queue2.append(tn2.right)
+
+        return len(queue1) == 0 and len(queue2) == 0
 
 
 def main():

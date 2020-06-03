@@ -11,7 +11,7 @@ class SolutionTest2(unittest.TestCase):
     def test_0_sample(self):
         self.assertTrue(self.solution._0_simple())
 
-    def test_two_sum_1(self):
+    def test_1_twoSum(self):
         self.assertCountEqual([0, 1], self.solution._1_twoSum([2, 7, 11, 15], 9))
         with self.assertRaises(ValueError):
             self.solution._1_twoSum([2, 7, 11, 15], 8)
@@ -70,6 +70,68 @@ class SolutionTest2(unittest.TestCase):
 
     def test_28_strStr(self):
         self.assertEqual(2, self.solution._28_strStr('Hello', 'll'))
+
+    def test_35_searchInsert(self):
+        self.assertEqual(2, self.solution._35_searchInsert([2, 3, 5, 6, 7], 5))
+
+    def test_53_maxSubArray(self):
+        self.assertEqual(6, self.solution._53_maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+
+    def test_58_lengthOfLastWord(self):
+        self.assertEqual(5, self.solution._58_lengthOfLastWord('Hello World'))
+
+    def test_66_plusOne(self):
+        self.assertEqual([1, 2, 4], self.solution._66_plusOne([1, 2, 3]))
+        self.assertEqual([1, 0, 0, 0], self.solution._66_plusOne([9, 9, 9]))
+        self.assertEqual([1, 2, 0], self.solution._66_plusOne([1, 1, 9]))
+
+    def test_67_addBinary(self):
+        self.assertEqual('10', self.solution._67_addBinary('1', '1'))
+        self.assertEqual('110', self.solution._67_addBinary('11', '11'))
+        self.assertEqual('101', self.solution._67_addBinary('10', '11'))
+
+    def test_69_mySqrt(self):
+        self.assertEqual(2, self.solution._69_mySqrt(4))
+        self.assertEqual(2, self.solution._69_mySqrt(8))
+
+    def test_70_climbStairs(self):
+        self.assertEqual(0, self.solution._70_climbStairs(0))
+        self.assertEqual(1, self.solution._70_climbStairs(1))
+        self.assertEqual(2, self.solution._70_climbStairs(2))
+        self.assertEqual(3, self.solution._70_climbStairs(3))
+        self.assertEqual(5, self.solution._70_climbStairs(4))
+        self.assertEqual(8, self.solution._70_climbStairs(5))
+
+    def test_deleteDuplicates_83(self):
+        head = ListNode(1)
+        head.next = ListNode(1)
+        head.next.next = ListNode(2)
+        head.next.next.next = ListNode(3)
+        head.next.next.next.next = ListNode(3)
+
+        head = self.solution._83_deleteDuplicates(head)
+
+        self.assertEqual(1, head.val)
+        self.assertEqual(2, head.next.val)
+        self.assertEqual(3, head.next.next.val)
+        self.assertIsNone(head.next.next.next)
+
+    def test_88_merge(self):
+        a = [1, 2, 3, 0, 0, 0]
+        b = [1, 2, 3]
+        self.solution._88_merge(a, 3, b, 3)
+        self.assertEqual([1, 1, 2, 2, 3, 3], a)
+
+    def test_100_isSameTree(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        self.assertEqual(True, self.solution._100_isSameTree(root, root))
 
 
 if __name__ == '__main__':
