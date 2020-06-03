@@ -228,6 +228,9 @@ class SolutionTest(unittest.TestCase):
 
         self.assertEqual(True, self.solution.hasCycle_141(head))
 
+    def test_twoSum_167(self):
+        self.assertEqual([1, 2], self.solution.twoSum_167([2, 7, 11, 15], 9))
+
 
 if __name__ == '__main__':
     unittest.main()

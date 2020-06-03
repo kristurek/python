@@ -590,6 +590,18 @@ class Solution:
 
         return False
 
+    def twoSum_167(self, numbers: List[int], target: int) -> List[int]:
+        tmp = []
+        results = []
+
+        self.twoSum_167_backtracking(results, tmp, numbers, target, target)
+
+        return results
+
+    def twoSum_167_backtracking(self, results, tmp, numbers, target, remain):
+
+        pass
+
 
 def main():
     pass
