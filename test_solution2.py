@@ -133,6 +133,100 @@ class SolutionTest2(unittest.TestCase):
 
         self.assertEqual(True, self.solution._100_isSameTree(root, root))
 
+    # fully tested on LeetCode
+    def test_101_isSymmetric(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(2)
+        root.left.left = TreeNode(3)
+        root.left.right = TreeNode(4)
+        root.right.left = TreeNode(4)
+        root.right.right = TreeNode(3)
+
+        self.assertEqual(True, self.solution._101_isSymmetric(root))
+
+    # fully tested on LeetCode
+    def test_104_maxDepth(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(2)
+        root.left.left = TreeNode(3)
+        root.left.right = TreeNode(4)
+        root.right.right = TreeNode(3)
+        root.right.right.right = TreeNode(3)
+
+        self.assertEqual(4, self.solution._104_maxDepth(root))
+
+    # fully tested on LeetCode
+    def test_107_levelOrderBottom(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        self.assertEqual([[4, 5, 6, 7], [2, 3], [1]], self.solution._107_levelOrderBottom(root))
+
+    # fully tested on LeetCode
+    def test_108_sortedArrayToBST(self):
+        root = self.solution._108_sortedArrayToBST([-10, -3, 0, 5, 9]);
+
+        self.assertEqual(0, root.val)
+        self.assertEqual(-10, root.left.val)
+        self.assertEqual(5, root.right.val)
+        self.assertEqual(-3, root.left.right.val)
+        self.assertEqual(9, root.right.right.val)
+
+    # fully tested on LeetCode
+    def test_110_isBalanced(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.right.right = TreeNode(7)
+
+        self.assertTrue(self.solution._110_isBalanced(root))
+
+        root.right.right.right = TreeNode(8)
+
+        self.assertFalse(self.solution._110_isBalanced(root))
+
+    # fully tested on LeetCode
+    def test_111_minDepth(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        self.assertEqual(2, self.solution._111_minDepth(root))
+
+    # fully tested on LeetCode
+    def test_112_hasPathSum(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        self.assertEqual(True, self.solution._112_hasPathSum(root, 11))
+
+    # fully tested on LeetCode
+    def test_118_generate(self):
+        results = [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]]
+
+        self.assertEqual(results, self.solution._118_generate(5))
+
+    # fully tested on LeetCode
+    def test_119_getRow(self):
+        results = [1, 4, 6, 4, 1]
+
+        self.assertEqual(results, self.solution._119_getRow(4))
+
+    def test_121_maxProfit(self):
+        self.assertEqual(5, self.solution._121_maxProfit([7, 1, 5, 3, 6, 4]))
+        self.assertEqual(0, self.solution._121_maxProfit([7, 6, 4, 3, 1]))
 
 if __name__ == '__main__':
     unittest.main()

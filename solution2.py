@@ -1,5 +1,6 @@
-from typing import List
 from collections import deque
+from typing import List
+
 from common import ListNode
 from common import TreeNode
 
@@ -321,6 +322,233 @@ class Solution2:
                 queue2.append(tn2.right)
 
         return len(queue1) == 0 and len(queue2) == 0
+
+    def _101_isSymmetric(self, root: TreeNode) -> bool:
+        if root is None:
+            return True
+
+        queue = deque()
+        queue.append(root)
+        queue.append(root)
+
+        while len(queue) > 0:
+            tn1 = queue.popleft()
+            tn2 = queue.popleft()
+
+            if tn1 == None and tn2 == None:
+                continue
+            if tn1 == None or tn2 == None:
+                return False
+            if tn1.val != tn2.val:
+                return False
+
+            queue.append(tn1.left)
+            queue.append(tn2.right)
+            queue.append(tn1.right)
+            queue.append(tn2.left)
+
+        return True
+
+    def _104_maxDepth(self, root: TreeNode) -> int:
+        if root == None:
+            return 0
+
+        queue = deque()
+        queue.append(root)
+        level = 0
+
+        while len(queue) > 0:
+            level += 1
+            size = len(queue)
+            while size > 0:
+                size -= 1
+
+                tn = queue.popleft()
+
+                if tn.left != None:
+                    queue.append(tn.left)
+                if tn.right != None:
+                    queue.append(tn.right)
+
+        return level
+
+    def _107_levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
+        if root == None:
+            return []
+
+        queue = deque()
+        levels = deque()
+
+        queue.append(root)
+
+        while len(queue) > 0:
+            size = len(queue)
+            level = []
+            while size > 0:
+                size -= 1
+
+                tn = queue.popleft()
+                level.append(tn.val)
+
+                if tn.left != None:
+                    queue.append(tn.left)
+                if tn.right != None:
+                    queue.append(tn.right)
+
+            levels.appendleft(level)
+
+        return list(levels)
+
+    def _108_sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        return self._108_sortedArrayToBST_recursive(nums, 0, len(nums) - 1)
+
+    def _108_sortedArrayToBST_recursive(self, nums, l, h):
+        if l <= h:
+            m = l + int((h - l) / 2)
+            tn = TreeNode(nums[m])
+
+            tn.left = self._108_sortedArrayToBST_recursive(nums, l, m - 1)
+            tn.right = self._108_sortedArrayToBST_recursive(nums, m + 1, h)
+            return tn
+        else:
+            return None
+
+    def _110_isBalanced(self, root: TreeNode) -> bool:
+        if root is None:
+            return True
+
+        l = self._110_isBalanced_max_height(root.left)
+        r = self._110_isBalanced_max_height(root.right)
+
+        return abs(l - r) <= 1 and self._110_isBalanced(root.left) and self._110_isBalanced(root.right)
+
+    def _110_isBalanced_max_height(self, root):  # search max in current subtree
+        if root is None:
+            return 0
+
+        return 1 + max(self._110_isBalanced_max_height(root.left), self._110_isBalanced_max_height(root.right))
+
+    def _111_minDepth(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+
+        level = 0
+        queue = deque()
+        queue.append(root)
+
+        while len(queue) > 0:
+            level += 1
+            size = len(queue)
+            while size > 0:
+                size -= 1
+
+                tn = queue.popleft()
+
+                if tn.left == None and tn.right == None:
+                    return level
+
+                if tn.left != None:
+                    queue.append(tn.left)
+                if tn.right != None:
+                    queue.append(tn.right)
+
+        return level
+
+    def _112_hasPathSum(self, root: TreeNode, sum: int) -> bool:
+        if root is None:
+            return False
+
+        stack = deque()
+        sums = deque()
+
+        stack.append(root)
+        sums.append(root.val)
+
+        while len(stack) > 0:
+            tn = stack.pop()
+            path = sums.pop()
+
+            if tn.left == None and tn.right == None and sum == path:
+                return True
+
+            if tn.right != None:
+                stack.append(tn.right)
+                sums.append(tn.right.val + path)
+
+            if tn.left != None:
+                stack.append(tn.left)
+                sums.append(tn.left.val + path)
+
+        return False
+
+    def _118_generate(self, numRows: int) -> List[List[int]]:
+        if numRows <= 0:
+            return []
+
+        if numRows == 1:
+            return [[1]]
+
+        if numRows == 2:
+            return [[1], [1, 1]]
+
+        rows = []
+        rows.append([1])
+        rows.append([1, 1])
+
+        for i in range(2, numRows):
+            row = []
+            for j in range(0, i + 1):
+                if j == 0:
+                    row.append(1)
+                elif j == i:
+                    row.append(1)
+                else:
+                    row.append(rows[i - 1][j - 1] + rows[i - 1][j])
+            rows.append(row)
+
+        return rows
+
+    def _119_getRow(self, rowIndex: int) -> List[int]:
+        if rowIndex < 0:
+            return []
+
+        if rowIndex == 0:
+            return [1]
+
+        if rowIndex == 1:
+            return [1, 1]
+
+        rows = []
+        rows.append([1])
+        rows.append([1, 1])
+
+        for i in range(2, rowIndex + 1):
+            row = []
+            for j in range(0, i + 1):
+                if j == 0:
+                    row.append(1)
+                elif j == i:
+                    row.append(1)
+                else:
+                    row.append(rows[i - 1][j - 1] + rows[i - 1][j])
+            rows.append(row)
+
+        return rows[rowIndex]
+
+    def _121_maxProfit(self, prices: List[int]) -> int:
+        if prices is None or len(prices) == 0:
+            return 0
+
+        min = prices[0]
+        max = 0
+
+        for i in range(1, len(prices)):
+            if prices[i] < min:
+                min = prices[i]
+            elif prices[i] - min > max:
+                max = prices[i] - min
+
+        return max
 
 
 def main():
