@@ -1,8 +1,34 @@
 from collections import deque
 from typing import List
 
+import sys
+
 from common import ListNode
 from common import TreeNode
+
+
+class MinStack:
+
+    def __init__(self):
+        self.stack = deque()
+        self.min = sys.maxsize
+
+    def push(self, x: int) -> None:
+        if x <= self.min:
+            self.stack.append(self.min)
+            self.min = x
+        self.stack.append(x)
+
+    def pop(self) -> None:
+        x = self.stack.pop()
+        if x == self.min:
+            self.min = self.stack.pop()
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.min
 
 
 class Solution2:
@@ -549,6 +575,117 @@ class Solution2:
                 max = prices[i] - min
 
         return max
+
+    def _122_maxProfit(self, prices: List[int]) -> int:
+        max = 0
+
+        for i in range(1, len(prices)):
+            if prices[i] - prices[i - 1] > 0:
+                max += prices[i] - prices[i - 1]
+
+        return max
+
+    def _125_isPalindrome(self, s: str) -> bool:
+        if s is None:
+            return False
+
+        l = 0
+        h = len(s) - 1
+
+        while l <= h:
+            if s[l].isalnum() == False:
+                l += 1
+                continue
+            if s[h].isalnum() == False:
+                h -= 1
+                continue
+
+            if s[l].lower() != s[h].lower():
+                return False
+
+            l += 1
+            h -= 1
+
+        return True
+
+    def _136_singleNumber(self, nums: List[int]) -> int:
+        values = set()
+
+        for num in nums:
+            if num not in values:
+                values.add(num)
+            else:
+                values.remove(num)
+
+        return values.pop()
+
+    def _141_hasCycle(self, head: ListNode) -> bool:
+        duplicates = set()
+
+        while head != None:
+            if head in duplicates:
+                return True
+            else:
+                duplicates.add(head)
+
+            head = head.next
+
+        return False
+
+    def _155_minStack(self) -> MinStack:
+        return MinStack()
+
+    def _160_getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        A = {}
+        while headA:
+            A[headA] = False
+            headA = headA.next
+
+        while headB:
+            if headB in A:
+                return headB
+            headB = headB.next
+
+        return None
+
+    def _167_twoSum(self, numbers: List[int], target: int) -> List[int]:
+        nums = {}
+
+        for i, val in enumerate(numbers):
+            if target - val in nums:
+                return [nums[target - val] + 1, i + 1]
+
+            if val not in nums:
+                nums[val] = i
+
+        raise ValueError("Solution not found")
+
+    def _168_convertToTitle(self, n: int) -> str:
+        s = ""
+        while n > 0:
+            n -= 1
+            s += chr(int(n % 26) + 65)
+            n = int(n / 26)
+        return s[::-1]
+
+    def _169_majorityElement(self, nums: List[int]) -> int:
+        map = {}
+
+        for num in nums:
+            if num in map:
+                map[num] = map[num] + 1
+            else:
+                map[num] = 1
+
+        return max(map, key=map.get)
+
+    def _171_titleToNumber(self, s: str) -> int:
+        num = 0
+
+        for sChar in s:
+            num = num * 26 + ord(sChar) - 64
+
+        return num
 
 
 def main():
