@@ -8,39 +8,40 @@ from solution import Solution
 class SolutionTest(unittest.TestCase):
     solution = Solution()
 
-    def test_sample(self):
-        self.assertTrue(self.solution.simple())
+    def test_0_sample(self):
+        self.assertTrue(self.solution._0_simple())
 
-    def test_two_sum_1(self):
-        self.assertCountEqual([0, 1], self.solution.two_sum_1([2, 7, 11, 15], 9))
+    def test_1_twoSum(self):
+        self.assertCountEqual([0, 1], self.solution._1_twoSum([2, 7, 11, 15], 9))
         with self.assertRaises(ValueError):
-            self.solution.two_sum_1([2, 7, 11, 15], 8)
+            self.solution._1_twoSum([2, 7, 11, 15], 8)
 
-    def test_reverse_7(self):
-        self.assertEqual(-321, self.solution.reverse_7(-123))
+    def test_7_reverse(self):
+        self.assertEqual(321, self.solution._7_reverse(123))
+        self.assertEqual(-321, self.solution._7_reverse(-123))
 
-    def test_isPalindrome_9(self):
-        self.assertTrue(self.solution.isPalindrome_9(121))
-        self.assertFalse(self.solution.isPalindrome_9(-121))
-        self.assertFalse(self.solution.isPalindrome_9(123))
+    def test_9_isPalindrome(self):
+        self.assertTrue(self.solution._9_isPalindrome(121))
+        self.assertFalse(self.solution._9_isPalindrome(-121))
+        self.assertFalse(self.solution._9_isPalindrome(123))
 
-    def test_romanToInt_13(self):
-        self.assertEqual(9, self.solution.romanToInt_13('IX'))
-        self.assertEqual(4, self.solution.romanToInt_13('IV'))
-        self.assertEqual(3, self.solution.romanToInt_13('III'))
+    def test_13_romanToInt(self):
+        self.assertEqual(9, self.solution._13_romanToInt('IX'))
+        self.assertEqual(4, self.solution._13_romanToInt('IV'))
+        self.assertEqual(3, self.solution._13_romanToInt('III'))
 
-    def test_longestCommonPrefix_14(self):
-        self.assertEqual("fl", self.solution.longestCommonPrefix_14(["flower", "flow", "flight"]))
-        self.assertEqual("", self.solution.longestCommonPrefix_14(["dog", "racecar", "car"]))
+    def test_14_longestCommonPrefix(self):
+        self.assertEqual("fl", self.solution._14_longestCommonPrefix(["flower", "flow", "flight"]))
+        self.assertEqual("", self.solution._14_longestCommonPrefix(["dog", "racecar", "car"]))
 
-    def test_isValid_20(self):
-        self.assertTrue(self.solution.isValid_20('()'))
-        self.assertTrue(self.solution.isValid_20('()[]{}'))
-        self.assertFalse(self.solution.isValid_20('(]'))
-        self.assertFalse(self.solution.isValid_20('([)]'))
-        self.assertTrue(self.solution.isValid_20('{[]}'))
+    def test_20_isValid(self):
+        self.assertTrue(self.solution._20_isValid('()'))
+        self.assertTrue(self.solution._20_isValid('()[]{}'))
+        self.assertFalse(self.solution._20_isValid('(]'))
+        self.assertFalse(self.solution._20_isValid('([)]'))
+        self.assertTrue(self.solution._20_isValid('{[]}'))
 
-    def test_mergeTwoLists_21(self):
+    def test_21_mergeTwoLists(self):
         l1 = ListNode(1)
         l1.next = ListNode(2)
         l1.next.next = ListNode(3)
@@ -49,7 +50,7 @@ class SolutionTest(unittest.TestCase):
         l2.next = ListNode(2)
         l2.next.next = ListNode(4)
 
-        head = self.solution.mergeTwoLists_21(l1, l2)
+        head = self.solution._21_mergeTwoLists(l1, l2)
 
         self.assertEqual(1, head.val)
         self.assertEqual(1, head.next.val)
@@ -58,70 +59,71 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(3, head.next.next.next.next.val)
         self.assertEqual(4, head.next.next.next.next.next.val)
 
-    def test_removeDuplicates_26(self):
+    def test_26_removeDuplicates(self):
         arr = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
-        length = self.solution.removeDuplicates_26(arr)
+        length = self.solution._26_removeDuplicates(arr)
         self.assertEqual([0, 1, 2, 3, 4], arr[0:length])
 
-    def test_removeElement_27(self):
-        arr = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
-        length = self.solution.removeElement_27(arr, 1)
-        self.assertEqual([0, 0, 2, 2, 3, 3, 4], arr[0:length])
+    def test_27_removeElement(self):
+        arr = [0, 0, 1, 1, 1, 2, 2, 3, 3, 1]
+        length = self.solution._27_removeElement(arr, 1)
+        self.assertEqual([0, 0, 2, 2, 3, 3], arr[0:length])
 
-    def test_strStr_28(self):
-        self.assertEqual(2, self.solution.strStr_28('Hello', 'll'))
+    def test_28_strStr(self):
+        self.assertEqual(2, self.solution._28_strStr('Hello', 'll'))
 
-    def test_searchInsert_35(self):
-        self.assertEqual(2, self.solution.searchInsert_35([2, 3, 5, 6, 7], 5))
+    def test_35_searchInsert(self):
+        self.assertEqual(2, self.solution._35_searchInsert([2, 3, 5, 6, 7], 5))
 
-    def test_maxSubArray_53(self):
-        self.assertEqual(6, self.solution.maxSubArray_53([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+    def test_53_maxSubArray(self):
+        self.assertEqual(6, self.solution._53_maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
 
-    def test_lengthOfLastWord_58(self):
-        self.assertEqual(5, self.solution.lengthOfLastWord_58('Hello World'))
+    def test_58_lengthOfLastWord(self):
+        self.assertEqual(5, self.solution._58_lengthOfLastWord('Hello World'))
 
-    def test_plusOne_66(self):
-        self.assertEqual([1, 2, 4], self.solution.plusOne_66([1, 2, 3]))
-        self.assertEqual([1, 0, 0, 0], self.solution.plusOne_66([9, 9, 9]))
-        self.assertEqual([1, 2, 0], self.solution.plusOne_66([1, 1, 9]))
+    def test_66_plusOne(self):
+        self.assertEqual([1, 2, 4], self.solution._66_plusOne([1, 2, 3]))
+        self.assertEqual([1, 0, 0, 0], self.solution._66_plusOne([9, 9, 9]))
+        self.assertEqual([1, 2, 0], self.solution._66_plusOne([1, 1, 9]))
 
-    def test_addBinary_67(self):
-        self.assertEqual('10', self.solution.addBinary_67('1', '1'))
-        self.assertEqual('110', self.solution.addBinary_67('11', '11'))
-        self.assertEqual('101', self.solution.addBinary_67('10', '11'))
+    def test_67_addBinary(self):
+        self.assertEqual('10', self.solution._67_addBinary('1', '1'))
+        self.assertEqual('110', self.solution._67_addBinary('11', '11'))
+        self.assertEqual('101', self.solution._67_addBinary('10', '11'))
 
-    def test_mySqrt_69(self):
-        self.assertEqual(2, self.solution.mySqrt_69(4))
-        self.assertEqual(2, self.solution.mySqrt_69(8))
+    def test_69_mySqrt(self):
+        self.assertEqual(2, self.solution._69_mySqrt(4))
+        self.assertEqual(2, self.solution._69_mySqrt(8))
 
-    def test_climbStairs_70(self):
-        self.assertEqual(0, self.solution.climbStairs_70(0))
-        self.assertEqual(1, self.solution.climbStairs_70(1))
-        self.assertEqual(2, self.solution.climbStairs_70(2))
-        self.assertEqual(3, self.solution.climbStairs_70(3))
-        self.assertEqual(5, self.solution.climbStairs_70(4))
-        self.assertEqual(8, self.solution.climbStairs_70(5))
+    def test_70_climbStairs(self):
+        self.assertEqual(0, self.solution._70_climbStairs(0))
+        self.assertEqual(1, self.solution._70_climbStairs(1))
+        self.assertEqual(2, self.solution._70_climbStairs(2))
+        self.assertEqual(3, self.solution._70_climbStairs(3))
+        self.assertEqual(5, self.solution._70_climbStairs(4))
+        self.assertEqual(8, self.solution._70_climbStairs(5))
 
-    def test_deleteDuplicates_83(self):
+    def test_83_deleteDuplicates(self):
         head = ListNode(1)
         head.next = ListNode(1)
         head.next.next = ListNode(2)
         head.next.next.next = ListNode(3)
         head.next.next.next.next = ListNode(3)
 
-        head = self.solution.deleteDuplicates_83(head)
+        head = self.solution._83_deleteDuplicates(head)
 
         self.assertEqual(1, head.val)
         self.assertEqual(2, head.next.val)
         self.assertEqual(3, head.next.next.val)
+        self.assertIsNone(head.next.next.next)
 
-    def test_merge_88(self):
+    def test_88_merge(self):
         a = [1, 2, 3, 0, 0, 0]
         b = [1, 2, 3]
-        self.solution.merge_88(a, 3, b, 3)
+        self.solution._88_merge(a, 3, b, 3)
         self.assertEqual([1, 1, 2, 2, 3, 3], a)
 
-    def test_isSameTree_100(self):
+    def test_100_isSameTree(self):
         root = TreeNode(1)
         root.left = TreeNode(2)
         root.right = TreeNode(3)
@@ -130,9 +132,9 @@ class SolutionTest(unittest.TestCase):
         root.right.left = TreeNode(6)
         root.right.right = TreeNode(7)
 
-        self.assertEqual(True, self.solution.isSameTree_100(root, root))
+        self.assertEqual(True, self.solution._100_isSameTree(root, root))
 
-    def test_isSymmetric_101(self):
+    def test_101_isSymmetric(self):
         root = TreeNode(1)
         root.left = TreeNode(2)
         root.right = TreeNode(2)
@@ -141,9 +143,9 @@ class SolutionTest(unittest.TestCase):
         root.right.left = TreeNode(4)
         root.right.right = TreeNode(3)
 
-        self.assertEqual(True, self.solution.isSymmetric_101(root))
+        self.assertEqual(True, self.solution._101_isSymmetric(root))
 
-    def test_maxDepth_104(self):
+    def test_104_maxDepth(self):
         root = TreeNode(1)
         root.left = TreeNode(2)
         root.right = TreeNode(2)
@@ -152,9 +154,9 @@ class SolutionTest(unittest.TestCase):
         root.right.right = TreeNode(3)
         root.right.right.right = TreeNode(3)
 
-        self.assertEqual(4, self.solution.maxDepth_104(root))
+        self.assertEqual(4, self.solution._104_maxDepth(root))
 
-    def test_levelOrderBottom_107(self):
+    def test_107_levelOrderBottom(self):
         root = TreeNode(1)
         root.left = TreeNode(2)
         root.right = TreeNode(3)
@@ -163,73 +165,132 @@ class SolutionTest(unittest.TestCase):
         root.right.left = TreeNode(6)
         root.right.right = TreeNode(7)
 
-        self.assertEqual([[4, 5, 6, 7], [2, 3], [1]], self.solution.levelOrderBottom_107(root))
+        self.assertEqual([[4, 5, 6, 7], [2, 3], [1]], self.solution._107_levelOrderBottom(root))
 
-    def test_sortedArrayToBST_108(self):
-        root = self.solution.sortedArrayToBST_108([-10, -3, 0, 5, 9]);
+    def test_108_sortedArrayToBST(self):
+        root = self.solution._108_sortedArrayToBST([-10, -3, 0, 5, 9]);
 
         self.assertEqual(0, root.val)
-        self.assertEqual(-3, root.left.val)
-        self.assertEqual(9, root.right.val)
-        self.assertEqual(-10, root.left.left.val)
-        self.assertEqual(5, root.right.left.val)
+        self.assertEqual(-10, root.left.val)
+        self.assertEqual(5, root.right.val)
+        self.assertEqual(-3, root.left.right.val)
+        self.assertEqual(9, root.right.right.val)
 
-    def test_minDepth_111(self):
+    def test_110_isBalanced(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.right.right = TreeNode(7)
+
+        self.assertTrue(self.solution._110_isBalanced(root))
+
+        root.right.right.right = TreeNode(8)
+
+        self.assertFalse(self.solution._110_isBalanced(root))
+
+    def test_111_minDepth(self):
         root = TreeNode(1)
         root.left = TreeNode(2)
         root.right = TreeNode(3)
         root.right.left = TreeNode(6)
         root.right.right = TreeNode(7)
 
-        self.assertEqual(2, self.solution.minDepth_111(root))
+        self.assertEqual(2, self.solution._111_minDepth(root))
 
-    def test_hasPathSum_112(self):
+    def test_112_hasPathSum(self):
         root = TreeNode(1)
         root.left = TreeNode(2)
         root.right = TreeNode(3)
         root.right.left = TreeNode(6)
         root.right.right = TreeNode(7)
 
-        self.assertEqual(True, self.solution.hasPathSum_112(root, 11))
+        self.assertEqual(True, self.solution._112_hasPathSum(root, 11))
 
-    def test_generate_118(self):
+    def test_118_generate(self):
         results = [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]]
 
-        self.assertEqual(results, self.solution.generate_118(5))
+        self.assertEqual(results, self.solution._118_generate(5))
 
-    def test_getRow_119(self):
+    def test_119_getRow(self):
         results = [1, 4, 6, 4, 1]
 
-        self.assertEqual(results, self.solution.getRow_119(4))
+        self.assertEqual(results, self.solution._119_getRow(4))
 
-    def test_maxProfit_121(self):
-        self.assertEqual(5, self.solution.maxProfit_121([7, 1, 5, 3, 6, 4]))
-        self.assertEqual(0, self.solution.maxProfit_121([7, 6, 4, 3, 1]))
+    def test_121_maxProfit(self):
+        self.assertEqual(5, self.solution._121_maxProfit([7, 1, 5, 3, 6, 4]))
+        self.assertEqual(0, self.solution._121_maxProfit([7, 6, 4, 3, 1]))
 
     def test_maxProfit_122(self):
-        self.assertEqual(7, self.solution.maxProfit_122([7, 1, 5, 3, 6, 4]))
-        self.assertEqual(4, self.solution.maxProfit_122([1, 2, 3, 4, 5]))
-        self.assertEqual(0, self.solution.maxProfit_122([7, 6, 4, 3, 1]))
+        self.assertEqual(7, self.solution._122_maxProfit([7, 1, 5, 3, 6, 4]))
+        self.assertEqual(4, self.solution._122_maxProfit([1, 2, 3, 4, 5]))
+        self.assertEqual(0, self.solution._122_maxProfit([7, 6, 4, 3, 1]))
 
-    def test_isPalindrome_125(self):
-        self.assertEqual(True, self.solution.isPalindrome_125("A man, a plan, a canal: Panama"))
-        self.assertEqual(False, self.solution.isPalindrome_125("race a car"))
+    def test_125_isPalindrome(self):
+        self.assertEqual(True, self.solution._125_isPalindrome("A man, a plan, a canal: Panama"))
+        self.assertEqual(False, self.solution._125_isPalindrome("race a car"))
 
-    def test_singleNumber_136(self):
-        self.assertEqual(1, self.solution.singleNumber_136([2, 2, 1]))
-        self.assertEqual(4, self.solution.singleNumber_136([4, 1, 2, 1, 2]))
+    def test_136_singleNumber(self):
+        self.assertEqual(1, self.solution._136_singleNumber([2, 2, 1]))
+        self.assertEqual(4, self.solution._136_singleNumber([4, 1, 2, 1, 2]))
 
-    def test_hasCycle_141(self):
+    def test_141_hasCycle(self):
         head = ListNode(0)
         head.next = ListNode(1)
         head.next.next = ListNode(2)
         head.next.next.next = ListNode(3)
         head.next.next.next.next = head.next
 
-        self.assertEqual(True, self.solution.hasCycle_141(head))
+        self.assertEqual(True, self.solution._141_hasCycle(head))
 
-    def test_twoSum_167(self):
-        self.assertEqual([1, 2], self.solution.twoSum_167([2, 7, 11, 15], 9))
+    def test_155_minStack(self):
+        minStack = self.solution._155_minStack()
+        minStack.push(-2)
+        minStack.push(0)
+        minStack.push(-3)
+        self.assertEqual(-3, minStack.getMin())
+        minStack.pop();
+        self.assertEqual(0, minStack.top());
+        self.assertEqual(-2, minStack.getMin())
+
+    # fully tested on LeetCode but locally not working
+    # FIXME
+    def disabled_test_160_getIntersectionNode(self):
+        head1 = ListNode(1)
+        head1.next = ListNode(2)
+        head1.next.next = ListNode(3)
+        head1.next.next.next = ListNode(4)
+
+        head2 = ListNode(7)
+        head2.next = ListNode(6)
+        head2.next.next = ListNode(3)
+        head2.next.next.next = ListNode(4)
+
+        head3 = self.solution._160_getIntersectionNode(head1, head2)
+
+        self.assertEqual(3, head3.val)
+        self.assertEqual(4, head3.next.val)
+        self.assertIsNone(head3.next.next.next)
+
+    def test_167_twoSum(self):
+        self.assertCountEqual([1, 2], self.solution._167_twoSum([2, 7, 11, 15], 9))
+        with self.assertRaises(ValueError):
+            self.solution._167_twoSum([2, 7, 11, 15], 8)
+
+    def test_168_convertToTitle(self):
+        self.assertEqual("A", self.solution._168_convertToTitle(1));
+        self.assertEqual("Z", self.solution._168_convertToTitle(26));
+        self.assertEqual("AA", self.solution._168_convertToTitle(27));
+        self.assertEqual("AMJ", self.solution._168_convertToTitle(1024));
+
+    def test__169_majorityElement(self):
+        self.assertEqual(3, self.solution._169_majorityElement([3, 2, 3]))
+        self.assertEqual(2, self.solution._169_majorityElement([2, 2, 1, 1, 1, 2, 2]))
+
+    def test_171_titleToNumber(self):
+        self.assertEqual(1, self.solution._171_titleToNumber("A"));
+        self.assertEqual(26, self.solution._171_titleToNumber("Z"));
+        self.assertEqual(27, self.solution._171_titleToNumber("AA"));
+        self.assertEqual(1024, self.solution._171_titleToNumber("AMJ"));
 
 
 if __name__ == '__main__':
