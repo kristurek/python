@@ -168,7 +168,7 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual([[4, 5, 6, 7], [2, 3], [1]], self.solution._107_levelOrderBottom(root))
 
     def test_108_sortedArrayToBST(self):
-        root = self.solution._108_sortedArrayToBST([-10, -3, 0, 5, 9]);
+        root = self.solution._108_sortedArrayToBST([-10, -3, 0, 5, 9])
 
         self.assertEqual(0, root.val)
         self.assertEqual(-10, root.left.val)
@@ -248,8 +248,8 @@ class SolutionTest(unittest.TestCase):
         minStack.push(0)
         minStack.push(-3)
         self.assertEqual(-3, minStack.getMin())
-        minStack.pop();
-        self.assertEqual(0, minStack.top());
+        minStack.pop()
+        self.assertEqual(0, minStack.top())
         self.assertEqual(-2, minStack.getMin())
 
     # fully tested on LeetCode but locally not working
@@ -277,20 +277,115 @@ class SolutionTest(unittest.TestCase):
             self.solution._167_twoSum([2, 7, 11, 15], 8)
 
     def test_168_convertToTitle(self):
-        self.assertEqual("A", self.solution._168_convertToTitle(1));
-        self.assertEqual("Z", self.solution._168_convertToTitle(26));
-        self.assertEqual("AA", self.solution._168_convertToTitle(27));
-        self.assertEqual("AMJ", self.solution._168_convertToTitle(1024));
+        self.assertEqual("A", self.solution._168_convertToTitle(1))
+        self.assertEqual("Z", self.solution._168_convertToTitle(26))
+        self.assertEqual("AA", self.solution._168_convertToTitle(27))
+        self.assertEqual("AMJ", self.solution._168_convertToTitle(1024))
 
     def test__169_majorityElement(self):
         self.assertEqual(3, self.solution._169_majorityElement([3, 2, 3]))
         self.assertEqual(2, self.solution._169_majorityElement([2, 2, 1, 1, 1, 2, 2]))
 
     def test_171_titleToNumber(self):
-        self.assertEqual(1, self.solution._171_titleToNumber("A"));
-        self.assertEqual(26, self.solution._171_titleToNumber("Z"));
-        self.assertEqual(27, self.solution._171_titleToNumber("AA"));
-        self.assertEqual(1024, self.solution._171_titleToNumber("AMJ"));
+        self.assertEqual(1, self.solution._171_titleToNumber("A"))
+        self.assertEqual(26, self.solution._171_titleToNumber("Z"))
+        self.assertEqual(27, self.solution._171_titleToNumber("AA"))
+        self.assertEqual(1024, self.solution._171_titleToNumber("AMJ"))
+
+    def test_172_trailingZeroes(self):
+        self.assertEqual(0, self.solution._172_trailingZeroes(0))
+        self.assertEqual(0, self.solution._172_trailingZeroes(4))
+        self.assertEqual(1, self.solution._172_trailingZeroes(5))
+        self.assertEqual(2, self.solution._172_trailingZeroes(10))
+        self.assertEqual(7, self.solution._172_trailingZeroes(30))
+
+    def test_189_rotate(self):
+        nums = [1, 2, 3, 4, 5, 6, 7]
+        self.solution._189_rotate(nums, 3)
+        self.assertEqual([5, 6, 7, 1, 2, 3, 4], nums)
+
+    def test_198_rob(self):
+        self.assertEqual(4, self.solution._198_rob([1, 2, 3, 1]))
+        self.assertEqual(12, self.solution._198_rob([2, 7, 9, 3, 1]))
+
+    def test_202_isHappy(self):
+        self.assertTrue(self.solution._202_isHappy(19))
+        self.assertFalse(self.solution._202_isHappy(2))
+
+    def test_203_removeElements(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(1)
+
+        head = self.solution._203_removeElements(head, 1)
+
+        self.assertEqual(2, head.val)
+        self.assertEqual(3, head.next.val)
+        self.assertIsNone(head.next.next)
+
+    def test_205_isIsomorphic(self):
+        self.assertTrue(self.solution._205_isIsomorphic("egg", "add"))
+        self.assertFalse(self.solution._205_isIsomorphic("foo", "bar"))
+        self.assertTrue(self.solution._205_isIsomorphic("paper", "title"))
+        self.assertFalse(self.solution._205_isIsomorphic("ab", "aa"))
+
+    def test_217_containsDuplicate(self):
+        self.assertFalse(self.solution._217_containsDuplicate(None))
+        self.assertFalse(self.solution._217_containsDuplicate([]))
+        self.assertTrue(self.solution._217_containsDuplicate([1, 2, 3, 1]))
+        self.assertFalse(self.solution._217_containsDuplicate([1, 2, 3, 4]))
+        self.assertTrue(self.solution._217_containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2]))
+
+    def test_219_containsNearbyDuplicate(self):
+        self.assertTrue(self.solution._219_containsNearbyDuplicate([1, 2, 3, 1], 3))
+        self.assertTrue(self.solution._219_containsNearbyDuplicate([1, 0, 1, 1], 1))
+        self.assertFalse(self.solution._219_containsNearbyDuplicate([1, 2, 3, 1, 2, 3], 2))
+
+    def test_226_invertTree(self):
+        root = TreeNode(1)
+
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        root = self.solution._226_invertTree(root)
+
+        self.assertEqual(1, root.val)
+        self.assertEqual(3, root.left.val)
+        self.assertEqual(2, root.right.val)
+
+        self.assertEqual(7, root.left.left.val)
+        self.assertEqual(6, root.left.right.val)
+        self.assertEqual(5, root.right.left.val)
+        self.assertEqual(4, root.right.right.val)
+
+    def test_231_isPowerOfTwo(self):
+        self.assertTrue(self.solution._231_isPowerOfTwo(1))
+        self.assertTrue(self.solution._231_isPowerOfTwo(16))
+        self.assertFalse(self.solution._231_isPowerOfTwo(218))
+
+    def test_234_isPalindrome(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        self.assertFalse(self.solution._234_isPalindrome(head))
+
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(2)
+        head.next.next.next = ListNode(1)
+        self.assertTrue(self.solution._234_isPalindrome(head))
+
+    def test_283_moveZeroes(self):
+        nums = [0, 1, 0, 3, 12]
+        answer = [1, 3, 12, 0, 0]
+        self.solution._283_moveZeroes(nums)
+
+        self.assertEqual(answer, nums)
 
 
 if __name__ == '__main__':

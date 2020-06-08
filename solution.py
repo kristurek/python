@@ -718,6 +718,202 @@ class Solution:
 
         return num
 
+    def _172_trailingZeroes(self, n: int) -> int:
+        count = 0
+
+        while n > 0:
+            n = int(n / 5)
+            count += n
+
+        return count
+
+    def _189_rotate(self, nums: List[int], k: int) -> None:
+        k = int(k % len(nums))  # // example - k=7 and nums.length=3 then k=1, remove empty loops
+
+        self._189_rotate_reverse(nums, 0, len(nums) - 1)
+        self._189_rotate_reverse(nums, 0, k - 1)
+        self._189_rotate_reverse(nums, k, len(nums) - 1)
+
+    def _189_rotate_reverse(self, nums: List[int], l: int, r: int) -> None:
+        while l < r:
+            tmp = nums[l]
+            nums[l] = nums[r]
+            nums[r] = tmp
+
+            l += 1
+            r -= 1
+
+    def _198_rob(self, nums: List[int]) -> int:
+        oneHouseBefore = 0
+        twoHouseBefore = 0
+
+        for i in range(0, len(nums)):
+            tmp = oneHouseBefore
+            oneHouseBefore = max(twoHouseBefore + nums[i], oneHouseBefore)
+            twoHouseBefore = tmp
+
+        return oneHouseBefore
+
+    def _202_isHappy(self, n: int) -> bool:
+        if n <= 0:
+            return False
+
+        setNums = set()
+
+        while n not in setNums:
+            setNums.add(n)
+
+            sumOfSquare = 0
+            while n > 0:
+                sumOfSquare += int(n % 10) * int(n % 10)
+                n /= 10
+            if sumOfSquare == 1:
+                return True
+
+            n = sumOfSquare
+
+        return False
+
+    def _203_removeElements(self, head: ListNode, val: int) -> ListNode:
+        dummyHead = ListNode(-1)
+        current = dummyHead
+
+        while head:
+            if head.val == val:
+                head = head.next
+            else:
+                current.next = head
+                current = current.next
+
+                head = head.next
+
+        current.next = None
+
+        return dummyHead.next
+
+    def _205_isIsomorphic(self, s: str, t: str) -> bool:
+        map = {}
+
+        for i in range(0, len(s)):
+            if s[i] not in map.keys():
+                if t[i] in map.values():
+                    return False
+                map[s[i]] = t[i]
+
+            if map[s[i]] != t[i]:
+                return False
+
+        return True
+
+    def _217_containsDuplicate(self, nums: List[int]) -> bool:
+        if nums is None:
+            return False
+
+        setNums = set()
+
+        for num in nums:
+            if num in setNums:
+                return True
+            setNums.add(num)
+
+        return False
+
+    def _219_containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        map = {}
+
+        for i, num in enumerate(nums):
+            if num in map.keys() and abs(i - map.get(num) <= k):
+                return True
+
+            map[num] = i
+
+        return False
+
+    def _226_invertTree(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return None
+
+        queue = deque()
+        queue.append(root)
+
+        while queue:
+            tn = queue.popleft()
+
+            tmp = tn.left
+            tn.left = tn.right
+            tn.right = tmp
+
+            if tn.left:
+                queue.append(tn.left)
+            if tn.right:
+                queue.append(tn.right)
+
+        return root
+
+    def _231_isPowerOfTwo(self, n: int) -> bool:
+        if n <= 0:
+            return False
+
+        while n % 2 == 0:
+            n /= 2
+
+        return n == 1
+
+    def _234_isPalindrome(self, head: ListNode) -> bool:
+        slow = head
+        fast = head
+
+        while fast != None and fast.next != None:
+            fast = fast.next.next
+            slow = slow.next
+
+        if fast != None:  # odd
+            slow = slow.next
+
+        fast = head
+        slow = self._234_isPalindrome_reverse(slow)
+
+        while fast != None and slow != None:
+            if fast.val != slow.val:
+                return False
+
+            fast = fast.next
+            slow = slow.next
+
+        return True
+
+    def _234_isPalindrome_reverse(self, head: ListNode) -> ListNode:
+        prev = None
+        current = head
+        next = None
+
+        while current:
+            # store next node
+            next = current.next
+
+            # this is where actual reversing happens
+            current.next = prev
+
+            # move prev and curr one step forward
+            prev = current
+            current = next
+
+        head = prev
+
+        return prev
+
+    def _283_moveZeroes(self, nums: List[int]) -> None:
+        slow = 0
+        for i in range(0, len(nums)):
+            if nums[i] == 0:
+                continue
+            nums[slow] = nums[i]
+            slow += 1
+
+        while slow < len(nums):
+            nums[slow] = 0
+            slow += 1
+
 
 def main():
     pass
