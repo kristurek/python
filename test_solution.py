@@ -1,6 +1,8 @@
 import unittest
 
+from common import Employee
 from common import ListNode
+from common import Node
 from common import TreeNode
 from solution import Solution
 
@@ -387,6 +389,99 @@ class SolutionTest(unittest.TestCase):
 
         self.assertEqual(answer, nums)
 
+    def test_344_reverseString(self):
+        actual = ['h', 'e', 'l', 'l', 'o']
+        expected = ['o', 'l', 'l', 'e', 'h']
+
+        self.solution._344_reverseString(actual)
+
+        self.assertEqual(expected, actual)
+
+    def test_509_fib(self):
+        self.assertEqual(0, self.solution._509_fib(0))
+        self.assertEqual(1, self.solution._509_fib(1))
+        self.assertEqual(1, self.solution._509_fib(2))
+        self.assertEqual(2, self.solution._509_fib(3))
+        self.assertEqual(3, self.solution._509_fib(4))
+
+    def test_diameterOfBinaryTree(self):
+        root = TreeNode(1)
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+
+        self.assertEqual(3, self.solution._543_diameterOfBinaryTree(root))
+
+    def test_557_reverseWords(self):
+        self.assertEqual("s'teL ekat edoCteeL tsetnoc", self.solution._557_reverseWords("Let's take LeetCode contest"))
+
+    def test_561_arrayPairSum(self):
+        self.assertEqual(4, self.solution._561_arrayPairSum([1, 4, 3, 2]))
+
+    def test_589_preorder(self):
+        root = Node(1, [Node(3), Node(2), Node(4)])
+        root.children[0].children = [Node(5), Node(6)]
+
+        answer = [1, 3, 5, 6, 2, 4]
+
+        self.assertEqual(answer, self.solution._589_preorder(root))
+
+    def test_590_postorder(self):
+        root = Node(1, [Node(3), Node(2), Node(4)])
+        root.children[0].children = [Node(5), Node(6)]
+
+        answer = [5, 6, 3, 2, 4, 1]
+
+        self.assertEqual(answer, self.solution._590_postorder(root))
+
+    def test_617_mergeTrees(self):
+        root1 = TreeNode(1)
+        root1.left = TreeNode(2)
+        root1.right = TreeNode(3)
+        root1.left.left = TreeNode(4)
+        root1.left.right = TreeNode(5)
+
+        root2 = TreeNode(5)
+        root2.left = TreeNode(6)
+        root2.right = TreeNode(7)
+        root2.right.right = TreeNode(8)
+
+        root3 = self.solution._617_mergeTrees(root1, root2)
+
+        self.assertEqual(6, root3.val)
+        self.assertEqual(8, root3.left.val)
+        self.assertEqual(10, root3.right.val)
+        self.assertEqual(4, root3.left.left.val)
+        self.assertEqual(5, root3.left.right.val)
+        self.assertIsNone(root3.right.left)
+        self.assertEqual(8, root3.right.right.val)
+
+    def test_657_judgeCircle(self):
+        self.assertTrue(self.solution._657_judgeCircle("UD"))
+        self.assertFalse(self.solution._657_judgeCircle("LL"))
+
+    def test_665_checkPossibility(self):
+        self.assertTrue(self.solution._665_checkPossibility([]))
+        self.assertTrue(self.solution._665_checkPossibility([3]))
+        self.assertTrue(self.solution._665_checkPossibility([4, 2, 3]))
+        self.assertTrue(self.solution._665_checkPossibility([2, 3, 3, 2]))
+        self.assertFalse(self.solution._665_checkPossibility([4, 2, 1]))
+        self.assertTrue(self.solution._665_checkPossibility([-1, 4, 2, 3]))
+
+    def test_690_getImportance(self):
+        # [[1, 5, [2, 3]], [2, 3, []], [3, 3, []]], 1
+        workers = []
+
+        e1 = Employee(1, 5, [2, 3])
+        e2 = Employee(2, 3, [])
+        e3 = Employee(3, 3, [])
+
+        workers.append(e1)
+        workers.append(e2)
+        workers.append(e3)
+
+        self.assertEqual(11, self.solution._690_getImportance(workers, 1))
 
 if __name__ == '__main__':
-    unittest.main()
+        unittest.main()

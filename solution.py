@@ -1,9 +1,11 @@
 import sys
 from collections import deque
-from typing import List
+from typing import List, Dict
 
 from common import ListNode
 from common import TreeNode
+from common import Node
+from common import Employee
 
 
 class MinStack:
@@ -913,6 +915,167 @@ class Solution:
         while slow < len(nums):
             nums[slow] = 0
             slow += 1
+
+    def _344_reverseString(self, s: List[str]) -> None:
+        l = 0
+        r = len(s) - 1
+
+        while l < r:
+            tmp = s[l]
+            s[l] = s[r]
+            s[r] = tmp
+
+            l += 1
+            r -= 1
+
+    def _509_fib(self, N: int) -> int:
+        if N <= 1:
+            return N
+
+        f0 = 0
+        f1 = 1
+        f2 = 0
+
+        for i in range(2, N + 1):
+            f2 = f0 + f1
+            f0 = f1
+            f1 = f2
+
+        return f2
+
+    _543_max_diameter = 0
+
+    def _543_diameterOfBinaryTree(self, root: TreeNode) -> int:
+        self._543_diameterOfBinaryTree_maxDepth(root)
+
+        return self._543_max_diameter
+
+    def _543_diameterOfBinaryTree_maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+
+        lMaxDepth = self._543_diameterOfBinaryTree_maxDepth(root.left)
+        rMaxDepth = self._543_diameterOfBinaryTree_maxDepth(root.right)
+
+        self._543_max_diameter = max(self._543_max_diameter, lMaxDepth + rMaxDepth)
+
+        return 1 + max(lMaxDepth, rMaxDepth)
+
+    def _557_reverseWords(self, s: str) -> str:
+        result = ''
+        ss = s.split(' ')
+
+        for word in ss:
+            result += word[::-1] + ' '
+
+        result = result[0:len(result) - 1]
+
+        return result
+
+    def _561_arrayPairSum(self, nums: List[int]) -> int:
+        nums.sort()
+
+        sum = 0
+        for i in range(0, len(nums), 2):
+            sum += nums[i]
+
+        return sum
+
+    def _589_preorder(self, root: Node) -> List[int]:
+        if root == None:
+            return []
+
+        traverse = []
+
+        stack = deque()
+        stack.append(root)
+
+        while stack:
+            tn = stack.pop()
+
+            traverse.append(tn.val)
+
+            if tn.children:
+                for child in reversed(tn.children):
+                    stack.append(child)
+
+        return traverse
+
+    def _590_postorder(self, root: Node) -> List[int]:
+        if root == None:
+            return []
+
+        traverse = []
+
+        stack1 = deque()
+        stack2 = deque()
+
+        stack1.append(root)
+
+        while stack1:
+            tn = stack1.pop()
+            stack2.append(tn)
+
+            if tn.children:
+                for child in tn.children:
+                    stack1.append(child)
+
+        while stack2:
+            traverse.append(stack2.pop().val)
+
+        return traverse
+
+    def _617_mergeTrees(self, t1: TreeNode, t2: TreeNode) -> TreeNode:
+        if t1 == None and t2 == None:
+            return None
+
+        sum = (t1.val if t1 != None else 0) + (t2.val if t2 != None else 0)
+        tn = TreeNode(sum)
+        tn.left = self._617_mergeTrees((t1.left if t1 != None else None), (t2.left if t2 != None else None))
+        tn.right = self._617_mergeTrees((t1.right if t1 != None else None), (t2.right if t2 != None else None))
+
+        return tn
+
+    def _657_judgeCircle(self, moves: str) -> bool:
+        position = [0, 0]
+
+        for move in moves:
+            if move == 'L':
+                position[0] -= 1
+            if move == 'R':
+                position[0] += 1
+            if move == 'U':
+                position[1] += 1
+            if move == 'D':
+                position[1] -= 1
+
+        return position[0] == 0 and position[1] == 0
+
+    def _665_checkPossibility(self, nums: List[int]) -> bool:
+        modyfications = 0
+        for i in range(1, len(nums)):
+            if (nums[i] < nums[i - 1]):
+                modyfications += 1
+                if (i - 2 >= 0 and nums[i] < nums[i - 2]):
+                    nums[i] = nums[i - 1]
+
+        return modyfications <= 1
+
+    def _690_getImportance(self, employees: List[Employee], id: int) -> int:
+        map = {}
+
+        for emp in employees:
+            map[emp.id] = emp
+
+        return self._690_getImportance_sum(map, id)
+
+    def _690_getImportance_sum(self, map: Dict, id: int):
+        sum = map[id].importance
+
+        for subordinate in map[id].subordinates:
+            sum += self._690_getImportance_sum(map, subordinate)
+
+        return sum
 
 
 def main():
