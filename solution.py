@@ -1,11 +1,13 @@
 import sys
+import numpy
+
 from collections import deque
 from typing import List, Dict
 
-from common import ListNode
-from common import TreeNode
-from common import Node
 from common import Employee
+from common import ListNode
+from common import Node
+from common import TreeNode
 
 
 class MinStack:
@@ -30,6 +32,69 @@ class MinStack:
 
     def getMin(self) -> int:
         return self.min
+
+
+class HashEntry:
+    def __init__(self, value: int):
+        self.value = value
+        self.next = None
+
+
+class MyHashSet:
+
+    def __init__(self):
+        self.SIZE = 128
+        self.buckets = [None] * self.SIZE
+
+    def add(self, value: int) -> None:
+        hash = self.generateHash(value)
+        he = self.buckets[hash]
+
+        if he == None:
+            self.buckets[hash] = HashEntry(value)
+        else:
+            while he != None:
+                if he.value == value:
+                    he.value = value
+                    break
+                else:
+                    if he.next == None:
+                        he.next = HashEntry(value)
+                        break
+                    else:
+                        he = he.next
+
+    def remove(self, value: int) -> None:
+        hash = self.generateHash(value)
+        cHe = self.buckets[hash]
+        pHe = None
+
+        while cHe != None:
+            if cHe.value != value:
+                pHe = cHe
+                cHe = cHe.next
+            else:
+                if pHe == None:  # Remove first
+                    self.buckets[hash] = cHe.next
+                elif cHe.next == None:  # Remove last
+                    pHe.next = None
+                else:  # Remove middle
+                    pHe.next = cHe.next
+                break
+
+    def contains(self, value: int) -> bool:
+        hash = self.generateHash(value)
+        eb = self.buckets[hash]
+
+        while eb:
+            if eb.value == value:
+                return True
+            eb = eb.next
+
+        return False
+
+    def generateHash(self, value: int) -> int:
+        return value * 31 % self.SIZE
 
 
 class Solution:
@@ -1076,6 +1141,213 @@ class Solution:
             sum += self._690_getImportance_sum(map, subordinate)
 
         return sum
+
+    def _700_searchBST(self, root: TreeNode, val: int) -> TreeNode:
+        while root:
+            if val < root.val:
+                root = root.left
+            elif val > root.val:
+                root = root.right
+            else:
+                return root
+
+        return None
+
+    def _705_myHashSet(self) -> MyHashSet:
+        return MyHashSet()
+
+    def _709_toLowerCase(self, str: str) -> str:
+        if str == None:
+            return None
+        if len(str) == 0:
+            return ""
+
+        lStr = []
+
+        for i in range(0, len(str)):
+            value = ord(str[i])
+            if value >= 65 and value <= 90:
+                lStr.append(chr(value + 32))
+            else:
+                lStr.append(str[i])
+            i += 1
+
+        return ''.join(lStr)
+
+    def _728_selfDividingNumbers(self, left: int, right: int) -> List[int]:
+        numbers = []
+        for number in range(left, right + 1):
+            tmp = number
+            noSelfDividing = 0
+            while tmp > 0:
+                digit = tmp % 10
+                tmp = int(tmp / 10)
+
+                if digit == 0 or number % digit != 0:
+                    noSelfDividing += 1
+                    break
+
+            if noSelfDividing == 0:
+                numbers.append(number)
+
+        return numbers
+
+    def _771_numJewelsInStones(self, J: str, S: str) -> int:
+        map = {}
+
+        for stone in S:
+            map[stone] = 1 + map.get(stone, 0)
+
+        count = 0
+
+        for jewel in J:
+            count += map.get(jewel, 0)
+
+        return count
+
+    def _796_rotateString(self, A: str, B: str) -> bool:
+        if len(A) != len(B):
+            return False
+
+        return B in (A + A)
+
+    def _804_uniqueMorseRepresentations(self, words: List[str]) -> int:
+        MORSE = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.",
+                 "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."]
+
+        hashSet = set()
+
+        for word in words:
+            encoded = ''
+            for cChar in word:
+                encoded += MORSE[ord(cChar) - 97]
+
+            hashSet.add(encoded)
+
+        return len(hashSet)
+
+    def _811_subdomainVisits(self, cpdomains: List[str]) -> List[str]:
+        map = {}
+
+        for cpdomain in cpdomains:
+            scpdomain = cpdomain.split(' ')
+            count = int(scpdomain[0])
+            domains = scpdomain[1]
+
+            map[domains] = map.get(domains, 0) + count
+            while domains.find(".") != -1:
+                domains = domains[domains.find(".") + 1: len(domains)]
+                map[domains] = map.get(domains, 0) + count
+
+        results = []
+        for key, value in map.items():
+            results.append(str(value) + " " + str(key))
+
+        return results
+
+    def _821_shortestToChar(self, S: str, C: str) -> List[int]:
+        positions = []
+
+        cIndexes = set()
+
+        for i in range(0, len(S)):
+            if S[i] == C:
+                cIndexes.add(i)
+
+        for i in range(0, len(S)):
+            nearestIndex = min([abs(index - i) for index in cIndexes])
+            positions.append(nearestIndex)
+
+        return positions
+
+    def _832_flipAndInvertImage(self, A: List[List[int]]) -> List[List[int]]:
+        rLength = len(A)
+        cLength = len(A[0])
+        B = [[None for i in range(cLength)] for j in range(rLength)]
+
+        for row in range(0, rLength):
+            for bCol, aCol in zip(range(0, cLength), reversed(range(0, cLength))):
+                B[row][bCol] = 1 - A[row][aCol]
+
+        return B
+
+    def _844_backspaceCompare(self, S: str, T: str) -> bool:
+        stackS = deque()
+        stackT = deque()
+
+        for cChar in S:
+            if stackS and cChar == '#':
+                stackS.pop()
+
+            if cChar != '#':
+                stackS.append(cChar)
+
+        for cChar in T:
+            if stackT and cChar == '#':
+                stackT.pop()
+
+            if cChar != '#':
+                stackT.append(cChar)
+
+        return ''.join(stackS) == ''.join(stackT)
+
+    def _852_peakIndexInMountainArray(self, A: List[int]) -> int:
+        l = 0
+        h = len(A) - 1
+
+        while l < h:
+            m = l + int((h - l) / 2)
+
+            if A[m] < A[m + 1]:
+                l = m + 1
+            else:
+                h = m
+
+        return l
+
+    def _876_middleNode(self, head: ListNode) -> ListNode:
+        slow = head
+        fast = head
+
+        while fast is not None and fast.next is not None:
+            fast = fast.next.next
+            slow = slow.next
+
+        return slow
+
+    def _905_sortArrayByParity(self, A: List[int]) -> List[int]:
+        B = [None for i in range(len(A))]
+        k = 0
+        odd = len(A) - 1
+        even = 0
+
+        while k < len(A):
+            if A[k] % 2 == 0:
+                B[even] = A[k]
+                even += 1
+            else:
+                B[odd] = A[k]
+                odd -= 1
+            k += 1
+
+        return B
+
+    def _922_sortArrayByParityII(self, A: List[int]) -> List[int]:
+        B = [None for i in range(len(A))]
+        k = 0
+        odd = 1
+        even = 0
+
+        while k < len(A):
+            if A[k] % 2 == 0:
+                B[even] = A[k]
+                even += 2
+            else:
+                B[odd] = A[k]
+                odd += 2
+            k += 1
+
+        return B
 
 
 def main():

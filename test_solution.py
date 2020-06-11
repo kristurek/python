@@ -6,7 +6,6 @@ from common import Node
 from common import TreeNode
 from solution import Solution
 
-
 class SolutionTest(unittest.TestCase):
     solution = Solution()
 
@@ -483,5 +482,94 @@ class SolutionTest(unittest.TestCase):
 
         self.assertEqual(11, self.solution._690_getImportance(workers, 1))
 
+    def test_700_searchBST(self):
+        root = TreeNode(4)
+        root.left = TreeNode(2)
+        root.right = TreeNode(7)
+        root.left.left = TreeNode(1)
+        root.left.right = TreeNode(3)
+
+        self.assertEqual(root.left, self.solution._700_searchBST(root, 2))
+
+    def test_705_myHashSet(self):
+        myHashSet = self.solution._705_myHashSet()
+
+        myHashSet.add(3)
+        self.assertTrue(myHashSet.contains(3))
+        myHashSet.remove(3)
+        self.assertFalse(myHashSet.contains(3))
+        myHashSet.add(3)
+        myHashSet.add(9)
+        self.assertTrue(myHashSet.contains(3))
+        self.assertFalse(myHashSet.contains(1))
+
+    def test_709_toLowerCase(self):
+        self.assertEqual("", self.solution._709_toLowerCase(""))
+        self.assertIsNone(self.solution._709_toLowerCase(None))
+        self.assertEqual("123!~", self.solution._709_toLowerCase("123!~"))
+        self.assertEqual("abc", self.solution._709_toLowerCase("abc"))
+        self.assertEqual("abc", self.solution._709_toLowerCase("ABC"))
+        self.assertEqual("abcd", self.solution._709_toLowerCase("aBcD"))
+
+    def test_728_selfDividingNumbers(self):
+        expected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]
+        self.assertEqual(expected, self.solution._728_selfDividingNumbers(1, 22))
+
+    def test_771_numJewelsInStones(self):
+        self.assertEqual(3, self.solution._771_numJewelsInStones("aA", "aAAbbbb"))
+
+    def test_796_rotateString(self):
+        self.assertTrue(self.solution._796_rotateString("abcde", "cdeab"))
+        self.assertFalse(self.solution._796_rotateString("abcde", "abced"))
+
+    def test_804_uniqueMorseRepresentations(self):
+        self.assertEqual(2, self.solution._804_uniqueMorseRepresentations(["gin", "zen", "gig", "msg"]))
+
+    def test_811_subdomainVisits(self):
+        expected = ["9001 discuss.leetcode.com", "9001 leetcode.com", "9001 com"]
+
+        self.assertCountEqual(expected, self.solution._811_subdomainVisits(["9001 discuss.leetcode.com"]))
+
+        expected = ["901 mail.com", "50 yahoo.com", "900 google.mail.com", "5 wiki.org", "5 org",
+                    "1 intel.mail.com", "951 com"]
+
+        self.assertCountEqual(expected, self.solution._811_subdomainVisits(
+            ["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"]))
+
+    def test_821_shortestToChar(self):
+        expected = [3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0]
+
+        self.assertEqual(expected, self.solution._821_shortestToChar("loveleetcode", 'e'))
+
+    def test_832_flipAndInvertImage(self):
+        self.assertEqual([[1, 0, 0]], self.solution._832_flipAndInvertImage([[1, 1, 0]]))
+        self.assertEqual([[1, 0, 0], [0, 1, 0], [1, 1, 1]], self.solution._832_flipAndInvertImage([[1, 1, 0], [1, 0, 1], [0, 0, 0]]))
+
+    def test_844_backspaceCompare(self):
+        self.assertTrue(self.solution._844_backspaceCompare("", ""))
+        self.assertTrue(self.solution._844_backspaceCompare("ab#c", "ad#c"))
+        self.assertTrue(self.solution._844_backspaceCompare("ab##", "c#d#"))
+        self.assertTrue(self.solution._844_backspaceCompare("a##c", "#a#c"))
+        self.assertFalse(self.solution._844_backspaceCompare("a#c", "b"))
+
+    def test_852_peakIndexInMountainArray(self):
+        self.assertEqual(1, self.solution._852_peakIndexInMountainArray([0, 1, 0]))
+        self.assertEqual(1, self.solution._852_peakIndexInMountainArray([0, 2, 1, 0]))
+
+    def test_876_middleNode(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(4)
+
+        self.assertEqual(3, self.solution._876_middleNode(head).val)
+
+    def test_905_sortArrayByParity(self):
+        self.assertEqual([2, 4, 3, 1], self.solution._905_sortArrayByParity([1, 2, 3, 4]))
+
+    def test_922_sortArrayByParityII(self):
+        self.assertEqual([4, 5, 2, 7], self.solution._922_sortArrayByParityII([4, 2, 5, 7]))
+
+
 if __name__ == '__main__':
-        unittest.main()
+    unittest.main()
