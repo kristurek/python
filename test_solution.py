@@ -6,6 +6,7 @@ from common import Node
 from common import TreeNode
 from solution import Solution
 
+
 class SolutionTest(unittest.TestCase):
     solution = Solution()
 
@@ -543,7 +544,8 @@ class SolutionTest(unittest.TestCase):
 
     def test_832_flipAndInvertImage(self):
         self.assertEqual([[1, 0, 0]], self.solution._832_flipAndInvertImage([[1, 1, 0]]))
-        self.assertEqual([[1, 0, 0], [0, 1, 0], [1, 1, 1]], self.solution._832_flipAndInvertImage([[1, 1, 0], [1, 0, 1], [0, 0, 0]]))
+        self.assertEqual([[1, 0, 0], [0, 1, 0], [1, 1, 1]],
+                         self.solution._832_flipAndInvertImage([[1, 1, 0], [1, 0, 1], [0, 0, 0]]))
 
     def test_844_backspaceCompare(self):
         self.assertTrue(self.solution._844_backspaceCompare("", ""))
@@ -569,6 +571,84 @@ class SolutionTest(unittest.TestCase):
 
     def test_922_sortArrayByParityII(self):
         self.assertEqual([4, 5, 2, 7], self.solution._922_sortArrayByParityII([4, 2, 5, 7]))
+
+    def test_929_numUniqueEmails(self):
+        self.assertEqual(2, self.solution._929_numUniqueEmails(
+            ["test.email+alex@leetcode.com", "test.e.mail+bob.cathy@leetcode.com", "testemail+david@lee.tcode.com"]))
+
+        self.assertEqual(1, self.solution._929_numUniqueEmails(
+            ["test.email+alex@leetcode.com", "test.email@leetcode.com"]))
+
+    # FIXME
+    def test_937_reorderLogFiles(self):
+        expected = ["let1 art can", "let3 art zero", "let2 own kit dig", "dig1 8 1 5 1", "dig2 3 6"]
+
+        self.assertEqual(expected, self.solution._937_reorderLogFiles(
+            ["dig1 8 1 5 1", "let1 art can", "dig2 3 6", "let2 own kit dig", "let3 art zero"]))
+
+    def test_938_rangeSumBST(self):
+        root = TreeNode(10)
+        root.left = TreeNode(5)
+        root.right = TreeNode(15)
+        root.left.left = TreeNode(3)
+        root.left.right = TreeNode(7)
+        root.right.right = TreeNode(18)
+
+        self.assertEqual(32, self.solution._938_rangeSumBST(root, 7, 15))
+
+    def test_942_diStringMatch(self):
+        self.assertEqual([0, 4, 1, 3, 2], self.solution._942_diStringMatch("IDID"))
+        self.assertEqual([3, 2, 0, 1], self.solution._942_diStringMatch("DDI"))
+        self.assertEqual([0, 1, 2, 3], self.solution._942_diStringMatch("III"))
+        self.assertEqual([3, 2, 1, 0], self.solution._942_diStringMatch("DDD"))
+
+    def test_944_minDeletionSize(self):
+        self.assertEqual(1, self.solution._944_minDeletionSize(["cba", "daf", "ghi"]))
+        self.assertEqual(2, self.solution._944_minDeletionSize(["rrjk", "furt", "guzm"]))
+        self.assertEqual(3, self.solution._944_minDeletionSize(["zyx", "wvu", "tsr"]))
+
+    def test_961_repeatedNTimes(self):
+        self.assertEqual(3, self.solution._961_repeatedNTimes([1, 2, 3, 3]))
+        self.assertEqual(2, self.solution._961_repeatedNTimes([2, 1, 2, 5, 3, 2]))
+        self.assertEqual(5, self.solution._961_repeatedNTimes([5, 1, 5, 2, 5, 3, 5, 4]))
+
+    def test_977_sortedSquares(self):
+        self.assertEqual([0, 1, 9, 16, 100], self.solution._977_sortedSquares([-4, -1, 0, 3, 10]))
+
+    def test_1002_commonChars(self):
+        self.assertEqual(["e", "l", "l"], self.solution._1002_commonChars(["bella", "label", "roller"]))
+        self.assertEqual(["c", "o"], self.solution._1002_commonChars(["cool", "lock", "cook"]))
+
+    def test_1021_removeOuterParentheses(self):
+        self.assertEqual("()()()()(())", self.solution._1021_removeOuterParentheses("(()())(())(()(()))"))
+        self.assertEqual("()()()", self.solution._1021_removeOuterParentheses("(()())(())"))
+        self.assertEqual("", self.solution._1021_removeOuterParentheses("()()"))
+
+    def test_1046_lastStoneWeight(self):
+        self.assertEqual(1, self.solution._1046_lastStoneWeight([2, 7, 4, 1, 8, 1]))
+
+    def test_1047_removeDuplicates(self):
+        self.assertEqual("ca", self.solution._1047_removeDuplicates("abbaca"))
+        self.assertEqual("a", self.solution._1047_removeDuplicates("a"))
+        self.assertEqual("", self.solution._1047_removeDuplicates(""))
+        self.assertIsNone(self.solution._1047_removeDuplicates(None))
+
+    def test_1051_heightChecker(self):
+        self.assertEqual(3, self.solution._1051_heightChecker([1, 1, 4, 2, 1, 3]))
+
+    def test_1078_findOcurrences(self):
+        self.assertEqual(["girl", "student"],
+                         self.solution._1078_findOcurrences("alice is a good girl she is a good student", "a", "good"))
+        self.assertEqual(["we", "rock"], self.solution._1078_findOcurrences("we will we will rock you", "we", "will"))
+
+    def test_1089_duplicateZeros(self):
+        param = [1, 0, 2, 3, 0, 4, 5, 0]
+        self.solution._1089_duplicateZeros(param)
+
+        self.assertEqual([1, 0, 0, 2, 3, 0, 0, 4], param)
+
+    def test_1108_defangIPaddr(self):
+        self.assertEqual("192[.]168[.]1[.]1", self.solution._1108_defangIPaddr("192.168.1.1"))
 
 
 if __name__ == '__main__':

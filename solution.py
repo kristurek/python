@@ -1,10 +1,11 @@
 import sys
-import numpy
-
 from collections import deque
+from functools import cmp_to_key
+from queue import PriorityQueue
+from string import ascii_lowercase
 from typing import List, Dict
 
-from common import Employee
+from common import Employee, KeyPriorityQueue
 from common import ListNode
 from common import Node
 from common import TreeNode
@@ -1348,6 +1349,217 @@ class Solution:
             k += 1
 
         return B
+
+    def _929_numUniqueEmails(self, emails: List[str]) -> int:
+        hashSet = set()
+
+        for email in emails:
+            sEmail = email.split("@")
+
+            sEmail[0] = sEmail[0] if "+" not in sEmail[0] else sEmail[0][0:sEmail[0].index('+')]
+            sEmail[0] = sEmail[0].replace('.', '')
+
+            hashSet.add(sEmail[0] + "@" + sEmail[1])
+
+        return len(hashSet)
+
+    def _937_reorderLogFiles(self, logs: List[str]) -> List[str]:
+        return sorted(logs, key=cmp_to_key(lambda v1, v2: self._937_reorderLogFiles_compartor(v1, v2)))
+
+    def _937_reorderLogFiles_compartor(self, log1: str, log2: str) -> int:
+        split1 = log1.split(" ", 2)
+        split2 = log2.split(" ", 2)
+
+        if split1[1][0].isalpha() and split2[1][0].isalpha():
+            cmp = (split1[1] > split2[1]) - (split1[1] < split2[1])
+            if cmp != 0:
+                return cmp
+            else:
+                return (split1[0] > split2[0]) - (split1[0] < split2[0])
+        elif split1[1][0].isdigit() and split2[1][0].isdigit():
+            return 0
+        else:
+            if split1[1][0].isalpha():
+                return -1
+            else:
+                return 1
+        return 0
+
+    def _938_rangeSumBST(self, root: TreeNode, L: int, R: int) -> int:
+        if root is None:
+            return 0
+
+        queue = deque()
+        queue.append(root)
+
+        sum = 0
+
+        while queue:
+            tn = queue.popleft()
+
+            if tn.val >= L and tn.val <= R:
+                sum += tn.val
+
+            if tn.left is not None:
+                queue.append(tn.left)
+            if tn.right is not None:
+                queue.append(tn.right)
+
+        return sum
+
+    def _942_diStringMatch(self, S: str) -> List[int]:
+        values = []
+        increase = 0
+        decrease = len(S)
+
+        for cChar in S:
+            if cChar == 'I':
+                values.append(increase)
+                increase += 1
+            elif cChar == 'D':
+                values.append(decrease)
+                decrease -= 1
+
+        values.append(increase)
+
+        return values
+
+    def _944_minDeletionSize(self, A: List[str]) -> int:
+        count = 0
+
+        for col in range(0, len(A[0])):
+            for row in range(1, len(A)):
+                if A[row - 1][col] > A[row][col]:
+                    count += 1
+                    break
+
+        return count
+
+    def _961_repeatedNTimes(self, A: List[int]) -> int:
+        N = int(len(A) / 2)
+        hashMap = {}
+
+        for a in A:
+            hashMap[a] = hashMap.get(a, 0) + 1
+
+        return next(iter([key for (key, value) in hashMap.items() if value == N]), None)
+
+    def _977_sortedSquares(self, A: List[int]) -> List[int]:
+        B = [None for i in range(len(A))]
+        l = 0
+        r = len(A) - 1
+        i = r
+
+        while l <= r:
+            if A[l] * A[l] > A[r] * A[r]:
+                B[i] = A[l] * A[l]
+                l += 1
+            else:
+                B[i] = A[r] * A[r]
+                r -= 1
+
+            i -= 1
+
+        return B
+
+    def _1002_commonChars(self, A: List[str]) -> List[str]:
+        B = []
+
+        for commonChar in ascii_lowercase:
+            minCount = 0x7fffffff  # hex(-2**31-1) Integer.MIN_VALUE
+
+            for a in A:
+                count = 0
+                for cChar in a:
+                    if cChar == commonChar:
+                        count += 1
+                minCount = min(minCount, count)
+
+            while minCount > 0:
+                B.append(commonChar)
+                minCount -= 1
+
+        return B
+
+    def _1021_removeOuterParentheses(self, S: str) -> str:
+        res = []
+        opened = 0
+
+        for c in S:
+            if c == '(' and opened > 0:
+                res.append(c)
+            if c == ')' and opened > 1:
+                res.append(c)
+            opened += 1 if c == '(' else -1
+
+        return "".join(res)
+
+    def _1046_lastStoneWeight(self, stones: List[int]) -> int:
+        queue = KeyPriorityQueue(key=cmp_to_key(lambda o1, o2: o2 - o1))
+
+        for stone in stones:
+            queue.put(stone)
+
+        while queue.qsize() >= 2:
+            stone1 = queue.get()
+            stone2 = queue.get()
+            stone3 = abs(stone2 - stone1)
+
+            if stone3 != 0:
+                queue.put(stone3)
+
+        return queue.get() if not queue.empty() else 0
+
+    def _1047_removeDuplicates(self, S: str) -> str:
+        if S is None:
+            return None
+
+        stack = deque()
+
+        for c in S:
+            if stack and stack[-1] == c:
+                stack.pop()
+            else:
+                stack.append(c)
+
+        return ''.join(stack)
+
+    def _1051_heightChecker(self, heights: List[int]) -> int:
+        sHeights = sorted(heights)
+        count = 0
+
+        for i in range(0, len(heights)):
+            count += 1 if heights[i] != sHeights[i] else 0
+
+        return count
+
+    def _1078_findOcurrences(self, text: str, first: str, second: str) -> List[str]:
+        sText = text.split(" ")
+        words = []
+
+        for i in range(2, len(sText)):
+            if sText[i - 2] == first and sText[i - 1] == second:
+                words.append(sText[i])
+            i += 1
+
+        return words
+
+    def _1089_duplicateZeros(self, arr: List[int]) -> None:
+        i = 0
+        while i < len(arr):
+            if arr[i] == 0:
+                j = len(arr) - 1
+                while j > i:
+                    arr[j] = arr[j - 1]
+                    j -= 1
+
+                if i + 1 < len(arr):
+                    arr[i + 1] = 0
+                i += 1
+            i += 1
+
+    def _1108_defangIPaddr(self, address: str) -> str:
+        return address.replace(".", "[.]")
 
 
 def main():

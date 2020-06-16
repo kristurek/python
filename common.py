@@ -1,3 +1,4 @@
+from queue import PriorityQueue
 from typing import List
 
 
@@ -26,3 +27,27 @@ class Employee:
         self.importance = importance
         self.subordinates = subordinates
 
+
+class _Wrapper:
+    def __init__(self, item, key):
+        self.item = item
+        self.key = key
+
+    def __lt__(self, other):
+        return self.key(self.item) < other.key(other.item)
+
+    def __eq__(self, other):
+        return self.key(self.item) == other.key(other.item)
+
+
+class KeyPriorityQueue(PriorityQueue):
+    def __init__(self, key):
+        self.key = key
+        super().__init__()
+
+    def _get(self):
+        wrapper = super()._get()
+        return wrapper.item
+
+    def _put(self, item):
+        super()._put(_Wrapper(item, self.key))
