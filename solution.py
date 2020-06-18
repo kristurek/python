@@ -1,7 +1,6 @@
 import sys
 from collections import deque
 from functools import cmp_to_key
-from queue import PriorityQueue
 from string import ascii_lowercase
 from typing import List, Dict
 
@@ -1560,6 +1559,174 @@ class Solution:
 
     def _1108_defangIPaddr(self, address: str) -> str:
         return address.replace(".", "[.]")
+
+    def _1122_relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+        arr = []
+        map = {}
+
+        for val in arr1:
+            map[val] = map.get(val, 0) + 1
+
+        for i in range(len(arr2)):
+            count = map[arr2[i]]
+            while count > 0:
+                arr.append(arr2[i])
+                count -= 1
+
+        arr1 = list(filter(lambda x: x not in arr2, arr1))
+        arr1.sort()
+
+        for val in arr1:
+            arr.append(val)
+
+        return arr
+
+    def _1154_dayOfYear(self, date: str) -> int:
+        sDate = date.split("-")
+
+        year = int(sDate[0])
+        month = int(sDate[1])
+        day = int(sDate[2])
+
+        leapYear = True if year % 4 == 0 and year % 100 != 0 or year % 400 == 0 else False
+
+        days = [31, 28 + leapYear, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+        dayOfYear = 0
+
+        for i in range(0, month - 1):
+            dayOfYear += days[i]
+
+        return dayOfYear + day
+
+    def _1160_countCharacters(self, words: List[str], chars: str) -> int:
+        counter = 0
+
+        for word in words:
+            tmpWord = ""
+            tmpChars = chars
+
+            for cChar in word:
+                if cChar in tmpChars:
+                    tmpChars = tmpChars.replace(cChar, "", 1)
+                    tmpWord += cChar
+
+            if word == tmpWord:
+                counter += len(word)
+
+        return counter
+
+    def _1360_daysBetweenDates(self, date1: str, date2: str) -> int:
+        days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+        sDate1 = date1.split("-")
+        sDate2 = date2.split("-")
+
+        year1 = int(sDate1[0])
+        month1 = int(sDate1[1])
+        day1 = int(sDate1[2])
+
+        year2 = int(sDate2[0])
+        month2 = int(sDate2[1])
+        day2 = int(sDate2[2])
+
+        days1 = year1 * 365 + day1
+        days2 = year2 * 365 + day2
+
+        for i in range(month1 - 1):
+            days1 += days[i]
+
+        for i in range(month2 - 1):
+            days2 += days[i]
+
+        if month1 <= 2:
+            year1 -= 1
+        days1 += int(year1 / 4) - int(year1 / 100) + int(year1 / 400)
+
+        if month2 <= 2:
+            year2 -= 1
+        days2 += int(year2 / 4) - int(year2 / 100) + int(year2 / 400)
+
+        return abs(days1 - days2)
+
+    def _1365_smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
+        sNums = nums.copy()
+        sNums.sort()
+
+        map = {}
+
+        for i, val in enumerate(sNums):
+            map.setdefault(val, i)
+
+        values = []
+
+        for val in nums:
+            values.append(map.get(val))
+
+        return values
+
+    def _1374_generateTheString(self, n: int) -> str:
+        return "a" * (n - 1) + "b" if n % 2 == 0 else "a" * n
+
+    def _1380_luckyNumbers(self, matrix: List[List[int]]) -> List[int]:
+        minRow = set([min(row) for row in matrix])
+        maxCol = set()
+
+        for col in range(len(matrix[0])):
+            maxCol.add([max(row) for row in zip(*matrix)][col])
+
+        return list(minRow & maxCol)
+
+    def _1389_createTargetArray(self, nums: List[int], index: List[int]) -> List[int]:
+        values = []
+
+        for i in range(len(nums)):
+            values.insert(index[i], nums[i])
+
+        return values
+
+    def _1394_findLucky(self, arr: List[int]) -> int:
+        map = {}
+
+        for val in arr:
+            map[val] = map.get(val, 0) + 1
+
+        luckyNumbers = [k for k, v in map.items() if k == v]
+
+        return max(luckyNumbers) if luckyNumbers else -1
+
+    def _1399_countLargestGroup(self, n: int) -> int:
+        countGroups = {}
+
+        for i in range(1, n + 1):
+            sum = 0
+            while i > 0:
+                sum += i % 10
+                i = int(i / 10)
+            countGroups[sum] = countGroups.get(sum, 0) + 1
+
+        maxValue = max(countGroups.values())
+
+        return len(list(filter(lambda x: x == maxValue, countGroups.values())))
+
+    def _1403_minSubsequence(self, nums: List[int]) -> List[int]:
+        if nums == None:
+            return None
+
+        sumNums = sum(nums)
+
+        nums.sort(reverse=True)
+
+        values = []
+        subSumNums = 0
+        for val in nums:
+            subSumNums += val
+            values.append(val)
+
+            if subSumNums > sumNums - subSumNums:
+                return values
+
+        return values
 
 
 def main():

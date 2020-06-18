@@ -650,6 +650,78 @@ class SolutionTest(unittest.TestCase):
     def test_1108_defangIPaddr(self):
         self.assertEqual("192[.]168[.]1[.]1", self.solution._1108_defangIPaddr("192.168.1.1"))
 
+    def test_1122_relativeSortArray(self):
+        expected = [2, 2, 2, 1, 4, 3, 3, 9, 6, 7, 19]
+        self.assertEqual(expected,
+                         self.solution._1122_relativeSortArray([2, 3, 1, 3, 2, 4, 6, 19, 9, 2, 7], [2, 1, 4, 3, 9, 6]))
+
+    def test_1154_dayOfYear(self):
+        self.assertEqual(9, self.solution._1154_dayOfYear("2019-01-09"))
+        self.assertEqual(41, self.solution._1154_dayOfYear("2019-02-10"))
+        self.assertEqual(60, self.solution._1154_dayOfYear("2003-03-01"))
+        self.assertEqual(61, self.solution._1154_dayOfYear("2004-03-01"))
+
+    def test_1160_countCharacters(self):
+        self.assertEqual(6, self.solution._1160_countCharacters(["cat", "bt", "hat", "tree"], "attach"))
+        self.assertEqual(10, self.solution._1160_countCharacters(["hello", "world", "leetcode"], "welldonehoneyr"))
+
+        self.assertEqual(0, self.solution._1160_countCharacters([
+            "dyiclysmffuhibgfvapygkorkqllqlvokosagyelotobicwcmebnpznjbirzrzsrtzjxhsfpiwyfhzyonmuabtlwin",
+            "ndqeyhhcquplmznwslewjzuyfgklssvkqxmqjpwhrshycmvrb", "ulrrbpspyudncdlbkxkrqpivfftrggemkpyjl",
+            "boygirdlggnh", "xmqohbyqwagkjzpyawsydmdaattthmuvjbzwpyopyafphx",
+            "nulvimegcsiwvhwuiyednoxpugfeimnnyeoczuzxgxbqjvegcxeqnjbwnbvowastqhojepisusvsidhqmszbrnynkyop",
+            "hiefuovybkpgzygprmndrkyspoiyapdwkxebgsmodhzpx",
+            "juldqdzeskpffaoqcyyxiqqowsalqumddcufhouhrskozhlmobiwzxnhdkidr", "lnnvsdcrvzfmrvurucrzlfyigcycffpiuoo",
+            "oxgaskztzroxuntiwlfyufddl",
+            "tfspedteabxatkaypitjfkhkkigdwdkctqbczcugripkgcyfezpuklfqfcsccboarbfbjfrkxp",
+            "qnagrpfzlyrouolqquytwnwnsqnmuzphne", "eeilfdaookieawrrbvtnqfzcricvhpiv",
+            "sisvsjzyrbdsjcwwygdnxcjhzhsxhpceqz", "yhouqhjevqxtecomahbwoptzlkyvjexhzcbccusbjjdgcfzlkoqwiwue",
+            "hwxxighzvceaplsycajkhynkhzkwkouszwaiuzqcleyflqrxgjsvlegvupzqijbornbfwpefhxekgpuvgiyeudhncv",
+            "cpwcjwgbcquirnsazumgjjcltitmeyfaudbnbqhflvecjsupjmgwfbjo", "teyygdmmyadppuopvqdodaczob",
+            "qaeowuwqsqffvibrtxnjnzvzuuonrkwpysyxvkijemmpdmtnqxwekbpfzs",
+            "qqxpxpmemkldghbmbyxpkwgkaykaerhmwwjonrhcsubchs"],
+            "usdruypficfbpfbivlrhutcgvyjenlxzeovdyjtgvvfdjzcmikjraspdfp"))
+
+    def test_1360_daysBetweenDates(self):
+        self.assertEqual(1, self.solution._1360_daysBetweenDates("2019-06-29", "2019-06-30"))
+        self.assertEqual(15, self.solution._1360_daysBetweenDates("2020-01-15", "2019-12-31"))
+
+    def test_1365_smallerNumbersThanCurrent(self):
+        self.assertEqual([4, 0, 1, 1, 3], self.solution._1365_smallerNumbersThanCurrent([8, 1, 2, 2, 3]))
+        self.assertEqual([2, 1, 0, 3], self.solution._1365_smallerNumbersThanCurrent([6, 5, 4, 8]))
+        self.assertEqual([0, 0, 0, 0], self.solution._1365_smallerNumbersThanCurrent([7, 7, 7, 7]))
+
+    def test_1374_generateTheString(self):
+        self.assertEqual("aaab", self.solution._1374_generateTheString(4))
+        self.assertEqual("ab", self.solution._1374_generateTheString(2))
+        self.assertEqual("aaaaaaa", self.solution._1374_generateTheString(7))
+
+    def test_1380_luckyNumbers(self):
+        matrix = [[3, 7, 8], [9, 11, 13], [15, 16, 17]]
+
+        self.assertEqual([15], self.solution._1380_luckyNumbers(matrix))
+
+    def test_1389_createTargetArray(self):
+        self.assertEqual([0, 4, 1, 3, 2], self.solution._1389_createTargetArray([0, 1, 2, 3, 4], [0, 1, 2, 2, 1]))
+        self.assertEqual([0, 1, 2, 3, 4], self.solution._1389_createTargetArray([1, 2, 3, 4, 0], [0, 1, 2, 3, 0]))
+        self.assertEqual([1], self.solution._1389_createTargetArray([1], [0]))
+
+    def test_1394_findLucky(self):
+        self.assertEqual(2, self.solution._1394_findLucky([2, 2, 3, 4]))
+        self.assertEqual(3, self.solution._1394_findLucky([1, 2, 2, 3, 3, 3]))
+        self.assertEqual(-1, self.solution._1394_findLucky([2, 2, 2, 3, 3]))
+        self.assertEqual(-1, self.solution._1394_findLucky([5]))
+
+    def test_1399_countLargestGroup(self):
+        self.assertEqual(4, self.solution._1399_countLargestGroup(13))
+        self.assertEqual(2, self.solution._1399_countLargestGroup(2))
+        self.assertEqual(6, self.solution._1399_countLargestGroup(15))
+        self.assertEqual(5, self.solution._1399_countLargestGroup(24))
+
+    def test_1403_minSubsequence(self):
+        self.assertEqual([10, 9], self.solution._1403_minSubsequence([4, 3, 10, 9, 8]))
+        self.assertEqual([7, 7, 6], self.solution._1403_minSubsequence([4, 4, 7, 6, 7]))
+
 
 if __name__ == '__main__':
     unittest.main()
