@@ -1,5 +1,5 @@
 import sys
-from collections import deque
+from collections import deque, OrderedDict
 from functools import cmp_to_key
 from string import ascii_lowercase
 from typing import List, Dict
@@ -113,6 +113,65 @@ class Solution:
 
         raise ValueError("Illegal argument exception")
 
+    def _2_addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        l3 = ListNode(-1)
+        head = l3
+        carry = 0
+
+        while l1 or l2:
+            sum = (l1.val if l1 != None else 0) + (l2.val if l2 != None else 0) + carry
+            carry = int(sum / 10)
+            l3.next = ListNode(sum % 10)
+            l3 = l3.next
+
+            if l1 != None:
+                l1 = l1.next
+
+            if l2 != None:
+                l2 = l2.next
+
+        if carry != 0:
+            l3.next = ListNode(carry)
+
+        return head.next
+
+    def _3_lengthOfLongestSubstring(self, s: str) -> int:
+        queue = deque()
+        maxLength = 0
+
+        for c in s:
+            if c not in queue:
+                queue.append(c)
+                maxLength = max(maxLength, len(queue))
+            else:
+                while c in queue:
+                    queue.popleft()
+                queue.append(c)
+
+        return maxLength
+
+    def _5_longestPalindrome(self, s: str) -> str:
+        if s == None or len(s) <= 1:
+            return s
+
+        longestPalindrome = ""
+
+        for i in range(len(s)):
+            tmp = self._5_longestPalindrome_findPalindromeByExtend(s, i, i)  # odd length of palindrome
+            longestPalindrome = longestPalindrome if len(longestPalindrome) > len(tmp) else tmp
+
+            tmp = self._5_longestPalindrome_findPalindromeByExtend(s, i, i + 1)  # even length of palindrome
+            longestPalindrome = longestPalindrome if len(longestPalindrome) > len(tmp) else tmp
+
+        return longestPalindrome
+
+    def _5_longestPalindrome_findPalindromeByExtend(self, s: str, begin: int, end: int) -> str:
+        while begin >= 0 and end < len(s) and s[begin] == s[end]:
+            begin -= 1
+            end += 1
+
+        return s[begin + 1:end]
+
     def _7_reverse(self, x: int) -> int:
         min_limit = -0x80000000  # hex(-2**31-1)
         max_limit = 0x7fffffff  # hex(2**31-1)
@@ -141,6 +200,47 @@ class Solution:
             x = int(x / 10)
 
         return number == reverse
+
+    def _11_maxArea(self, height: List[int]) -> int:
+        l = 0
+        h = len(height) - 1
+        maxArea = 0
+
+        while l < h:
+            localArea = min(height[l], height[h]) * (h - l)
+            maxArea = max(maxArea, localArea)
+
+            if height[l] <= height[h]:
+                l += 1
+            else:
+                h -= 1
+
+        return maxArea
+
+    def _12_intToRoman(self, num: int) -> str:
+        map = OrderedDict()
+        map[1000] = "M"
+        map[900] = "CM"
+        map[500] = "D"
+        map[400] = "CD"
+        map[100] = "C"
+        map[90] = "XC"
+        map[50] = "L"
+        map[40] = "XL"
+        map[10] = "X"
+        map[9] = "IX"
+        map[5] = "V"
+        map[4] = "IV"
+        map[1] = "I"
+
+        roman = ""
+
+        for item in map.items():
+            while num >= item[0]:
+                num = num - item[0]
+                roman += item[1]
+
+        return roman
 
     def _13_romanToInt(self, s: str) -> int:
         map = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000, }

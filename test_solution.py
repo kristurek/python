@@ -18,6 +18,40 @@ class SolutionTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.solution._1_twoSum([2, 7, 11, 15], 8)
 
+    def test_2_addTwoNumbers(self):
+        l1 = ListNode(2)
+        l1.next = ListNode(4)
+        l1.next.next = ListNode(3)
+
+        l2 = ListNode(5)
+        l2.next = ListNode(6)
+        l2.next.next = ListNode(4)
+
+        l3 = self.solution._2_addTwoNumbers(l1, l2)
+
+        self.assertEqual(7, l3.val)
+        self.assertEqual(0, l3.next.val)
+        self.assertEqual(8, l3.next.next.val)
+
+    def test_3_lengthOfLongestSubstring(self):
+        self.assertEqual(3, self.solution._3_lengthOfLongestSubstring("abcabcbb"))
+        self.assertEqual(1, self.solution._3_lengthOfLongestSubstring("bbbbb"))
+        self.assertEqual(3, self.solution._3_lengthOfLongestSubstring("pwwkew"))
+
+    def test_5_longestPalindrome(self):
+        self.assertEqual("bb", self.solution._5_longestPalindrome("bb"))
+        self.assertEqual("cc", self.solution._5_longestPalindrome("ccb"))
+        self.assertEqual("cc", self.solution._5_longestPalindrome("acc"))
+        self.assertEqual("bb", self.solution._5_longestPalindrome("cbbd"))
+        self.assertEqual("aba", self.solution._5_longestPalindrome("babad"))
+        self.assertEqual("a", self.solution._5_longestPalindrome("a"))
+        self.assertEqual("c", self.solution._5_longestPalindrome("abc"))
+        self.assertEqual("bb", self.solution._5_longestPalindrome("abb"))
+
+        expected = "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        param = "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        self.assertEqual(expected, self.solution._5_longestPalindrome(param))
+
     def test_7_reverse(self):
         self.assertEqual(321, self.solution._7_reverse(123))
         self.assertEqual(-321, self.solution._7_reverse(-123))
@@ -26,6 +60,16 @@ class SolutionTest(unittest.TestCase):
         self.assertTrue(self.solution._9_isPalindrome(121))
         self.assertFalse(self.solution._9_isPalindrome(-121))
         self.assertFalse(self.solution._9_isPalindrome(123))
+
+    def test_11_maxArea(self):
+        self.assertEqual(49, self.solution._11_maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]))
+
+    def test_12_intToRoman(self):
+        self.assertEqual("III", self.solution._12_intToRoman(3))
+        self.assertEqual("IV", self.solution._12_intToRoman(4))
+        self.assertEqual("IX", self.solution._12_intToRoman(9))
+        self.assertEqual("LVIII", self.solution._12_intToRoman(58))
+        self.assertEqual("MCMXCIV", self.solution._12_intToRoman(1994))
 
     def test_13_romanToInt(self):
         self.assertEqual(9, self.solution._13_romanToInt('IX'))
