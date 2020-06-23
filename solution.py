@@ -492,6 +492,71 @@ class Solution:
 
         return -1
 
+    def _33_search(self, nums: List[int], target: int) -> int:
+        if nums == None or len(nums) == 0:
+            return -1
+
+        l = 0
+        h = len(nums) - 1
+
+        while l < h:
+            m = l + int((h - l) / 2)
+            if nums[m] > nums[h]:
+                l = m + 1
+            else:
+                h = m
+
+        p = l
+        l = 0
+        h = len(nums) - 1
+
+        if target >= nums[p] and target <= nums[h]:
+            l = p
+        else:
+            h = p - 1
+
+        while l <= h:
+            m = l + int((h - l) / 2)
+            if nums[m] > target:
+                h = m - 1
+            elif nums[m] < target:
+                l = m + 1
+            else:
+                return m
+
+        return -1
+
+    def _34_searchRange(self, nums: List[int], target: int) -> List[int]:
+        l = self._34_searchRange_search(nums, target, True)
+        r = self._34_searchRange_search(nums, target, False)
+
+        return [l, r]
+
+    def _34_searchRange_search(self, nums: List[int], target: int, left: bool) -> int:
+        l = 0
+        h = len(nums) - 1
+
+        while l <= h:
+            m = l + int((h - l) / 2)
+
+            if target > nums[m]:
+                l = m + 1
+            elif target < nums[m]:
+                h = m - 1
+            else:
+                if left:
+                    if m > 0 and nums[m - 1] == target:
+                        h = m - 1
+                    else:
+                        return m
+                else:
+                    if m < len(nums) - 1 and nums[m + 1] == target:
+                        l = m + 1
+                    else:
+                        return m
+
+        return -1
+
     def _35_searchInsert(self, nums: List[int], target: int) -> int:
         l = 0
         h = len(nums) - 1
@@ -507,6 +572,43 @@ class Solution:
                 return m
 
         return l
+
+    def _36_isValidSudoku(self, board: List[List[str]]) -> bool:
+        hashSet = set()
+
+        for row in range(len(board)):
+            for col in range(len(board[row])):
+                val = board[row][col]
+                if val != ".":
+                    r = "r" + str(row) + val
+                    c = "c" + str(col) + val
+                    b = "b" + str(int(row / 3)) + "-" + str(int(col / 3)) + val
+                    if r in hashSet or c in hashSet or b in hashSet:
+                        return False
+                    else:
+                        hashSet.add(r)
+                        hashSet.add(c)
+                        hashSet.add(b)
+        return True
+
+    def _39_combinationSum(self, nums: List[int], target: int) -> List[List[int]]:
+        output = []
+
+        self._39_combinationSum_backtracking(output, [], nums, target, 0)
+
+        return output
+
+    def _39_combinationSum_backtracking(self, output: List[List[int]], tmp: List[int], nums: List[int],
+                                        remain: int, begin: int) -> None:
+        if remain == 0:
+            output.append(list(tmp))
+        elif remain < 0:
+            return
+        else:
+            for i in range(begin, len(nums)):
+                tmp.append(nums[i])
+                self._39_combinationSum_backtracking(output, tmp, nums, remain - nums[i], i)
+                tmp.pop()
 
     def _53_maxSubArray(self, nums: List[int]) -> int:
         sum = 0

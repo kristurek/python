@@ -155,8 +155,34 @@ class SolutionTest(unittest.TestCase):
     def test_28_strStr(self):
         self.assertEqual(2, self.solution._28_strStr('Hello', 'll'))
 
+    def test_33_search(self):
+        self.assertEqual(4, self.solution._33_search([4, 5, 6, 7, 0, 1, 2], 0))
+        self.assertEqual(-1, self.solution._33_search([4, 5, 6, 7, 0, 1, 2], 3))
+
+    def test_34_searchRange(self):
+        self.assertEqual([3, 4], self.solution._34_searchRange([5, 7, 7, 8, 8, 10], 8))
+        self.assertEqual([-1, -1], self.solution._34_searchRange([5, 7, 7, 8, 8, 10], 6))
+
     def test_35_searchInsert(self):
         self.assertEqual(2, self.solution._35_searchInsert([2, 3, 5, 6, 7], 5))
+
+    def test_36_isValidSudoku(self):
+        param = [
+            ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+            ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+            [".", "9", "8", ".", ".", ".", ".", "6", "."],
+            ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+            ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+            ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+            [".", "6", ".", ".", ".", ".", "2", "8", "."],
+            [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+            [".", ".", ".", ".", "8", ".", ".", "7", "9"]
+        ]
+        self.assertTrue(self.solution._36_isValidSudoku(param))
+
+    def test_39_combinationSum(self):
+        expected = [[2, 2, 3], [7]]
+        self.assertEqual(expected, self.solution._39_combinationSum([2, 3, 6, 7], 7))
 
     def test_53_maxSubArray(self):
         self.assertEqual(6, self.solution._53_maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
