@@ -80,6 +80,39 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual("fl", self.solution._14_longestCommonPrefix(["flower", "flow", "flight"]))
         self.assertEqual("", self.solution._14_longestCommonPrefix(["dog", "racecar", "car"]))
 
+    def test_15_threeSum(self):
+        expected = [[-1, 0, 1], [-1, -1, 2]]
+        self.assertEqual(expected, self.solution._15_threeSum([-1, 0, 1, 2, -1, -4]))
+
+        expected = [[0, 0, 0]]
+        self.assertEqual(expected, self.solution._15_threeSum([0, 0, 0, 0]))
+
+        expected = [[-2, 0, 2], [-2, 1, 1]]
+        self.assertEqual(expected, self.solution._15_threeSum([-2, 0, 1, 1, 2]))
+
+    def test_16_threeSumClosest(self):
+        self.assertEqual(0, self.solution._16_threeSumClosest([-2, 0, 1, 1, 2], 0))
+        self.assertEqual(2, self.solution._16_threeSumClosest([-1, 2, 1, -4], 1))
+        self.assertEqual(0, self.solution._16_threeSumClosest([0, 2, 1, -3], 1))
+
+    def test_17_letterCombinations(self):
+        self.assertEqual(["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"],
+                         self.solution._17_letterCombinations("23"))
+
+    def test_18_fourSum(self):
+        expected = [[-2, -1, 1, 2], [-1, 0, 0, 1], [-2, 0, 0, 2]]
+        self.assertEqual(expected, self.solution._18_fourSum([1, 0, -1, 0, -2, 2], 0))
+
+    def test_19_removeNthFromEnd(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+
+        head = self.solution._19_removeNthFromEnd(head, 3)
+
+        self.assertEqual(2, head.val)
+        self.assertEqual(3, head.next.val)
+
     def test_20_isValid(self):
         self.assertTrue(self.solution._20_isValid('()'))
         self.assertTrue(self.solution._20_isValid('()[]{}'))
@@ -104,6 +137,10 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(2, head.next.next.next.val)
         self.assertEqual(3, head.next.next.next.next.val)
         self.assertEqual(4, head.next.next.next.next.next.val)
+
+    def test_22_generateParenthesis(self):
+        expected = ["((()))", "(()())", "(())()", "()(())", "()()()"]
+        self.assertEqual(expected, self.solution._22_generateParenthesis(3))
 
     def test_26_removeDuplicates(self):
         arr = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]

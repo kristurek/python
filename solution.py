@@ -173,8 +173,8 @@ class Solution:
         return s[begin + 1:end]
 
     def _7_reverse(self, x: int) -> int:
-        min_limit = -0x80000000  # hex(-2**31-1)
-        max_limit = 0x7fffffff  # hex(2**31-1)
+        min_limit = -0x80000000  # hex(-2**31-1) Integer.MIN_VALUE
+        max_limit = 0x7fffffff  # hex(2**31-1) Integer.MAX_VALUE
 
         minus = True if x < 0 else False
         x = abs(x)
@@ -269,6 +269,121 @@ class Solution:
 
         return longestPrefix
 
+    def _15_threeSum(self, nums: List[int]) -> List[List[int]]:
+        groups = set()
+        nums = sorted(nums)
+
+        for i in range(len(nums)):
+            l = i + 1
+            h = len(nums) - 1
+
+            while l < h:
+                sum = nums[i] + nums[l] + nums[h]
+                if sum < 0:
+                    l += 1
+                elif sum > 0:
+                    h -= 1
+                else:
+                    groups.add(tuple([nums[i], nums[l], nums[h]]))
+                    l += 1
+                    h -= 1
+
+        return [list(t) for t in groups]
+
+    def _16_threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums = sorted(nums)
+
+        min_limit = -0x80000000  # hex(-2**31-1) Integer.MIN_VALUE
+        max_limit = 0x7fffffff  # hex(2**31-1) Integer.MAX_VALUE
+
+        closestSum = max_limit
+        minDiff = max_limit
+
+        for i in range(len(nums)):
+            l = i + 1
+            h = len(nums) - 1
+
+            while l < h:
+                sum = nums[i] + nums[l] + nums[h]
+
+                diff = min(minDiff, abs(target - sum))
+                if diff < minDiff:
+                    minDiff = diff
+                    closestSum = sum
+
+                if sum > target:
+                    h -= 1
+                elif sum < target:
+                    l += 1
+                else:
+                    return sum
+
+        return closestSum
+
+    def _17_letterCombinations(self, digits: str) -> List[str]:
+        map = {}
+        map['1'] = []
+        map['2'] = ['a', 'b', 'c']
+        map['3'] = ['d', 'e', 'f']
+        map['4'] = ['g', 'h', 'i']
+        map['5'] = ['j', 'k', 'l']
+        map['6'] = ['m', 'n', 'o']
+        map['7'] = ['p', 'q', 'r', 's']
+        map['8'] = ['t', 'u', 'v']
+        map['9'] = ['w', 'x', 'y', 'z']
+        map['0'] = []
+
+        groups = []
+
+        if len(digits) > 0:
+            self._17_letterCombinations_backtracking(groups, [], digits, 0, map)
+
+        return groups
+
+    def _17_letterCombinations_backtracking(self, output: list, tmp: list, digits: str, digitIndex: int,
+                                            map: dict) -> None:
+        if len(tmp) == len(digits):
+            output.append("".join(tmp))
+        else:
+            chars = map[digits[digitIndex]]
+            for cChar in chars:
+                tmp.append(cChar)
+                self._17_letterCombinations_backtracking(output, tmp, digits, digitIndex + 1, map)
+                tmp.pop()
+
+    def _18_fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        output = set()
+
+        self._18_fourSum_backtracking(output, [], nums, target, 0)
+
+        return [list(t) for t in output]
+
+    def _18_fourSum_backtracking(self, output: set, tmp: List[int], nums: List[int], target: int,
+                                 begin: int) -> None:
+        if len(tmp) == 4:
+            if sum(tmp) == target:
+                output.add(tuple(sorted(tmp)))
+        else:
+            for i in range(begin, len(nums)):
+                tmp.append(nums[i])
+                self._18_fourSum_backtracking(output, tmp, nums, target, i + 1)
+                tmp.pop()
+
+    def _19_removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+        nodes = []
+        current = head
+
+        while current:
+            nodes.append(current)
+            current = current.next
+
+        if len(nodes) - n == 0:
+            return head.next
+        else:
+            ln = nodes[len(nodes) - n - 1]
+            ln.next = ln.next.next
+            return head
+
     def _20_isValid(self, s: str) -> bool:
         if str == None:
             return False
@@ -314,6 +429,24 @@ class Solution:
             l3.next = l2
 
         return head.next
+
+    def _22_generateParenthesis(self, n: int) -> List[str]:
+        output = []
+
+        self._22_generateParenthesis_backtracking(output, "", n, 0, 0)
+
+        return output
+
+    def _22_generateParenthesis_backtracking(self, output: List[str], tmp: str, n: int, open: int,
+                                             close: int) -> None:
+        if len(tmp) == n * 2:
+            output.append(tmp)
+        else:
+            if open >= close:
+                if open < n:
+                    self._22_generateParenthesis_backtracking(output, tmp + "(", n, open + 1, close)
+                if close < n:
+                    self._22_generateParenthesis_backtracking(output, tmp + ")", n, open, close + 1)
 
     def _26_removeDuplicates(self, nums: List[int]) -> int:
         slow = 0
