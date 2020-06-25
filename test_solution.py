@@ -184,6 +184,29 @@ class SolutionTest(unittest.TestCase):
         expected = [[2, 2, 3], [7]]
         self.assertEqual(expected, self.solution._39_combinationSum([2, 3, 6, 7], 7))
 
+    def test_40_combinationSum2(self):
+        expected = [[7]]
+        self.assertEqual(expected, self.solution._40_combinationSum2([2, 3, 6, 7], 7))
+
+    def test_43_multiply(self):
+        self.assertEqual("56088", self.solution._43_multiply("123", "456"))
+
+    def test_46_permute(self):
+        expected = [[1, 2], [2, 1]]
+        self.assertEqual(expected, self.solution._46_permute([1, 2]))
+
+    def test_47_permuteUnique(self):
+        expected = [[1, 1, 2], [1, 2, 1], [2, 1, 1]]
+        self.assertEqual(expected, self.solution._47_permuteUnique([1, 2, 1]))
+
+    def test_49_groupAnagrams(self):
+        expected = [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]
+        self.assertEqual(expected, self.solution._49_groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+
+    def test_50_myPow(self):
+        self.assertEqual(8, self.solution._50_myPow(2, 3))
+        self.assertEqual(0, self.solution._50_myPow(2, -2147483648))
+
     def test_53_maxSubArray(self):
         self.assertEqual(6, self.solution._53_maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
 

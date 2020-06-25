@@ -610,6 +610,119 @@ class Solution:
                 self._39_combinationSum_backtracking(output, tmp, nums, remain - nums[i], i)
                 tmp.pop()
 
+    def _40_combinationSum2(self, nums: List[int], target: int) -> List[List[int]]:
+        output = []
+        used = [False for i in range(len(nums))]
+
+        nums = sorted(nums)
+
+        self._40_combinationSum2_backtracking(output, [], nums, target, used, 0)
+
+        return output
+
+    def _40_combinationSum2_backtracking(self, output: List[List[int]], tmp: List[int], nums: List[int],
+                                         remained: int, used: List[bool], begin: int) -> None:
+        if remained < 0:
+            return
+        elif remained == 0:
+            output.append(list(tmp))
+        else:
+            for i in range(begin, len(nums)):
+                if used[i] or (i > begin and nums[i - 1] == nums[i] and used[i] == False):
+                    continue
+
+                tmp.append(nums[i])
+                used[i] = True
+                self._40_combinationSum2_backtracking(output, tmp, nums, remained - nums[i], used, i + 1)
+                used[i] = False
+                tmp.pop()
+
+    def _43_multiply(self, num1: str, num2: str) -> str:
+        sum = [0 for i in range(len(num1) + len(num2))]
+
+        for i in reversed(range(0, len(num1))):
+            carry = 0
+            for j in reversed(range(0, len(num2))):
+                tmp = sum[i + j + 1] + int(num1[i]) * int(num2[j]) + carry
+                sum[i + j + 1] = tmp % 10
+                carry = int(tmp / 10)
+            sum[i] += carry
+
+        firstNotZero = next((i for i, x in enumerate(sum) if x), None)
+        if firstNotZero != None:
+            return "".join((str(x) for x in sum[firstNotZero: len(sum)]))
+
+        return "0"
+
+    def _46_permute(self, nums: List[int]) -> List[List[int]]:
+        output = []
+
+        self._46_permute_backtracking(output, [], nums)
+
+        return output
+
+    def _46_permute_backtracking(self, output: List[List[int]], tmp: List[int], nums: List[int]) -> None:
+        if len(tmp) == len(nums):
+            output.append(list(tmp))
+        else:
+            for i in range(0, len(nums)):
+                if nums[i] in tmp:
+                    continue
+
+                tmp.append(nums[i])
+                self._46_permute_backtracking(output, tmp, nums)
+                tmp.pop()
+
+    def _47_permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        output = []
+        used = [False for i in range(len(nums))]
+
+        nums = sorted(nums)
+
+        self._47_permuteUnique_backtracking(output, [], nums, used)
+
+        return output
+
+    def _47_permuteUnique_backtracking(self, output: List[List[int]], tmp: List[int], nums: List[int],
+                                       used: List[bool]) -> None:
+        if len(tmp) == len(nums):
+            output.append(list(tmp))
+        else:
+            for i in range(0, len(nums)):
+                if used[i] or (i > 0 and nums[i - 1] == nums[i] and used[i - 1] == False):
+                    continue
+
+                used[i] = True
+                tmp.append(nums[i])
+                self._47_permuteUnique_backtracking(output, tmp, nums, used)
+                tmp.pop()
+                used[i] = False
+
+    def _49_groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        hashMap = {}
+
+        for str in strs:
+            sortedStr = "".join(sorted(str))
+            listStr = hashMap.get(sortedStr, [])
+            listStr.append(str)
+            hashMap[sortedStr] = listStr
+
+        return list(hashMap.values())
+
+    def _50_myPow(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1
+
+        tmp = self._50_myPow(x, int(n / 2))
+
+        if n % 2 == 0:
+            return tmp * tmp
+        else:
+            if n > 0:
+                return tmp * tmp * x
+            else:
+                return (tmp * tmp) / x
+
     def _53_maxSubArray(self, nums: List[int]) -> int:
         sum = 0
         max = float('-inf')
