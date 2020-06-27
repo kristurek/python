@@ -210,8 +210,28 @@ class SolutionTest(unittest.TestCase):
     def test_53_maxSubArray(self):
         self.assertEqual(6, self.solution._53_maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
 
+    def test_54_spiralOrder(self):
+        self.assertEqual([1, 2, 3, 6, 9, 8, 7, 4, 5], self.solution._54_spiralOrder([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+
     def test_58_lengthOfLastWord(self):
         self.assertEqual(5, self.solution._58_lengthOfLastWord('Hello World'))
+
+    def test_60_getPermutation(self):
+        self.assertEqual("213", self.solution._60_getPermutation(3, 3))
+
+    def test_61_rotateRight(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(4)
+
+        head = self.solution._61_rotateRight(head, 2)
+
+        self.assertEqual(3, head.val)
+        self.assertEqual(4, head.next.val)
+        self.assertEqual(1, head.next.next.val)
+        self.assertEqual(2, head.next.next.next.val)
+        self.assertIsNone(head.next.next.next.next)
 
     def test_66_plusOne(self):
         self.assertEqual([1, 2, 4], self.solution._66_plusOne([1, 2, 3]))
@@ -234,6 +254,17 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(3, self.solution._70_climbStairs(3))
         self.assertEqual(5, self.solution._70_climbStairs(4))
         self.assertEqual(8, self.solution._70_climbStairs(5))
+
+    def test_71_simplifyPath(self):
+        self.assertEqual("/home", self.solution._71_simplifyPath("/home/"))
+        self.assertEqual("/", self.solution._71_simplifyPath("/../"))
+        self.assertEqual("/home/foo", self.solution._71_simplifyPath("/home//foo/"))
+        self.assertEqual("/c", self.solution._71_simplifyPath("/a/./b/../../c/"))
+        self.assertEqual("/c", self.solution._71_simplifyPath("/a/../../b/../c//.//"))
+        self.assertEqual("/a/b/c", self.solution._71_simplifyPath("/a//b////c/d//././/.."))
+
+    def test_74_searchMatrix(self):
+        self.assertTrue(self.solution._74_searchMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 7))
 
     def test_83_deleteDuplicates(self):
         head = ListNode(1)

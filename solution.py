@@ -738,9 +738,82 @@ class Solution:
 
         return max
 
+    def _54_spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        if matrix == None or len(matrix) == 0:
+            return []
+
+        values = []
+
+        beginCol = 0
+        endCol = len(matrix[0]) - 1
+        beginRow = 0
+        endRow = len(matrix) - 1
+
+        while beginCol <= endCol and beginRow <= endRow:
+            for col in range(beginCol, endCol + 1):
+                values.append(matrix[beginRow][col])
+            beginRow += 1
+
+            for row in range(beginRow, endRow + 1):
+                values.append(matrix[row][endCol])
+            endCol -= 1
+
+            if beginRow <= endRow:
+                for col in reversed(range(beginCol, endCol + 1)):
+                    values.append(matrix[endRow][col])
+            endRow -= 1
+
+            if beginCol <= endCol:
+                for row in reversed(range(beginRow, endRow + 1)):
+                    values.append(matrix[row][beginCol])
+            beginCol += 1
+
+        return values
+
     def _58_lengthOfLastWord(self, s: str) -> int:
         ss = s.strip().split(' ')
         return len(ss[len(ss) - 1])
+
+    def _60_getPermutation(self, n: int, k: int) -> str:
+        nums = [x for x in range(1, n + 1)]
+        output = []
+
+        self._60_getPermutation_backtracking(output, [], nums)
+
+        return "".join([str(x) for x in output[k - 1]])
+
+    def _60_getPermutation_backtracking(self, output: List[List[int]], tmp: List[int], nums: List[int]) -> None:
+        if len(tmp) == len(nums):
+            output.append(list(tmp))
+        else:
+            for i in range(0, len(nums)):
+                if nums[i] in tmp:
+                    continue
+
+                tmp.append(nums[i])
+                self._60_getPermutation_backtracking(output, tmp, nums)
+                tmp.pop()
+
+    def _61_rotateRight(self, head: ListNode, k: int) -> ListNode:
+        if head == None:
+            return None
+
+        cNode = head
+        length = 1
+        while cNode.next != None:
+            cNode = cNode.next
+            length += 1
+
+        cNode.next = head  # loop
+
+        k = k % length
+        for i in range(0, length - k):
+            cNode = cNode.next
+
+        head = cNode.next
+        cNode.next = None  # cut loop
+
+        return head
 
     def _66_plusOne(self, digits: List[int]) -> List[int]:
         for i in reversed(range(len(digits))):
@@ -813,6 +886,39 @@ class Solution:
             secondStep = thirdStep
 
         return secondStep
+
+    def _71_simplifyPath(self, path: str) -> str:
+        stack = deque()
+
+        for dir in path.split("/"):
+            if dir == "..":
+                if stack:
+                    stack.pop()
+            elif dir != "" and dir != ".":
+                stack.append(dir)
+
+        return "/" + "/".join(stack) if stack else "/"
+
+    def _74_searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        if matrix == None or len(matrix) == 0:
+            return False
+
+        rLength = len(matrix)
+        cLength = len(matrix[0])
+        l = 0
+        h = rLength * cLength - 1
+
+        while l <= h:
+            m = l + int((h - l) / 2)
+
+            if target > matrix[int(m / cLength)][m % cLength]:
+                l = m + 1
+            elif target < matrix[int(m / cLength)][m % cLength]:
+                h = m - 1
+            else:
+                return True
+
+        return False
 
     def _83_deleteDuplicates(self, ln: ListNode) -> ListNode:
         if ln is None:
