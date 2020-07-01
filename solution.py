@@ -920,6 +920,130 @@ class Solution:
 
         return False
 
+    def _75_sortColors(self, nums: List[int]) -> None:
+        self._75_sortColors_quicksort(nums, 0, len(nums) - 1)
+        pass
+
+    def _75_sortColors_quicksort(self, nums: List[int], l: int, h: int) -> None:
+        if l < h:
+            splitPoint = self._75_sortColors_partitions(nums, l, h)
+
+            self._75_sortColors_quicksort(nums, l, splitPoint - 1)
+            self._75_sortColors_quicksort(nums, splitPoint + 1, h)
+
+    def _75_sortColors_partitions(self, nums: List[int], l: int, h: int) -> int:
+        pivot = nums[h]
+        lowersIndex = l - 1
+
+        for currentIndex in range(l, h):
+            if nums[currentIndex] < pivot:
+                lowersIndex += 1
+
+                tmp = nums[lowersIndex]
+                nums[lowersIndex] = nums[currentIndex]
+                nums[currentIndex] = tmp
+
+        lowersIndex += 1
+
+        tmp = nums[lowersIndex]
+        nums[lowersIndex] = nums[h]
+        nums[h] = tmp
+
+        return lowersIndex
+
+    def _77_combine(self, n: int, k: int) -> List[List[int]]:
+        output = []
+        nums = range(1, n + 1)
+
+        self._77_combine_backtracking(output, [], nums, k, 0)
+
+        return output
+
+    def _77_combine_backtracking(self, output: List[List[int]], tmp: List[int], nums: List[int], k: int,
+                                 begin: int) -> None:
+        if len(tmp) == k:
+            output.append(list(tmp))
+        else:
+            for i in range(begin, len(nums)):
+                tmp.append(nums[i])
+                self._77_combine_backtracking(output, tmp, nums, k, i + 1)
+                tmp.pop()
+
+    def _78_subsets(self, nums: List[int]) -> List[List[int]]:
+        output = []
+
+        self._78_subsets_backtracking(output, [], nums, 0)
+
+        return output
+
+    def _78_subsets_backtracking(self, output: List[List[int]], tmp: List[int], nums: List[int], begin: int) -> None:
+        output.append(list(tmp))
+        for i in range(begin, len(nums)):
+            tmp.append(nums[i])
+            self._78_subsets_backtracking(output, tmp, nums, i + 1)
+            tmp.pop()
+
+    def _80_removeDuplicates(self, nums: List[int]) -> int:
+        slow = 1
+        count = 1
+
+        for fast in range(1, len(nums)):
+            if nums[fast] == nums[fast - 1]:
+                count += 1
+            else:
+                count = 1
+
+            if count <= 2:
+                nums[slow] = nums[fast]
+                slow += 1
+
+        return slow
+
+    def _81_search(self, nums: List[int], target: int) -> bool:
+        l = 0
+        h = len(nums) - 1
+
+        while l <= h:
+            m = l + int((h - l) / 2)
+
+            if nums[m] == target:
+                return True
+            elif nums[m] < nums[h]:  # range m,h is sorted
+                if target > nums[m] and target <= nums[h]:  # check sorted right side
+                    l = m + 1
+                else:
+                    h = m - 1
+            elif nums[m] > nums[h]:  # range l,m is sorted and range m,h unsorted
+                if target >= nums[l] and target < nums[m]:  # check sorted left side
+                    h = m - 1
+                else:
+                    l = m + 1
+            elif nums[m] == nums[h]:  # duplicates
+                h -= 1
+            elif nums[l] == nums[m]:  # duplicates
+                l += 1
+
+        return False
+
+    def _82_deleteDuplicates(self, head: ListNode) -> ListNode:
+        dummy = ListNode(0)
+        dummy.next = head
+        slow = dummy
+        fast = dummy.next
+
+        while fast is not None:
+            while fast.next is not None and fast.val == fast.next.val:
+                fast = fast.next
+
+            if slow.next != fast:  # duplicates detected
+                slow.next = fast.next
+                fast = fast.next
+            else:  # no duplicates
+                slow = slow.next
+                fast = fast.next
+
+        return dummy.next
+
     def _83_deleteDuplicates(self, ln: ListNode) -> ListNode:
         if ln is None:
             return None

@@ -266,6 +266,51 @@ class SolutionTest(unittest.TestCase):
     def test_74_searchMatrix(self):
         self.assertTrue(self.solution._74_searchMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 7))
 
+    def test_75_sortColors(self):
+        nums = [2, 0, 2, 1, 1, 0]
+        self.solution._75_sortColors(nums)
+
+        self.assertEqual([0, 0, 1, 1, 2, 2], nums)
+
+    def test_77_combine(self):
+        expected = [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]
+
+        self.assertEqual(expected, self.solution._77_combine(4, 2))
+
+    def test_78_subsets(self):
+        expected = [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]
+
+        self.assertEqual(expected, self.solution._78_subsets([1, 2, 3]))
+
+    def test_80_removeDuplicates(self):
+        nums = [1, 1, 1, 2, 2, 3]
+        length = self.solution._80_removeDuplicates(nums)
+
+        self.assertEqual(5, length)
+        self.assertEqual(1, nums[0])
+        self.assertEqual(1, nums[1])
+        self.assertEqual(2, nums[2])
+        self.assertEqual(2, nums[3])
+        self.assertEqual(3, nums[4])
+
+    def test_81_search(self):
+        self.assertTrue(self.solution._81_search([2, 5, 6, 0, 0, 1, 2], 0))
+        self.assertFalse(self.solution._81_search([2, 5, 6, 0, 0, 1, 2], 3))
+        self.assertTrue(self.solution._81_search([1, 1, 3, 1], 3))
+        self.assertTrue(self.solution._81_search([3, 1, 1], 3))
+
+    def test_82_deleteDuplicates(self):
+        head = ListNode(1)
+        head.next = ListNode(1)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(4)
+
+        head = self.solution._82_deleteDuplicates(head)
+
+        self.assertEqual(3, head.val)
+        self.assertEqual(4, head.next.val)
+        self.assertIsNone(head.next.next)
+
     def test_83_deleteDuplicates(self):
         head = ListNode(1)
         head.next = ListNode(1)
