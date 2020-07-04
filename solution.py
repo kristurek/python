@@ -1062,6 +1062,26 @@ class Solution:
 
         return head
 
+    def _86_partition(self, head: ListNode, x: int) -> ListNode:
+        hBeforeX = ListNode(-1)
+        cBeforeX = hBeforeX
+        hAfterX = ListNode(-1)
+        cAfterX = hAfterX
+
+        while head != None:
+            if head.val < x:
+                cBeforeX.next = head
+                cBeforeX = cBeforeX.next
+            else:
+                cAfterX.next = head
+                cAfterX = cAfterX.next
+            head = head.next
+
+        cBeforeX.next = hAfterX.next
+        cAfterX.next = None
+
+        return hBeforeX.next
+
     def _88_merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
         i = m - 1
         j = n - 1
@@ -1085,6 +1105,97 @@ class Solution:
                 nums1[k] = nums2[j]
                 k -= 1
                 j -= 1
+
+    def _90_subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        output = []
+
+        nums = sorted(nums)
+
+        self._90_subsetsWithDup_backtracking(output, [], nums, 0)
+
+        return output
+
+    def _90_subsetsWithDup_backtracking(self, output: List[List[int]], tmp: List[int], nums: List[int],
+                                        begin: int) -> None:
+        output.append(list(tmp))
+
+        for i in range(begin, len(nums)):
+            if i > begin and nums[i - 1] == nums[i]:
+                continue
+
+            tmp.append(nums[i])
+            self._90_subsetsWithDup_backtracking(output, tmp, nums, i + 1)
+            tmp.pop()
+
+    def _92_reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
+        dummyHead = ListNode(-1)
+        dummyHead.next = head
+        cNode = dummyHead
+
+        # Go to position m-1
+        for i in range(1, m):
+            if (cNode.next != None):
+                cNode = cNode.next
+
+        # reverse from m to n
+        prevNode = None
+        currNode = cNode.next
+        nextNode = None
+        tailNode = cNode.next
+
+        for i in range(m, n + 1):
+            nextNode = currNode.next
+
+            currNode.next = prevNode
+
+            prevNode = currNode
+            currNode = nextNode
+
+        # connect list (0 to m-1) with list (m to n)
+        cNode.next = prevNode
+        # connect list (m to n) with list (n+1, ...)
+        tailNode.next = nextNode
+
+        return dummyHead.next
+
+    def _94_inorderTraversal(self, root: TreeNode) -> List[int]:
+        stack = deque()
+        values = []
+        current = root
+
+        while len(stack) > 0 or current != None:
+            if current != None:
+                stack.append(current)
+
+                current = current.left
+            else:
+                current = stack.pop()
+
+                values.append(current.val)
+
+                current = current.right
+
+        return values
+
+    def _98_isValidBST(self, root: TreeNode) -> bool:
+        stack = deque()
+        current = root
+        previous = None
+
+        while stack or current != None:
+            if current != None:
+                stack.append(current)
+                current = current.left
+            else:
+                current = stack.pop()
+
+                if previous != None and current.val <= previous.val:
+                    return False
+
+                previous = current
+                current = current.right
+
+        return True
 
     def _100_isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
         if p is None and q is None:

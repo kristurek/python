@@ -325,11 +325,78 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(3, head.next.next.val)
         self.assertIsNone(head.next.next.next)
 
+    def test_86_partition(self):
+        head = ListNode(1)
+        head.next = ListNode(4)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(2)
+        head.next.next.next.next = ListNode(5)
+        head.next.next.next.next.next = ListNode(2)
+
+        head = self.solution._86_partition(head, 3)
+
+        self.assertEqual(1, head.val)
+        self.assertEqual(2, head.next.val)
+        self.assertEqual(2, head.next.next.val)
+        self.assertEqual(4, head.next.next.next.val)
+        self.assertEqual(3, head.next.next.next.next.val)
+        self.assertEqual(5, head.next.next.next.next.next.val)
+        self.assertIsNone(head.next.next.next.next.next.next)
+
     def test_88_merge(self):
         a = [1, 2, 3, 0, 0, 0]
         b = [1, 2, 3]
         self.solution._88_merge(a, 3, b, 3)
         self.assertEqual([1, 1, 2, 2, 3, 3], a)
+
+    def test_90_subsetsWithDup(self):
+        expected = [[], [1], [1, 2], [1, 2, 2], [2], [2, 2]]
+
+        self.assertEqual(expected, self.solution._90_subsetsWithDup([2, 1, 2]))
+
+    def test_92_reverseBetween(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(4)
+        head.next.next.next.next = ListNode(5)
+        head.next.next.next.next.next = ListNode(6)
+
+        head = self.solution._92_reverseBetween(head, 3, 4)
+
+        self.assertEqual(1, head.val)
+        self.assertEqual(2, head.next.val)
+        self.assertEqual(4, head.next.next.val)
+        self.assertEqual(3, head.next.next.next.val)
+        self.assertEqual(5, head.next.next.next.next.val)
+        self.assertEqual(6, head.next.next.next.next.next.val)
+        self.assertIsNone(head.next.next.next.next.next.next)
+
+    def test_94_inorderTraversal(self):
+        root = TreeNode(1)
+
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        self.assertEqual([4, 2, 5, 1, 6, 3, 7], self.solution._94_inorderTraversal(root))
+
+    def test_98_isValidBST(self):
+        root = TreeNode(1)
+
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        self.assertFalse(self.solution._98_isValidBST(root))
 
     def test_100_isSameTree(self):
         root = TreeNode(1)
