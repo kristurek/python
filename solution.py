@@ -97,6 +97,32 @@ class MyHashSet:
         return value * 31 % self.SIZE
 
 
+class BSTIterator:
+
+    def __init__(self, root: TreeNode):
+        self.index = -1
+        self.values = []
+
+        stack = deque()
+        current = root
+
+        while stack or current is not None:
+            if current is not None:
+                stack.append(current)
+                current = current.left
+            else:
+                current = stack.pop()
+                self.values.append(current.val)
+                current = current.right
+
+    def next(self) -> int:
+        self.index += 1
+        return self.values[self.index]
+
+    def hasNext(self) -> bool:
+        return self.index + 1 < len(self.values)
+
+
 class Solution:
 
     def _0_simple(self) -> bool:
@@ -1262,6 +1288,62 @@ class Solution:
 
         return True
 
+    def _102_levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if root is None:
+            return []
+        levels = []
+        queue = deque()
+        queue.append(root)
+
+        while queue:
+            size = len(queue)
+            values = []
+            while size > 0:
+                size -= 1
+
+                tn = queue.popleft()
+                values.append(tn.val)
+
+                if tn.left is not None:
+                    queue.append(tn.left)
+                if tn.right is not None:
+                    queue.append(tn.right)
+
+            levels.append(values)
+
+        return levels
+
+    def _103_zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
+        if root is None:
+            return []
+
+        levels = []
+        queue = deque()
+        queue.append(root)
+
+        while queue:
+            size = len(queue)
+            values = []
+            level = len(levels)
+
+            while size > 0:
+                size -= 1
+
+                tn = queue.popleft()
+
+                if level % 2 == 0:
+                    values.append(tn.val)
+                else:
+                    values.insert(0, tn.val)
+
+                if tn.left != None:
+                    queue.append(tn.left)
+                if tn.right != None:
+                    queue.append(tn.right)
+            levels.append(values)
+
+        return levels
+
     def _104_maxDepth(self, root: TreeNode) -> int:
         if root == None:
             return 0
@@ -1322,6 +1404,27 @@ class Solution:
 
             tn.left = self._108_sortedArrayToBST_recursive(nums, l, m - 1)
             tn.right = self._108_sortedArrayToBST_recursive(nums, m + 1, h)
+            return tn
+        else:
+            return None
+
+    def _109_sortedListToBST(self, head: ListNode) -> TreeNode:
+        nums = []
+        while head:
+            nums.append(head.val)
+            head = head.next
+
+        return self._109_sortedListToBST_recursive(nums, 0, len(nums) - 1)
+
+    def _109_sortedListToBST_recursive(self, nums: List[int], l: int, h: int) -> TreeNode:
+        if l <= h:
+            m = l + int((h - l) / 2)
+
+            tn = TreeNode(nums[m])
+
+            tn.left = self._109_sortedListToBST_recursive(nums, l, m - 1)
+            tn.right = self._109_sortedListToBST_recursive(nums, m + 1, h)
+
             return tn
         else:
             return None
@@ -1495,6 +1598,36 @@ class Solution:
 
         return True
 
+    def _131_partition(self, s: str) -> List[List[str]]:
+        output = []
+
+        self._131_partition_backtracking(output, [], s, 0)
+
+        return output
+
+    def _131_partition_backtracking(self, output: List[List[str]], tmp: List[str], s: str, begin: int) -> None:
+        if begin == len(s):
+            output.append(list(tmp))
+        else:
+            for i in range(begin, len(s)):
+                subS = s[begin:i + 1]
+                if self._131_partition_isPalindrome(subS):
+                    tmp.append(subS)
+                    self._131_partition_backtracking(output, tmp, s, i + 1)
+                    tmp.pop()
+
+    def _131_partition_isPalindrome(self, s: str) -> bool:
+        l = 0
+        h = len(s) - 1
+
+        while l < h:
+            if s[l] != s[h]:
+                return False
+            l += 1
+            h -= 1
+
+        return True
+
     def _136_singleNumber(self, nums: List[int]) -> int:
         values = set()
 
@@ -1505,6 +1638,18 @@ class Solution:
                 values.remove(num)
 
         return values.pop()
+
+    def _137_singleNumber(self, nums: List[int]) -> int:
+        nums = sorted(nums)
+
+        if len(nums) == 1:
+            return nums[0]
+
+        for i in range(2, len(nums), 3):
+            if nums[i - 2] != nums[i]:
+                return nums[i - 2]
+
+        return nums[-1]
 
     def _141_hasCycle(self, head: ListNode) -> bool:
         duplicates = set()
@@ -1518,6 +1663,18 @@ class Solution:
             head = head.next
 
         return False
+
+    def _142_detectCycle(self, head: ListNode) -> ListNode:
+        nodes = set()
+
+        while head:
+            if head in nodes:
+                return head
+            else:
+                nodes.add(head)
+            head = head.next
+
+        return None
 
     def _155_minStack(self) -> MinStack:
         return MinStack()
@@ -1583,6 +1740,9 @@ class Solution:
 
         return count
 
+    def _173_BSTIterator(self, root: TreeNode) -> BSTIterator:
+        return BSTIterator(root)
+
     def _189_rotate(self, nums: List[int], k: int) -> None:
         k = int(k % len(nums))  # // example - k=7 and nums.length=3 then k=1, remove empty loops
 
@@ -1609,6 +1769,48 @@ class Solution:
             twoHouseBefore = tmp
 
         return oneHouseBefore
+
+    def _200_numIslands(self, grid: List[List[str]]) -> int:
+        count = 0
+
+        for row in range(0, len(grid)):
+            for col in range(0, len(grid[row])):
+                if grid[row][col] == '1':
+                    count += 1
+                    self._200_numIslands_expandLand(grid, row, col)
+
+        return count
+
+    def _200_numIslands_expandLand(self, grid: List[List[str]], row: int, col: int) -> None:
+        if 0 <= row < len(grid) and 0 <= col < len(grid[row]) and grid[row][col] == '1':
+            grid[row][col] = '0'
+
+            self._200_numIslands_expandLand(grid, row, col + 1)
+            self._200_numIslands_expandLand(grid, row, col - 1)
+            self._200_numIslands_expandLand(grid, row + 1, col)
+            self._200_numIslands_expandLand(grid, row - 1, col)
+
+    def _201_rangeBitwiseAnd(self, m: int, n: int) -> int:
+        # example 26 to 30,   "{0:b}".format(26)
+        # 11010
+        # 11011
+        # 11100　　
+        # 11101　　
+        # 11110
+
+        # Because we are trying to find bitwise AND, so if any bit there are at least one 0 and one 1, it always 0. In this case, it is 11000.
+        # So we are go to cut all these bit that they are different. In this case we cut the right 3 bit.
+
+        i = 0  # i means how many bits are 0 on the right
+
+        while m != n:
+            # print("m " + "{0:b}".format(m) + " n " + "{0:b}".format(n))
+            m = m >> 1  # move one bit to right, 1001 -> 100
+            n = n >> 1
+            # print("m " + "{0:b}".format(m) + " n " + "{0:b}".format(n))
+            i += 1
+
+        return n << i  # move n bits to left, add zeros
 
     def _202_isHappy(self, n: int) -> bool:
         if n <= 0:

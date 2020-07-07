@@ -420,6 +420,36 @@ class SolutionTest(unittest.TestCase):
 
         self.assertEqual(True, self.solution._101_isSymmetric(root))
 
+    def test_102_levelOrder(self):
+        root = TreeNode(1)
+
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        expected = [[1], [2, 3], [4, 5, 6, 7]]
+
+        self.assertEqual(expected, self.solution._102_levelOrder(root))
+
+    def test_103_zigzagLevelOrder(self):
+        root = TreeNode(1)
+
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        expected = [[1], [3, 2], [4, 5, 6, 7]]
+
+        self.assertEqual(expected, self.solution._103_zigzagLevelOrder(root))
+
     def test_104_maxDepth(self):
         root = TreeNode(1)
         root.left = TreeNode(2)
@@ -444,6 +474,21 @@ class SolutionTest(unittest.TestCase):
 
     def test_108_sortedArrayToBST(self):
         root = self.solution._108_sortedArrayToBST([-10, -3, 0, 5, 9])
+
+        self.assertEqual(0, root.val)
+        self.assertEqual(-10, root.left.val)
+        self.assertEqual(5, root.right.val)
+        self.assertEqual(-3, root.left.right.val)
+        self.assertEqual(9, root.right.right.val)
+
+    def test_109_sortedListToBST(self):
+        head = ListNode(-10)
+        head.next = ListNode(-3)
+        head.next.next = ListNode(0)
+        head.next.next.next = ListNode(5)
+        head.next.next.next.next = ListNode(9)
+
+        root = self.solution._109_sortedListToBST(head)
 
         self.assertEqual(0, root.val)
         self.assertEqual(-10, root.left.val)
@@ -495,7 +540,7 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(5, self.solution._121_maxProfit([7, 1, 5, 3, 6, 4]))
         self.assertEqual(0, self.solution._121_maxProfit([7, 6, 4, 3, 1]))
 
-    def test_maxProfit_122(self):
+    def test_122_maxProfit(self):
         self.assertEqual(7, self.solution._122_maxProfit([7, 1, 5, 3, 6, 4]))
         self.assertEqual(4, self.solution._122_maxProfit([1, 2, 3, 4, 5]))
         self.assertEqual(0, self.solution._122_maxProfit([7, 6, 4, 3, 1]))
@@ -504,9 +549,22 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(True, self.solution._125_isPalindrome("A man, a plan, a canal: Panama"))
         self.assertEqual(False, self.solution._125_isPalindrome("race a car"))
 
+    def test_131_partition(self):
+        expected = [["a", "a", "b"], ["aa", "b"]]
+
+        self.assertEqual(expected, self.solution._131_partition("aab"))
+
     def test_136_singleNumber(self):
         self.assertEqual(1, self.solution._136_singleNumber([2, 2, 1]))
         self.assertEqual(4, self.solution._136_singleNumber([4, 1, 2, 1, 2]))
+
+    def test_137_singleNumber(self):
+        self.assertEqual(99, self.solution._137_singleNumber([0, 0, 0, 99]))
+        self.assertEqual(99, self.solution._137_singleNumber([99, 0, 0, 0]))
+        self.assertEqual(99, self.solution._137_singleNumber([99]))
+        self.assertEqual(1, self.solution._137_singleNumber([0, 0, 0, 1, 2, 2, 2]))
+        self.assertEqual(1, self.solution._137_singleNumber([3, 5, 3, 5, 3, 1, 2, 3, 5, 2]))
+        self.assertEqual(1, self.solution._137_singleNumber([3, 5, 3, 5, 3, 1, 2, 3, 5, 2]))
 
     def test_141_hasCycle(self):
         head = ListNode(0)
@@ -516,6 +574,15 @@ class SolutionTest(unittest.TestCase):
         head.next.next.next.next = head.next
 
         self.assertEqual(True, self.solution._141_hasCycle(head))
+
+    def test_142_detectCycle(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(4)
+        head.next.next.next.next = head.next
+
+        self.assertEqual(head.next, self.solution._142_detectCycle(head))
 
     def test_155_minStack(self):
         minStack = self.solution._155_minStack()
@@ -574,6 +641,24 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(2, self.solution._172_trailingZeroes(10))
         self.assertEqual(7, self.solution._172_trailingZeroes(30))
 
+    def test_173_BSTIterator(self):
+        root = TreeNode(7)
+        root.left = TreeNode(3)
+        root.right = TreeNode(15)
+        root.right.left = TreeNode(9)
+        root.right.right = TreeNode(20)
+
+        iterator = self.solution._173_BSTIterator(root)
+        self.assertEqual(3, iterator.next())
+        self.assertEqual(7, iterator.next())
+        self.assertTrue(iterator.hasNext())
+        self.assertEqual(9, iterator.next())
+        self.assertTrue(iterator.hasNext())
+        self.assertEqual(15, iterator.next())
+        self.assertTrue(iterator.hasNext())
+        self.assertEqual(20, iterator.next())
+        self.assertFalse(iterator.hasNext())
+
     def test_189_rotate(self):
         nums = [1, 2, 3, 4, 5, 6, 7]
         self.solution._189_rotate(nums, 3)
@@ -582,6 +667,17 @@ class SolutionTest(unittest.TestCase):
     def test_198_rob(self):
         self.assertEqual(4, self.solution._198_rob([1, 2, 3, 1]))
         self.assertEqual(12, self.solution._198_rob([2, 7, 9, 3, 1]))
+
+    def test_200_numIslands(self):
+        self.assertEqual(1, self.solution._200_numIslands(
+            [['1', '1', '1', '1', '0'], ['1', '1', '0', '1', '0'], ['1', '1', '0', '0', '0'],
+             ['0', '0', '0', '0', '0']]))
+        self.assertEqual(3, self.solution._200_numIslands(
+            [['1', '1', '0', '0', '0'], ['1', '1', '0', '0', '0'], ['0', '0', '1', '0', '0'],
+             ['0', '0', '0', '1', '1']]))
+
+    def test_201_rangeBitwiseAnd(self):
+        self.assertEqual(4, self.solution._201_rangeBitwiseAnd(5, 7))
 
     def test_202_isHappy(self):
         self.assertTrue(self.solution._202_isHappy(19))
