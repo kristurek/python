@@ -1960,6 +1960,22 @@ class Solution:
 
         return prev
 
+    def _238_productExceptSelf(self, nums: List[int]) -> List[int]:
+        L = [1 for x in range(0, len(nums))]
+        R = [1 for x in range(0, len(nums))]
+        A = [1 for x in range(0, len(nums))]
+
+        for i in range(1, len(nums)):
+            L[i] = L[i - 1] * nums[i - 1]
+
+        for i in reversed(range(0, len(nums) - 1)):
+            R[i] = R[i + 1] * nums[i + 1]
+
+        for i in range(0, len(nums)):
+            A[i] = L[i] * R[i]
+
+        return A
+
     def _283_moveZeroes(self, nums: List[int]) -> None:
         slow = 0
         for i in range(0, len(nums)):
@@ -1984,6 +2000,31 @@ class Solution:
             l += 1
             r -= 1
 
+    def _429_levelOrder(self, root: Node) -> List[List[int]]:
+        if root == None:
+            return []
+
+        levels = []
+        queue = deque()
+        queue.append(root)
+
+        while queue:
+            size = len(queue)
+            values = []
+
+            while size > 0:
+                size -= 1
+                node = queue.popleft()
+                values.append(node.val)
+
+                if node.children:
+                    for n in node.children:
+                        queue.append(n)
+
+            levels.append(values)
+
+        return levels
+
     def _509_fib(self, N: int) -> int:
         if N <= 1:
             return N
@@ -1998,6 +2039,24 @@ class Solution:
             f1 = f2
 
         return f2
+
+    def _525_findMaxLength(self, nums: List[int]) -> int:
+        hashMap = {}
+        maxLen = 0
+        count = 0
+
+        for i in range(0, len(nums)):
+            count = count + (1 if nums[i] == 1 else -1)
+
+            if count == 0:
+                maxLen = max(maxLen, i + 1)
+
+            if count in hashMap:
+                maxLen = max(maxLen, i - hashMap[count])
+            else:
+                hashMap[count] = i
+
+        return maxLen
 
     _543_max_diameter = 0
 
@@ -2027,6 +2086,21 @@ class Solution:
         result = result[0:len(result) - 1]
 
         return result
+
+    def _560_subarraySum(self, nums: List[int], k: int) -> int:
+        hashMap = {0: 1}
+        countNumbers = 0
+        sumNumbers = 0
+
+        for num in nums:
+            sumNumbers += num
+
+            if (sumNumbers - k) in hashMap:
+                countNumbers += hashMap[sumNumbers - k]
+
+            hashMap[sumNumbers] = hashMap.get(sumNumbers, 0) + 1
+
+        return countNumbers
 
     def _561_arrayPairSum(self, nums: List[int]) -> int:
         nums.sort()
@@ -2116,6 +2190,26 @@ class Solution:
                     nums[i] = nums[i - 1]
 
         return modyfications <= 1
+
+    def _678_checkValidString(self, s: str) -> bool:
+        open = 0
+        close = 0
+
+        for i, j in zip(range(0, len(s)), reversed(range(0, len(s)))):
+            if s[i] == "(" or s[i] == "*":
+                open += 1
+            else:
+                open -= 1
+
+            if s[j] == ")" or s[j] == "*":
+                close += 1
+            else:
+                close -= 1
+
+            if open < 0 or close < 0:
+                return False
+
+        return True
 
     def _690_getImportance(self, employees: List[Employee], id: int) -> int:
         map = {}
@@ -2470,6 +2564,30 @@ class Solution:
                 minCount -= 1
 
         return B
+
+    def _1008_bstFromPreorder(self, nums: List[int]) -> TreeNode:
+        root = TreeNode(nums[0])
+        stack = deque()
+
+        stack.append(root)
+
+        for i in range(1, len(nums)):
+            tmpNode = None
+            while stack and nums[i] > stack[-1].val:
+                tmpNode = stack.pop()
+
+            if tmpNode != None:
+                newNode = TreeNode(nums[i])
+                tmpNode.right = newNode
+
+                stack.append(newNode)
+            else:
+                newNode = TreeNode(nums[i])
+                stack[-1].left = newNode
+
+                stack.append(newNode)
+
+        return root
 
     def _1021_removeOuterParentheses(self, S: str) -> str:
         res = []

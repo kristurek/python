@@ -751,6 +751,9 @@ class SolutionTest(unittest.TestCase):
         head.next.next.next = ListNode(1)
         self.assertTrue(self.solution._234_isPalindrome(head))
 
+    def test_238_productExceptSelf(self):
+        self.assertEqual([24, 12, 8, 6], self.solution._238_productExceptSelf([1, 2, 3, 4]))
+
     def test_283_moveZeroes(self):
         nums = [0, 1, 0, 3, 12]
         answer = [1, 3, 12, 0, 0]
@@ -766,6 +769,19 @@ class SolutionTest(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
+    def test_429_levelOrder(self):
+        root = Node(1, [Node(), Node(), Node()])
+        root.children[0].val = 3
+        root.children[1].val = 2
+        root.children[2].val = 4
+        root.children[0].children = [Node(), Node()]
+        root.children[0].children[0].val = 5
+        root.children[0].children[1].val = 6
+
+        expected = [[1], [3, 2, 4], [5, 6]]
+
+        self.assertEqual(expected, self.solution._429_levelOrder(root))
+
     def test_509_fib(self):
         self.assertEqual(0, self.solution._509_fib(0))
         self.assertEqual(1, self.solution._509_fib(1))
@@ -773,7 +789,11 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(2, self.solution._509_fib(3))
         self.assertEqual(3, self.solution._509_fib(4))
 
-    def test_diameterOfBinaryTree(self):
+    def test_525_findMaxLength(self):
+        self.assertEqual(2, self.solution._525_findMaxLength([0, 1]))
+        self.assertEqual(2, self.solution._525_findMaxLength([0, 1, 0]))
+
+    def test_543_diameterOfBinaryTree(self):
         root = TreeNode(1)
         root.left = TreeNode(2)
         root.right = TreeNode(3)
@@ -784,6 +804,10 @@ class SolutionTest(unittest.TestCase):
 
     def test_557_reverseWords(self):
         self.assertEqual("s'teL ekat edoCteeL tsetnoc", self.solution._557_reverseWords("Let's take LeetCode contest"))
+
+    def test_560_subarraySum(self):
+        self.assertEqual(2, self.solution._560_subarraySum([1, 1, 1], 2))
+        self.assertEqual(3, self.solution._560_subarraySum([0, 1, 1, 2], 2))
 
     def test_561_arrayPairSum(self):
         self.assertEqual(4, self.solution._561_arrayPairSum([1, 4, 3, 2]))
@@ -837,6 +861,11 @@ class SolutionTest(unittest.TestCase):
         self.assertTrue(self.solution._665_checkPossibility([2, 3, 3, 2]))
         self.assertFalse(self.solution._665_checkPossibility([4, 2, 1]))
         self.assertTrue(self.solution._665_checkPossibility([-1, 4, 2, 3]))
+
+    def test_678_checkValidString(self):
+        self.assertTrue(self.solution._678_checkValidString("()"))
+        self.assertTrue(self.solution._678_checkValidString("(*)"))
+        self.assertTrue(self.solution._678_checkValidString("(*))"))
 
     def test_690_getImportance(self):
         # [[1, 5, [2, 3]], [2, 3, []], [3, 3, []]], 1
@@ -987,6 +1016,23 @@ class SolutionTest(unittest.TestCase):
     def test_1002_commonChars(self):
         self.assertEqual(["e", "l", "l"], self.solution._1002_commonChars(["bella", "label", "roller"]))
         self.assertEqual(["c", "o"], self.solution._1002_commonChars(["cool", "lock", "cook"]))
+
+    def test_1008_bstFromPreorder(self):
+        expected = TreeNode(8)
+        expected.left = TreeNode(5)
+        expected.right = TreeNode(10)
+        expected.left.left = TreeNode(1)
+        expected.left.right = TreeNode(7)
+        expected.right.right = TreeNode(12)
+
+        actual = self.solution._1008_bstFromPreorder([8, 5, 1, 7, 10, 12])
+
+        self.assertEqual(expected.val, actual.val)
+        self.assertEqual(expected.left.val, actual.left.val)
+        self.assertEqual(expected.right.val, actual.right.val)
+        self.assertEqual(expected.left.left.val, actual.left.left.val)
+        self.assertEqual(expected.left.right.val, actual.left.right.val)
+        self.assertEqual(expected.right.right.val, actual.right.right.val)
 
     def test_1021_removeOuterParentheses(self):
         self.assertEqual("()()()()(())", self.solution._1021_removeOuterParentheses("(()())(())(()(()))"))
