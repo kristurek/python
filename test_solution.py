@@ -38,6 +38,11 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(1, self.solution._3_lengthOfLongestSubstring("bbbbb"))
         self.assertEqual(3, self.solution._3_lengthOfLongestSubstring("pwwkew"))
 
+    def test_4_findMedianSortedArrays(self):
+        self.assertEqual(2.0, self.solution._4_findMedianSortedArrays([1, 3], [2]))
+        self.assertEqual(2.5, self.solution._4_findMedianSortedArrays([1, 2], [3, 4]))
+        self.assertEqual(100000.5, self.solution._4_findMedianSortedArrays([100000], [100001]))
+
     def test_5_longestPalindrome(self):
         self.assertEqual("bb", self.solution._5_longestPalindrome("bb"))
         self.assertEqual("cc", self.solution._5_longestPalindrome("ccb"))
@@ -142,6 +147,27 @@ class SolutionTest(unittest.TestCase):
         expected = ["((()))", "(()())", "(())()", "()(())", "()()()"]
         self.assertEqual(expected, self.solution._22_generateParenthesis(3))
 
+    def test_23_mergeKLists(self):
+        head1 = ListNode(1)
+        head1.next = ListNode(2)
+        head1.next.next = ListNode(4)
+
+        head2 = ListNode(1)
+        head2.next = ListNode(3)
+        head2.next.next = ListNode(4)
+
+        head3 = ListNode(5)
+
+        head = self.solution._23_mergeKLists([head1, head2, head3])
+
+        self.assertEqual(1, head.val)
+        self.assertEqual(1, head.next.val)
+        self.assertEqual(2, head.next.next.val)
+        self.assertEqual(3, head.next.next.next.val)
+        self.assertEqual(4, head.next.next.next.next.val)
+        self.assertEqual(4, head.next.next.next.next.next.val)
+        self.assertEqual(5, head.next.next.next.next.next.next.val)
+
     def test_26_removeDuplicates(self):
         arr = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
         length = self.solution._26_removeDuplicates(arr)
@@ -187,6 +213,14 @@ class SolutionTest(unittest.TestCase):
     def test_40_combinationSum2(self):
         expected = [[7]]
         self.assertEqual(expected, self.solution._40_combinationSum2([2, 3, 6, 7], 7))
+
+    def test_41_firstMissingPositive(self):
+        self.assertEqual(1, self.solution._41_firstMissingPositive([3, 7, 8, 9]))
+        self.assertEqual(2, self.solution._41_firstMissingPositive([1, 3, 7, 8, 9]))
+        self.assertEqual(4, self.solution._41_firstMissingPositive([1, 2, 3, 7, 8, 9]))
+        self.assertEqual(2, self.solution._41_firstMissingPositive([-1, 1, 3, 4]))
+        self.assertEqual(1, self.solution._41_firstMissingPositive([]))
+        self.assertEqual(1, self.solution._41_firstMissingPositive([0]))
 
     def test_43_multiply(self):
         self.assertEqual("56088", self.solution._43_multiply("123", "456"))

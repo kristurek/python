@@ -176,6 +176,34 @@ class Solution:
 
         return maxLength
 
+    def _4_findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        nums = []
+
+        i = 0
+        j = 0
+
+        while i < len(nums1) or j < len(nums2):
+            if i < len(nums1) and j < len(nums2):
+                if nums1[i] <= nums2[j]:
+                    nums.append(nums1[i])
+                    i += 1
+                else:
+                    nums.append(nums2[j])
+                    j += 1
+            elif i < len(nums1):
+                nums.append(nums1[i])
+                i += 1
+            elif j < len(nums2):
+                nums.append(nums2[j])
+                j += 1
+
+        if len(nums) % 2 != 0:
+            return nums[int(len(nums) / 2)]
+        else:
+            val1 = nums[int(len(nums) / 2) - 1]
+            val2 = nums[int(len(nums) / 2)]
+            return (val1 + val2) / 2
+
     def _5_longestPalindrome(self, s: str) -> str:
         if s == None or len(s) <= 1:
             return s
@@ -474,6 +502,44 @@ class Solution:
                 if close < n:
                     self._22_generateParenthesis_backtracking(output, tmp + ")", n, open, close + 1)
 
+    def _23_mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        return self._23_mergeKLists_divide(lists, 0, len(lists) - 1)
+
+    def _23_mergeKLists_divide(self, lists: List[ListNode], l: int, r: int) -> ListNode:
+        if l == r:
+            return lists[l]
+        elif l > r:
+            return None
+        else:
+            m = l + int((r - l) / 2)
+            lNode = self._23_mergeKLists_divide(lists, l, m)
+            rNode = self._23_mergeKLists_divide(lists, m + 1, r)
+
+            return self._23_mergeKLists_merge(lNode, rNode)
+
+    def _23_mergeKLists_merge(self, list1: ListNode, list2: ListNode) -> ListNode:
+        head = ListNode(-1)
+        current = head
+
+        while list1 != None and list2 != None:
+            if list1.val <= list2.val:
+                current.next = list1
+
+                current = current.next
+                list1 = list1.next
+            else:
+                current.next = list2
+
+                current = current.next
+                list2 = list2.next
+
+        if list1 != None:
+            current.next = list1
+        if list2 != None:
+            current.next = list2
+
+        return head.next
+
     def _26_removeDuplicates(self, nums: List[int]) -> int:
         slow = 0
         for fast in range(0, len(nums)):
@@ -679,6 +745,17 @@ class Solution:
             return "".join((str(x) for x in sum[firstNotZero: len(sum)]))
 
         return "0"
+
+    def _41_firstMissingPositive(self, nums: List[int]) -> int:
+        nums = sorted(nums)
+
+        res = 1
+
+        for num in nums:
+            if num == res:
+                res += 1
+
+        return res
 
     def _46_permute(self, nums: List[int]) -> List[List[int]]:
         output = []
