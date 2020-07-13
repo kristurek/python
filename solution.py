@@ -1444,6 +1444,28 @@ class Solution:
 
         return level
 
+    def _105_buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        return self._105_buildTree_helper(0, 0, len(inorder) - 1, preorder, inorder)
+
+    def _105_buildTree_helper(self, preBegin: int, inBegin: int, inEnd: int, preorder: List[int],
+                              inorder: List[int]) -> TreeNode:
+        if preBegin > len(preorder) - 1 or inBegin > inEnd:
+            return None
+
+        tn = TreeNode(preorder[preBegin])
+
+        inDivider = 0
+        for i in range(inBegin, inEnd + 1):
+            if tn.val == inorder[i]:
+                inDivider = i
+                break
+
+        tn.left = self._105_buildTree_helper(preBegin + 1, inBegin, inDivider - 1, preorder, inorder)
+        tn.right = self._105_buildTree_helper(preBegin + 1 + (inDivider - inBegin), inDivider + 1, inEnd,
+                                              preorder, inorder)
+
+        return tn
+
     def _107_levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
         if root == None:
             return []
@@ -2037,6 +2059,15 @@ class Solution:
 
         return prev
 
+    def _237_deleteNode(self, node):
+        while node.next != None:
+            node.val = node.next.val
+
+            if node.next.next == None:
+                node.next = None
+            else:
+                node = node.next
+
     def _238_productExceptSelf(self, nums: List[int]) -> List[int]:
         L = [1 for x in range(0, len(nums))]
         R = [1 for x in range(0, len(nums))]
@@ -2052,6 +2083,44 @@ class Solution:
             A[i] = L[i] * R[i]
 
         return A
+
+    def _257_binaryTreePaths(self, root: TreeNode) -> List[str]:
+        if root is None:
+            return []
+
+        paths = []
+
+        stack = deque()
+        strStack = deque()
+
+        stack.append(root)
+        strStack.append("")
+
+        while stack:
+            tn = stack.pop()
+            cStr = strStack.pop()
+
+            if tn.left == None and tn.right == None:
+                paths.append(cStr + str(tn.val))
+
+            if tn.right != None:
+                strStack.append(cStr + str(tn.val) + "->")
+                stack.append(tn.right)
+
+            if tn.left != None:
+                strStack.append(cStr + str(tn.val) + "->")
+                stack.append(tn.left)
+
+        return paths
+
+    def _268_missingNumber(self, nums: List[int]) -> int:
+        nums = sorted(nums)
+
+        for i in range(0, len(nums)):
+            if i != nums[i]:
+                return i
+
+        return len(nums)
 
     def _283_moveZeroes(self, nums: List[int]) -> None:
         slow = 0

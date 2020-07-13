@@ -495,6 +495,23 @@ class SolutionTest(unittest.TestCase):
 
         self.assertEqual(4, self.solution._104_maxDepth(root))
 
+    def test_105_buildTree(self):
+        root = TreeNode(3)
+
+        root.left = TreeNode(9)
+        root.right = TreeNode(20)
+
+        root.right.left = TreeNode(15)
+        root.right.right = TreeNode(7)
+
+        actual = self.solution._105_buildTree([3, 9, 20, 15, 7], [9, 3, 15, 20, 7])
+
+        self.assertEqual(root.val, actual.val)
+        self.assertEqual(root.left.val, actual.left.val)
+        self.assertEqual(root.right.val, actual.right.val)
+        self.assertEqual(root.right.left.val, actual.right.left.val)
+        self.assertEqual(root.right.right.val, actual.right.right.val)
+
     def test_107_levelOrderBottom(self):
         root = TreeNode(1)
         root.left = TreeNode(2)
@@ -785,8 +802,39 @@ class SolutionTest(unittest.TestCase):
         head.next.next.next = ListNode(1)
         self.assertTrue(self.solution._234_isPalindrome(head))
 
+    def test_237_deleteNode(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(4)
+
+        self.solution._237_deleteNode(head.next)
+
+        self.assertEqual(1, head.val)
+        self.assertEqual(3, head.next.val)
+        self.assertEqual(4, head.next.next.val)
+        self.assertIsNone(head.next.next.next)
+
     def test_238_productExceptSelf(self):
         self.assertEqual([24, 12, 8, 6], self.solution._238_productExceptSelf([1, 2, 3, 4]))
+
+    def test_257_binaryTreePaths(self):
+        root = TreeNode(1)
+
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+
+        root.left.right = TreeNode(5)
+
+        actual = self.solution._257_binaryTreePaths(root)
+        expected = ["1->2->5", "1->3"]
+
+        self.assertEqual(expected, actual)
+
+    def test_268_missingNumber(self):
+        self.assertEqual(1, self.solution._268_missingNumber([0]))
+        self.assertEqual(2, self.solution._268_missingNumber([3, 0, 1]))
+        self.assertEqual(8, self.solution._268_missingNumber([9, 6, 4, 2, 3, 5, 7, 0, 1]))
 
     def test_283_moveZeroes(self):
         nums = [0, 1, 0, 3, 12]
