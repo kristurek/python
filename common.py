@@ -21,6 +21,13 @@ class Node:
         self.children = children
 
 
+class Node2:
+    def __init__(self, x: int, next: 'Node2' = None, random: 'Node2' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+
+
 class Employee:
     def __init__(self, id: int, importance: int, subordinates: List[int]):
         self.id = id

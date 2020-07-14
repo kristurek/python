@@ -4,10 +4,60 @@ from functools import cmp_to_key
 from string import ascii_lowercase
 from typing import List, Dict
 
-from common import Employee, KeyPriorityQueue
+from common import Employee, KeyPriorityQueue, Node2
 from common import ListNode
 from common import Node
 from common import TreeNode
+
+
+class MyQueue:
+
+    def __init__(self):
+        self.stack = deque()
+
+    def push(self, x: int) -> None:
+        tmp = deque()
+
+        while self.stack:
+            tmp.append(self.stack.pop())
+
+        self.stack.append(x)
+
+        while tmp:
+            self.stack.append(tmp.pop())
+
+    def pop(self) -> int:
+        return self.stack.pop()
+
+    def peek(self) -> int:
+        return self.stack[-1]
+
+    def empty(self) -> bool:
+        return True if len(self.stack) == 0 else False
+
+
+class MyStack:
+
+    def __init__(self):
+        self.queue = deque()
+
+    def push(self, x: int) -> None:
+        self.queue.append(x)
+
+        size = len(self.queue)
+
+        while size > 1:
+            size -= 1
+            self.queue.append(self.queue.popleft())
+
+    def pop(self) -> int:
+        return self.queue.popleft()
+
+    def top(self) -> int:
+        return self.queue[0]
+
+    def empty(self) -> bool:
+        return True if len(self.queue) == 0 else False
 
 
 class MinStack:
@@ -1750,6 +1800,26 @@ class Solution:
 
         return nums[-1]
 
+    def _138_copyRandomList(self, head: Node2) -> Node2:
+        map = {}
+        dummy = Node2(-1)
+        currDummy = dummy
+
+        current = head
+        while current:
+            map[current] = Node2(current.val)
+            current = current.next
+
+        current = head
+        while current:
+            currDummy.next = map.get(current)
+            currDummy.next.random = map.get(current.random)
+
+            current = current.next
+            currDummy = currDummy.next
+
+        return dummy.next
+
     def _141_hasCycle(self, head: ListNode) -> bool:
         duplicates = set()
 
@@ -1962,6 +2032,21 @@ class Solution:
 
         return True
 
+    def _206_reverseList(self, head: ListNode) -> ListNode:
+        prev = None
+        curr = head
+        next = None
+
+        while curr:
+            next = curr.next
+
+            curr.next = prev
+
+            prev = curr
+            curr = next
+
+        return prev
+
     def _217_containsDuplicate(self, nums: List[int]) -> bool:
         if nums is None:
             return False
@@ -1985,6 +2070,9 @@ class Solution:
             map[num] = i
 
         return False
+
+    def _225_MyStack(self) -> MyStack:
+        return MyStack()
 
     def _226_invertTree(self, root: TreeNode) -> TreeNode:
         if not root:
@@ -2015,6 +2103,9 @@ class Solution:
             n /= 2
 
         return n == 1
+
+    def _232_MyQueue(self) -> MyQueue:
+        return MyQueue()
 
     def _234_isPalindrome(self, head: ListNode) -> bool:
         slow = head

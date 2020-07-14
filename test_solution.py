@@ -1,6 +1,6 @@
 import unittest
 
-from common import Employee
+from common import Employee, Node2
 from common import ListNode
 from common import Node
 from common import TreeNode
@@ -617,6 +617,21 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(1, self.solution._137_singleNumber([3, 5, 3, 5, 3, 1, 2, 3, 5, 2]))
         self.assertEqual(1, self.solution._137_singleNumber([3, 5, 3, 5, 3, 1, 2, 3, 5, 2]))
 
+    def test_138_copyRandomList(self):
+        head = Node2(1)
+        head.next = Node2(2)
+        head.next.next = Node2(3)
+
+        head.random = head.next.next
+
+        actual = self.solution._138_copyRandomList(head)
+
+        self.assertEqual(1, actual.val)
+        self.assertEqual(2, actual.next.val)
+        self.assertEqual(3, actual.next.next.val)
+        self.assertEqual(3, actual.random.val)
+        self.assertIsNone(actual.next.next.next)
+
     def test_141_hasCycle(self):
         head = ListNode(0)
         head.next = ListNode(1)
@@ -752,6 +767,20 @@ class SolutionTest(unittest.TestCase):
         self.assertTrue(self.solution._205_isIsomorphic("paper", "title"))
         self.assertFalse(self.solution._205_isIsomorphic("ab", "aa"))
 
+    def test_206_reverseList(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(4)
+
+        actual = self.solution._206_reverseList(head)
+
+        self.assertEqual(4, actual.val)
+        self.assertEqual(3, actual.next.val)
+        self.assertEqual(2, actual.next.next.val)
+        self.assertEqual(1, actual.next.next.next.val)
+        self.assertIsNone(actual.next.next.next.next)
+
     def test_217_containsDuplicate(self):
         self.assertFalse(self.solution._217_containsDuplicate(None))
         self.assertFalse(self.solution._217_containsDuplicate([]))
@@ -763,6 +792,15 @@ class SolutionTest(unittest.TestCase):
         self.assertTrue(self.solution._219_containsNearbyDuplicate([1, 2, 3, 1], 3))
         self.assertTrue(self.solution._219_containsNearbyDuplicate([1, 0, 1, 1], 1))
         self.assertFalse(self.solution._219_containsNearbyDuplicate([1, 2, 3, 1, 2, 3], 2))
+
+    def test_225_myStack(self):
+        stack = self.solution._225_MyStack()
+
+        stack.push(1)
+        stack.push(2)
+        self.assertEqual(2, stack.top())
+        self.assertEqual(2, stack.pop())
+        self.assertFalse(stack.empty())
 
     def test_226_invertTree(self):
         root = TreeNode(1)
@@ -790,6 +828,15 @@ class SolutionTest(unittest.TestCase):
         self.assertTrue(self.solution._231_isPowerOfTwo(1))
         self.assertTrue(self.solution._231_isPowerOfTwo(16))
         self.assertFalse(self.solution._231_isPowerOfTwo(218))
+
+    def test_232_MyQueue(self):
+        queue = self.solution._232_MyQueue()
+
+        queue.push(1)
+        queue.push(2)
+        self.assertEqual(1, queue.peek())
+        self.assertEqual(1, queue.pop())
+        self.assertFalse(queue.empty())
 
     def test_234_isPalindrome(self):
         head = ListNode(1)
