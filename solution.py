@@ -590,6 +590,41 @@ class Solution:
 
         return head.next
 
+    def _24_swapPairs(self, head: ListNode) -> ListNode:
+        if head is None or head.next is None:
+            return head
+
+        dummy = ListNode(-1)
+        dummy.next = head
+
+        current = dummy
+
+        while current.next and current.next.next:
+            next = current.next.next.next
+
+            tmp = current.next
+            current.next = current.next.next
+            current.next.next = tmp
+            current.next.next.next = next
+
+            current = current.next.next
+
+        return dummy.next
+
+    def _24_swapPairs_v2(self, head: ListNode) -> ListNode:
+        if head is None or head.next is None:
+            return head
+
+        next = head.next.next
+
+        tmp = head
+        head = head.next
+        head.next = tmp
+
+        head.next.next = self._24_swapPairs_v2(next)
+
+        return head
+
     def _26_removeDuplicates(self, nums: List[int]) -> int:
         slow = 0
         for fast in range(0, len(nums)):
@@ -1845,6 +1880,20 @@ class Solution:
 
         return None
 
+    def _153_findMin(self, nums: List[int]) -> int:
+        l = 0
+        h = len(nums) - 1
+
+        while l < h:
+            m = l + (h - l) // 2
+
+            if nums[m] > nums[h]:
+                l = m + 1
+            else:
+                h = m
+
+        return nums[l]
+
     def _155_minStack(self) -> MinStack:
         return MinStack()
 
@@ -2236,6 +2285,49 @@ class Solution:
 
             l += 1
             r -= 1
+
+    def _345_reverseVowels(self, s: str) -> str:
+        vowels = {'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'}
+        s = list(s)
+        i = 0
+        j = len(s) - 1
+
+        while i < j:
+            if s[i] not in vowels:
+                i += 1
+                continue
+            if s[j] not in vowels:
+                j -= 1
+                continue
+
+            tmp = s[i]
+            s[i] = s[j]
+            s[j] = tmp
+
+            i += 1
+            j -= 1
+
+        return "".join(s)
+
+    def _349_intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        return list(set(nums1) & set(nums2))
+
+    def _350_intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        map = {}
+        results = []
+
+        for num in nums1:
+            map[num] = map.get(num, 0) + 1
+
+        for num in nums2:
+            if num in map:
+                results.append(num)
+                if map[num] > 1:
+                    map[num] = map[num] - 1
+                else:
+                    map.pop(num)
+
+        return results
 
     def _429_levelOrder(self, root: Node) -> List[List[int]]:
         if root == None:

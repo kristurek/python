@@ -168,6 +168,17 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(4, head.next.next.next.next.next.val)
         self.assertEqual(5, head.next.next.next.next.next.next.val)
 
+    def test_24_swapPairs(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+
+        head = self.solution._24_swapPairs(head)
+
+        self.assertEqual(2, head.val)
+        self.assertEqual(1, head.next.val)
+        self.assertEqual(3, head.next.next.val)
+
     def test_26_removeDuplicates(self):
         arr = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
         length = self.solution._26_removeDuplicates(arr)
@@ -650,6 +661,11 @@ class SolutionTest(unittest.TestCase):
 
         self.assertEqual(head.next, self.solution._142_detectCycle(head))
 
+    def test_153_findMin(self):
+        self.assertEqual(8, self.solution._153_findMin([8, 9]))
+        self.assertEqual(1, self.solution._153_findMin([3, 4, 5, 1, 2]))
+        self.assertEqual(0, self.solution._153_findMin([4, 5, 6, 7, 0, 1, 2]))
+
     def test_155_minStack(self):
         minStack = self.solution._155_minStack()
         minStack.push(-2)
@@ -897,6 +913,15 @@ class SolutionTest(unittest.TestCase):
         self.solution._344_reverseString(actual)
 
         self.assertEqual(expected, actual)
+
+    def test_345_reverseVowels(self):
+        self.assertEqual("holle", self.solution._345_reverseVowels("hello"))
+
+    def test_349_intersection(self):
+        self.assertEqual([9, 4], self.solution._349_intersection([4, 9, 5], [9, 4, 9, 8, 4]))
+
+    def test_350_intersect(self):
+        self.assertEqual([9, 4], self.solution._350_intersect([4, 9, 5], [9, 4, 9, 8, 4]))
 
     def test_429_levelOrder(self):
         root = Node(1, [Node(), Node(), Node()])
