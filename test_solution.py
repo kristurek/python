@@ -840,6 +840,21 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(5, root.right.left.val)
         self.assertEqual(4, root.right.right.val)
 
+    def test_230_kthSmallest(self):
+        root = TreeNode(3)
+
+        root.left = TreeNode(2)
+        root.right = TreeNode(5)
+
+        root.left.left = TreeNode(1)
+
+        root.right.left = TreeNode(4)
+        root.right.right = TreeNode(6)
+
+        self.assertEqual(1, self.solution._230_kthSmallest(root, 1))
+        self.assertEqual(2, self.solution._230_kthSmallest(root, 2))
+        self.assertEqual(3, self.solution._230_kthSmallest(root, 3))
+
     def test_231_isPowerOfTwo(self):
         self.assertTrue(self.solution._231_isPowerOfTwo(1))
         self.assertTrue(self.solution._231_isPowerOfTwo(16))
@@ -922,6 +937,17 @@ class SolutionTest(unittest.TestCase):
 
     def test_350_intersect(self):
         self.assertEqual([9, 4], self.solution._350_intersect([4, 9, 5], [9, 4, 9, 8, 4]))
+
+    def test_387_firstUniqChar(self):
+        self.assertEqual(0, self.solution._387_firstUniqChar("hello"))
+        self.assertEqual(2, self.solution._387_firstUniqChar("loveleetcode"))
+
+    def test_389_findTheDifference(self):
+        self.assertEqual('e', self.solution._389_findTheDifference("abcd", "abced"))
+
+    def test_392_isSubsequence(self):
+        self.assertTrue(self.solution._392_isSubsequence("abc", "ahbgdc"))
+        self.assertFalse(self.solution._392_isSubsequence("axc", "ahbgdc"))
 
     def test_429_levelOrder(self):
         root = Node(1, [Node(), Node(), Node()])

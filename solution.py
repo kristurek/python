@@ -2144,6 +2144,24 @@ class Solution:
 
         return root
 
+    def _230_kthSmallest(self, root: TreeNode, k: int) -> int:
+        values = []
+        stack = deque()
+        current = root
+
+        while stack or current:
+            if current:
+                stack.append(current)
+                current = current.left
+            else:
+                current = stack.pop()
+
+                values.append(current.val)
+
+                current = current.right
+
+        return values[k - 1]
+
     def _231_isPowerOfTwo(self, n: int) -> bool:
         if n <= 0:
             return False
@@ -2328,6 +2346,39 @@ class Solution:
                     map.pop(num)
 
         return results
+
+    def _387_firstUniqChar(self, s: str) -> int:
+        map = {}
+
+        for cChar in s:
+            map[cChar] = map.get(cChar, 0) + 1
+
+        for i in range(len(s)):
+            if map[s[i]] == 1:
+                return i
+
+        return -1
+
+    def _389_findTheDifference(self, s: str, t: str) -> str:
+        s = sorted(list(s))
+        t = sorted(list(t))
+
+        for i in range(len(s)):
+            if s[i] != t[i]:
+                return t[i]
+
+        return t[-1]
+
+    def _392_isSubsequence(self, s: str, t: str) -> bool:
+        i = 0
+        j = 0
+
+        while i < len(s) and j < len(t):
+            if s[i] == t[j]:
+                i += 1
+            j += 1
+
+        return i == len(s)
 
     def _429_levelOrder(self, root: Node) -> List[List[int]]:
         if root == None:
