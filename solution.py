@@ -4,7 +4,7 @@ from functools import cmp_to_key
 from string import ascii_lowercase
 from typing import List, Dict
 
-from common import Employee, KeyPriorityQueue, Node2
+from common import Employee, KeyPriorityQueue, Node2, GraphNode
 from common import ListNode
 from common import Node
 from common import TreeNode
@@ -1782,6 +1782,61 @@ class Solution:
 
         return True
 
+    def _129_sumNumbers(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+
+        sum = 0
+        stack = deque()
+        numbersStack = deque()
+
+        stack.append(root)
+        numbersStack.append(str(root.val))
+
+        while stack:
+            tn = stack.pop()
+            number = numbersStack.pop()
+
+            if tn.left is None and tn.right is None:
+                sum += int(number)
+
+            if tn.right:
+                stack.append(tn.right)
+                numbersStack.append(number + str(tn.right.val))
+            if tn.left:
+                stack.append(tn.left)
+                numbersStack.append(number + str(tn.left.val))
+
+        return sum
+
+    def _130_solve(self, board: List[List[str]]) -> None:
+        for row in range(len(board)):
+            for col in range(len(board[row])):
+                if board[row][col] == 'O':
+                    self._130_solve_check(board, row, col)
+        pass
+
+    def _130_solve_check(self, board: List[List[str]], row: int, col: int) -> None:
+        if board[row][col] != 'O':
+            return
+        if row == 0 or row == len(board) - 1 or col == 0 or col == len(board[row]) - 1:
+            return
+        if row - 1 == 0 and board[row - 1][col] == 'O':
+            return
+        if row + 1 == len(board) - 1 and board[row + 1][col] == 'O':
+            return
+        if col - 1 == 0 and board[row][col - 1] == 'O':
+            return
+        if col + 1 == len(board[row]) - 1 and board[row][col + 1] == 'O':
+            return
+
+        board[row][col] = 'X'
+
+        self._130_solve_check(board, row + 1, col)
+        self._130_solve_check(board, row - 1, col)
+        self._130_solve_check(board, row, col + 1)
+        self._130_solve_check(board, row, col - 1)
+
     def _131_partition(self, s: str) -> List[List[str]]:
         output = []
 
@@ -1811,6 +1866,28 @@ class Solution:
             h -= 1
 
         return True
+
+    def _133_cloneGraph(self, node: GraphNode) -> GraphNode:
+        if node is None:
+            return node
+
+        map = {}
+        map[node.val] = GraphNode(node.val)
+
+        queue = deque()
+        queue.append(node)
+
+        while queue:
+            current = queue.popleft()
+
+            for child in current.neighbors:
+                if child.val not in map:
+                    map[child.val] = GraphNode(child.val)
+                    queue.append(child)
+
+                map[current.val].neighbors.append(map[child.val])
+
+        return map[node.val]
 
     def _136_singleNumber(self, nums: List[int]) -> int:
         values = set()

@@ -1,6 +1,6 @@
 import unittest
 
-from common import Employee, Node2
+from common import Employee, Node2, GraphNode
 from common import ListNode
 from common import Node
 from common import TreeNode
@@ -611,10 +611,55 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(True, self.solution._125_isPalindrome("A man, a plan, a canal: Panama"))
         self.assertEqual(False, self.solution._125_isPalindrome("race a car"))
 
+    def test_129_sumNumbers(self):
+        root = TreeNode(4)
+        root.left = TreeNode(9)
+        root.right = TreeNode(0)
+        root.left.left = TreeNode(5)
+        root.left.right = TreeNode(1)
+
+        self.assertEqual(1026, self.solution._129_sumNumbers(root))
+
+    def test_130_solve(self):
+        actual = [['X', 'X', 'X', 'X'], ['X', 'O', 'O', 'X'], ['X', 'X', 'O', 'X'], ['X', 'O', 'X', 'X']]
+        expected = [['X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X'], ['X', 'O', 'X', 'X']]
+
+        self.solution._130_solve(actual)
+
+        self.assertEqual(expected[0], actual[0])
+        self.assertEqual(expected[1], actual[1])
+        self.assertEqual(expected[2], actual[2])
+        self.assertEqual(expected[3], actual[3])
+
     def test_131_partition(self):
         expected = [["a", "a", "b"], ["aa", "b"]]
 
         self.assertEqual(expected, self.solution._131_partition("aab"))
+
+    def test_133_cloneGraph(self):
+        n1 = GraphNode(1, [])
+        n2 = GraphNode(2, [])
+        n3 = GraphNode(3, [])
+        n4 = GraphNode(4, [])
+
+        n1.neighbors.append(n2)
+        n1.neighbors.append(n4)
+
+        n2.neighbors.append(n1)
+        n2.neighbors.append(n3)
+
+        n3.neighbors.append(n2)
+        n3.neighbors.append(n4)
+
+        n4.neighbors.append(n1)
+        n4.neighbors.append(n3)
+
+        actual = self.solution._133_cloneGraph(n1)
+
+        self.assertEqual(1, actual.val)
+        self.assertEqual(2, actual.neighbors[0].val)
+        self.assertEqual(1, actual.neighbors[0].neighbors[0].val)
+        self.assertEqual(3, actual.neighbors[0].neighbors[1].val)
 
     def test_136_singleNumber(self):
         self.assertEqual(1, self.solution._136_singleNumber([2, 2, 1]))
