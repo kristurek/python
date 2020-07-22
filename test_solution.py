@@ -1,6 +1,6 @@
 import unittest
 
-from common import Employee, Node2, GraphNode
+from common import Employee, Node2, GraphNode, Node3
 from common import ListNode
 from common import Node
 from common import TreeNode
@@ -587,6 +587,76 @@ class SolutionTest(unittest.TestCase):
         root.right.right = TreeNode(7)
 
         self.assertEqual(True, self.solution._112_hasPathSum(root, 11))
+
+    def test_113_pathSum(self):
+        root = TreeNode(5)
+
+        root.left = TreeNode(4)
+        root.right = TreeNode(8)
+
+        root.left.left = TreeNode(11)
+
+        root.right.left = TreeNode(13)
+        root.right.right = TreeNode(4)
+
+        root.left.left.left = TreeNode(7)
+        root.left.left.right = TreeNode(2)
+
+        root.right.right.left = TreeNode(5)
+        root.right.right.right = TreeNode(1)
+
+        paths = self.solution._113_pathSum(root, 22)
+        self.assertEqual(2, len(paths))
+        self.assertEqual([5, 4, 11, 2], paths[0])
+        self.assertEqual([5, 8, 4, 5], paths[1])
+
+    def test_114_flatten(self):
+        root = TreeNode(1)
+
+        root.left = TreeNode(2)
+        root.right = TreeNode(5)
+
+        root.left.left = TreeNode(3)
+        root.left.right = TreeNode(4)
+
+        root.right.right = TreeNode(6)
+
+        self.solution._114_flatten(root)
+
+        self.assertEqual(1, root.val)
+        self.assertEqual(2, root.right.val)
+        self.assertEqual(3, root.right.right.val)
+        self.assertEqual(4, root.right.right.right.val)
+        self.assertEqual(5, root.right.right.right.right.val)
+        self.assertEqual(6, root.right.right.right.right.right.val)
+
+    def test_116_connect(self):
+        root = Node3(1)
+
+        root.left = Node3(2)
+        root.right = Node3(3)
+
+        root = self.solution._116_connect(root)
+
+        self.assertIsNone(root.next)
+        self.assertEqual(3, root.left.next.val)
+        self.assertIsNone(root.right.next)
+
+    def test_117_connect(self):
+        root = Node3(1)
+
+        root.left = Node3(2)
+        root.right = Node3(3)
+
+        root.left.left = Node3(4)
+        root.right.right = Node3(5)
+
+        root = self.solution._117_connect(root)
+
+        self.assertIsNone(root.next)
+        self.assertEqual(3, root.left.next.val)
+        self.assertIsNone(root.right.next)
+        self.assertEqual(5, root.left.left.next.val)
 
     def test_118_generate(self):
         results = [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]]

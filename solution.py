@@ -4,7 +4,7 @@ from functools import cmp_to_key
 from string import ascii_lowercase
 from typing import List, Dict
 
-from common import Employee, KeyPriorityQueue, Node2, GraphNode
+from common import Employee, KeyPriorityQueue, Node2, GraphNode, Node3
 from common import ListNode
 from common import Node
 from common import TreeNode
@@ -1680,6 +1680,115 @@ class Solution:
                 sums.append(tn.left.val + path)
 
         return False
+
+    def _113_pathSum(self, root: TreeNode, sumNodes: int) -> List[List[int]]:
+        if root is None:
+            return []
+
+        paths = []
+
+        stack = deque()
+        pathsStack = deque()
+
+        stack.append(root)
+        pathsStack.append([root.val])
+
+        while stack:
+            tn = stack.pop()
+            path = pathsStack.pop()
+
+            if tn.left is None and tn.right is None and sum(path) == sumNodes:
+                paths.append(list(path))
+
+            if tn.right is not None:
+                stack.append(tn.right)
+                nPath = list(path)
+                nPath.append(tn.right.val)
+                pathsStack.append(nPath)
+            if tn.left is not None:
+                stack.append(tn.left)
+                nPath = list(path)
+                nPath.append(tn.left.val)
+                pathsStack.append(nPath)
+
+        return paths
+
+    def _114_flatten(self, root: TreeNode) -> None:
+        if root is None:
+            return
+
+        stack = deque()
+        stack.append(root)
+        previous = None
+
+        while stack:
+            tn = stack.pop()
+
+            left = tn.left
+            tn.left = None
+            right = tn.right
+            tn.right = None
+
+            if previous is None:
+                previous = tn
+            else:
+                previous.right = tn
+                previous = previous.right
+
+            if right is not None:
+                stack.append(right)
+            if left is not None:
+                stack.append(left)
+
+    def _116_connect(self, root: Node3) -> Node3:
+        if root is None:
+            return None
+
+        queue = deque()
+        queue.append(root)
+
+        while queue:
+            size = len(queue)
+
+            while size > 0:
+                size -= 1
+
+                tn = queue.popleft()
+
+                if size > 0:
+                    tn.next = queue[0]
+
+                if tn.left is not None:
+                    queue.append(tn.left)
+                if tn.right is not None:
+                    queue.append(tn.right)
+
+        return root
+
+    def _117_connect(self, root: Node3) -> Node3:
+        if root is None:
+            return None
+
+        queue = deque()
+        queue.append(root)
+
+        while queue:
+            size = len(queue)
+
+            while size > 0:
+                size -= 1
+
+                tn = queue.popleft()
+
+                if size > 0:
+                    tn.next = queue[0]
+
+                if tn.left is not None:
+                    queue.append(tn.left)
+                if tn.right is not None:
+                    queue.append(tn.right)
+
+        return root
 
     def _118_generate(self, numRows: int) -> List[List[int]]:
         if numRows <= 0:
