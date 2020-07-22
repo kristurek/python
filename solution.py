@@ -1957,6 +1957,109 @@ class Solution:
 
         return None
 
+    def _143_reorderList(self, head: ListNode) -> None:
+        if head is None or head.next is None:
+            return head
+
+        previousSlow = head
+        fast = head
+        slow = head
+
+        while fast is not None and fast.next is not None:
+            previousSlow = slow
+            slow = slow.next
+            fast = fast.next.next
+
+        previousSlow.next = None
+
+        prev = None
+        curr = slow
+        next = None
+
+        while curr is not None:
+            next = curr.next
+
+            curr.next = prev
+
+            prev = curr
+            curr = next
+
+        ln = head
+        ln1 = head.next
+        ln2 = prev
+
+        while ln1 is not None or ln2 is not None:
+            if ln2 is not None:
+                ln.next = ln2
+                ln2 = ln2.next
+                ln = ln.next
+
+            if ln1 is not None:
+                ln.next = ln1
+                ln1 = ln1.next
+                ln = ln.next
+
+    def _144_preorderTraversal(self, root: TreeNode) -> List[int]:
+        if root is None:
+            return []
+
+        stack = deque()
+        stack.append(root)
+
+        traversal = []
+
+        while stack:
+            tn = stack.pop()
+
+            traversal.append(tn.val)
+
+            if tn.right:
+                stack.append(tn.right)
+            if tn.left:
+                stack.append(tn.left)
+
+        return traversal
+
+    def _148_sortList(self, head: ListNode) -> ListNode:
+        if head is None or head.next is None:
+            return head
+
+        fast = head
+        slow = head
+        previous = head
+
+        while fast is not None and fast.next is not None:
+            fast = fast.next.next
+            previous = slow
+            slow = slow.next
+
+        previous.next = None
+
+        ln1 = self._148_sortList(head)
+        ln2 = self._148_sortList(slow)
+
+        return self._148_sortList_merge(ln1, ln2)
+
+    def _148_sortList_merge(self, ln1: ListNode, ln2: ListNode) -> ListNode:
+        head = ListNode(-1)
+        ln = head
+
+        while ln1 is not None and ln2 is not None:
+            if ln1.val < ln2.val:
+                ln.next = ln1
+                ln1 = ln1.next
+            else:
+                ln.next = ln2
+                ln2 = ln2.next
+            ln = ln.next
+
+        if ln1 is not None:
+            ln.next = ln1
+        if ln2 is not None:
+            ln.next = ln2
+
+        return head.next
+
     def _153_findMin(self, nums: List[int]) -> int:
         l = 0
         h = len(nums) - 1

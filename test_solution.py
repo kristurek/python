@@ -706,6 +706,60 @@ class SolutionTest(unittest.TestCase):
 
         self.assertEqual(head.next, self.solution._142_detectCycle(head))
 
+    def test_143_reorderList(self):
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(4)
+        head.next.next.next.next = ListNode(5)
+
+        self.solution._143_reorderList(head)
+
+        self.assertEqual(1, head.val)
+        self.assertEqual(5, head.next.val)
+        self.assertEqual(2, head.next.next.val)
+        self.assertEqual(4, head.next.next.next.val)
+        self.assertEqual(3, head.next.next.next.next.val)
+
+        head = ListNode(1)
+        head.next = ListNode(2)
+        head.next.next = ListNode(3)
+        head.next.next.next = ListNode(4)
+
+        self.solution._143_reorderList(head)
+
+        self.assertEqual(1, head.val)
+        self.assertEqual(4, head.next.val)
+        self.assertEqual(2, head.next.next.val)
+        self.assertEqual(3, head.next.next.next.val)
+
+    def test_144_preorderTraversal(self):
+        root = TreeNode(1)
+
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+
+        self.assertEqual([1, 2, 4, 5, 3, 6, 7], self.solution._144_preorderTraversal(root))
+
+    def test_148_sortList(self):
+        head = ListNode(4)
+        head.next = ListNode(2)
+        head.next.next = ListNode(1)
+        head.next.next.next = ListNode(3)
+
+        head = self.solution._148_sortList(head)
+
+        self.assertEqual(1, head.val)
+        self.assertEqual(2, head.next.val)
+        self.assertEqual(3, head.next.next.val)
+        self.assertEqual(4, head.next.next.next.val)
+        self.assertIsNone(head.next.next.next.next)
+
     def test_153_findMin(self):
         self.assertEqual(8, self.solution._153_findMin([8, 9]))
         self.assertEqual(1, self.solution._153_findMin([3, 4, 5, 1, 2]))
