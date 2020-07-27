@@ -2169,6 +2169,9 @@ class Solution:
 
         return head.next
 
+    def _151_reverseWords(self, s: str) -> str:
+        return " ".join(reversed(s.split()))
+
     def _153_findMin(self, nums: List[int]) -> int:
         l = 0
         h = len(nums) - 1
@@ -2198,6 +2201,23 @@ class Solution:
             headB = headB.next
 
         return None
+
+    def _165_compareVersion(self, version1: str, version2: str) -> int:
+        v1 = version1.split(".")
+        v2 = version2.split(".")
+
+        length = len(v1) if len(v1) > len(v2) else len(v2)
+
+        for i in range(length):
+            n1 = int(v1[i]) if i < len(v1) else 0
+            n2 = int(v2[i]) if i < len(v2) else 0
+
+            compare = (n1 > n2) - (n1 < n2)
+
+            if compare != 0:
+                return compare
+
+        return 0
 
     def _167_twoSum(self, numbers: List[int], target: int) -> List[int]:
         nums = {}
@@ -2250,6 +2270,20 @@ class Solution:
     def _173_BSTIterator(self, root: TreeNode) -> BSTIterator:
         return BSTIterator(root)
 
+    def _187_findRepeatedDnaSequences(self, s: str) -> List[str]:
+        seen = set()
+        repeated = set()
+
+        for i in range(0, len(s) - 9):
+            subS = s[i:i + 10]
+
+            if subS in seen:
+                repeated.add(subS)
+            else:
+                seen.add(subS)
+
+        return list(repeated)
+
     def _189_rotate(self, nums: List[int], k: int) -> None:
         k = int(k % len(nums))  # // example - k=7 and nums.length=3 then k=1, remove empty loops
 
@@ -2276,6 +2310,37 @@ class Solution:
             twoHouseBefore = tmp
 
         return oneHouseBefore
+
+    def _199_rightSideView(self, root: TreeNode) -> List[int]:
+        if root is None:
+            return []
+
+        values = []
+        queue = deque()
+        queue.append(root)
+
+        while queue:
+            size = len(queue)
+
+            while size > 1:
+                size -= 1
+
+                tn = queue.popleft()
+
+                if tn.left != None:
+                    queue.append(tn.left)
+                if tn.right != None:
+                    queue.append(tn.right)
+
+            tn = queue.popleft()
+            values.append(tn.val)
+
+            if tn.left != None:
+                queue.append(tn.left)
+            if tn.right != None:
+                queue.append(tn.right)
+
+        return values
 
     def _200_numIslands(self, grid: List[List[str]]) -> int:
         count = 0

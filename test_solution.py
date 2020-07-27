@@ -830,6 +830,9 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(4, head.next.next.next.val)
         self.assertIsNone(head.next.next.next.next)
 
+    def test_151_reverseWords(self):
+        self.assertEqual("example good a", self.solution._151_reverseWords("a good   example"))
+
     def test_153_findMin(self):
         self.assertEqual(8, self.solution._153_findMin([8, 9]))
         self.assertEqual(1, self.solution._153_findMin([3, 4, 5, 1, 2]))
@@ -863,6 +866,13 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(3, head3.val)
         self.assertEqual(4, head3.next.val)
         self.assertIsNone(head3.next.next.next)
+
+    def test_165_compareVersion(self):
+        self.assertEqual(-1, self.solution._165_compareVersion("0.1", "1.1"))
+        self.assertEqual(1, self.solution._165_compareVersion("1.0.1", "1"))
+        self.assertEqual(-1, self.solution._165_compareVersion("7.5.2.4", "7.5.3"))
+        self.assertEqual(0, self.solution._165_compareVersion("1.01", "1.001"))
+        self.assertEqual(0, self.solution._165_compareVersion("1.0", "1.0.0"))
 
     def test_167_twoSum(self):
         self.assertCountEqual([1, 2], self.solution._167_twoSum([2, 7, 11, 15], 9))
@@ -910,6 +920,12 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(20, iterator.next())
         self.assertFalse(iterator.hasNext())
 
+    def test_187_findRepeatedDnaSequences(self):
+        actual = self.solution._187_findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT")
+        expected = ["CCCCCAAAAA", "AAAAACCCCC"]
+
+        self.assertEqual(expected, actual)
+
     def test_189_rotate(self):
         nums = [1, 2, 3, 4, 5, 6, 7]
         self.solution._189_rotate(nums, 3)
@@ -918,6 +934,20 @@ class SolutionTest(unittest.TestCase):
     def test_198_rob(self):
         self.assertEqual(4, self.solution._198_rob([1, 2, 3, 1]))
         self.assertEqual(12, self.solution._198_rob([2, 7, 9, 3, 1]))
+
+    def test_199_rightSideView(self):
+        root = TreeNode(1)
+
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+
+        root.left.left = TreeNode(4)
+
+        actual = self.solution._199_rightSideView(root)
+
+        self.assertEqual(1, actual[0])
+        self.assertEqual(3, actual[1])
+        self.assertEqual(4, actual[2])
 
     def test_200_numIslands(self):
         self.assertEqual(1, self.solution._200_numIslands(
