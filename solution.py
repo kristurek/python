@@ -1,6 +1,7 @@
 import sys
 from collections import deque, OrderedDict
 from functools import cmp_to_key
+from queue import PriorityQueue
 from string import ascii_lowercase
 from typing import List, Dict
 
@@ -8,6 +9,98 @@ from common import Employee, KeyPriorityQueue, Node2, GraphNode, Node3
 from common import ListNode
 from common import Node
 from common import TreeNode
+
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.isEnd = False
+
+    def contains(self, ch: str) -> bool:
+        return ch in self.children
+
+    def put(self, ch: str, node: 'TrieNode') -> None:
+        self.children[ch] = node
+
+    def get(self, ch: str) -> 'TrieNode':
+        return self.children[ch]
+
+    def setEnd(self) -> None:
+        self.isEnd = True
+
+    def isWord(self) -> bool:
+        return self.isEnd
+
+
+class Trie:
+
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word: str) -> None:
+        node = self.root
+        for cChar in word:
+            if not node.contains(cChar):
+                node.put(cChar, TrieNode())
+            node = node.get(cChar)
+
+        node.setEnd()
+
+    def search(self, word: str) -> bool:
+        node = self.find(word)
+
+        return node is not None and node.isWord()
+
+    def startsWith(self, prefix: str) -> bool:
+        return self.find(prefix) is not None
+
+    def find(self, prefix: str) -> TrieNode:
+        node = self.root
+
+        for cChar in prefix:
+            if node.contains(cChar):
+                node = node.get(cChar)
+            else:
+                return None
+        return node
+
+
+class WordDictionary:
+
+    def __init__(self):
+        self.root = TrieNode()
+
+    def addWord(self, word: str) -> None:
+        node = self.root
+
+        for cChar in word:
+            if not node.contains(cChar):
+                node.put(cChar, TrieNode())
+            node = node.get(cChar)
+
+        node.setEnd()
+
+    def search(self, word: str) -> bool:
+        return self.searchWord(word, 0, self.root)
+
+    def searchWord(self, word: str, i: int, node: 'TrieNode') -> bool:
+        if i == len(word):
+            return node.isEnd
+
+        cChar = word[i]
+
+        if cChar == ".":
+            for child in node.children.values():
+                answer = self.searchWord(word, i + 1, child)
+                if answer:
+                    return True
+        else:
+            if node.contains(cChar):
+                return self.searchWord(word, i + 1, node.get(cChar))
+            else:
+                return False
+
+        return False
 
 
 class MyQueue:
@@ -2450,6 +2543,51 @@ class Solution:
 
         return prev
 
+    def _208_trie(self) -> Trie:
+        return Trie()
+
+    def _211_wordDictionary(self) -> WordDictionary:
+        return WordDictionary()
+
+    def _213_rob(self, nums: List[int]) -> int:
+        if nums is None or len(nums) == 0:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+
+        oneHouseBefore = 0
+        twoHouseBefore = 0
+
+        for i in range(0, len(nums) - 1):
+            tmp = oneHouseBefore
+            oneHouseBefore = max(oneHouseBefore, twoHouseBefore + nums[i])
+            twoHouseBefore = tmp
+
+        max1 = oneHouseBefore
+
+        oneHouseBefore = 0
+        twoHouseBefore = 0
+
+        for i in range(len(nums) - 1, 0, -1):
+            tmp = oneHouseBefore
+            oneHouseBefore = max(oneHouseBefore, twoHouseBefore + nums[i])
+            twoHouseBefore = tmp
+
+        max2 = oneHouseBefore
+
+        return max(max1, max2)
+
+    def _215_findKthLargest(self, nums: List[int], k: int) -> int:
+        queue = PriorityQueue()
+
+        for num in nums:
+            queue.put(num)
+
+            if queue.qsize() > k:
+                queue.get()
+
+        return queue.get()
+
     def _217_containsDuplicate(self, nums: List[int]) -> bool:
         if nums is None:
             return False
@@ -2497,6 +2635,18 @@ class Solution:
                 queue.append(tn.right)
 
         return root
+
+    def _229_majorityElement(self, nums: List[int]) -> List[int]:
+        if nums is None:
+            return []
+
+        size = len(nums) // 3
+        map = {}
+
+        for num in nums:
+            map[num] = map.get(num, 0) + 1
+
+        return [k for (k, v) in map.items() if v > size]
 
     def _230_kthSmallest(self, root: TreeNode, k: int) -> int:
         values = []

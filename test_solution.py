@@ -924,7 +924,7 @@ class SolutionTest(unittest.TestCase):
         actual = self.solution._187_findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT")
         expected = ["CCCCCAAAAA", "AAAAACCCCC"]
 
-        self.assertEqual(expected, actual)
+        self.assertEqual(sorted(expected), sorted(actual))
 
     def test_189_rotate(self):
         nums = [1, 2, 3, 4, 5, 6, 7]
@@ -996,6 +996,39 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(1, actual.next.next.next.val)
         self.assertIsNone(actual.next.next.next.next)
 
+    def test_208_trie(self):
+        trie = self.solution._208_trie()
+
+        trie.insert("apple")
+        self.assertTrue(trie.search("apple"))
+        self.assertFalse(trie.search("app"))
+        self.assertTrue(trie.startsWith("app"))
+        trie.insert("app")
+        self.assertTrue(trie.search("app"))
+
+    def test_211_wordDictionary(self):
+        wordDictionary = self.solution._211_wordDictionary()
+
+        wordDictionary.addWord("bad")
+        wordDictionary.addWord("dad")
+        wordDictionary.addWord("mad")
+
+        self.assertFalse(wordDictionary.search("pad"))
+        self.assertTrue(wordDictionary.search("bad"))
+        self.assertTrue(wordDictionary.search(".ad"))
+        self.assertTrue(wordDictionary.search("..."))
+
+    def test_213_rob(self):
+        self.assertEqual(0, self.solution._213_rob([]))
+        self.assertEqual(2, self.solution._213_rob([2]))
+        self.assertEqual(2, self.solution._213_rob([1, 2]))
+        self.assertEqual(3, self.solution._213_rob([2, 3, 2]))
+        self.assertEqual(4, self.solution._213_rob([1, 2, 3, 1]))
+
+    def test_215_findKthLargest(self):
+        self.assertEqual(5, self.solution._215_findKthLargest([3, 2, 1, 5, 6, 4], 2))
+        self.assertEqual(4, self.solution._215_findKthLargest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4))
+
     def test_217_containsDuplicate(self):
         self.assertFalse(self.solution._217_containsDuplicate(None))
         self.assertFalse(self.solution._217_containsDuplicate([]))
@@ -1038,6 +1071,10 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(6, root.left.right.val)
         self.assertEqual(5, root.right.left.val)
         self.assertEqual(4, root.right.right.val)
+
+    def test_229_majorityElement(self):
+        self.assertEqual([3], self.solution._229_majorityElement([3, 2, 3]))
+        self.assertEqual([1, 2], self.solution._229_majorityElement([1, 1, 1, 3, 3, 2, 2, 2]))
 
     def test_230_kthSmallest(self):
         root = TreeNode(3)
