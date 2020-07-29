@@ -4,7 +4,7 @@ from common import Employee, Node2, GraphNode, Node3
 from common import ListNode
 from common import Node
 from common import TreeNode
-from solution import Solution
+from solution import Solution, Iterator
 
 
 class SolutionTest(unittest.TestCase):
@@ -1029,6 +1029,12 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(5, self.solution._215_findKthLargest([3, 2, 1, 5, 6, 4], 2))
         self.assertEqual(4, self.solution._215_findKthLargest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4))
 
+    def test_216_combinationSum3(self):
+        actual = self.solution._216_combinationSum3(3, 7)
+
+        self.assertEqual(1, len(actual))
+        self.assertEqual([1, 2, 4], actual[0])
+
     def test_217_containsDuplicate(self):
         self.assertFalse(self.solution._217_containsDuplicate(None))
         self.assertFalse(self.solution._217_containsDuplicate([]))
@@ -1145,6 +1151,12 @@ class SolutionTest(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
+    def test_260_singleNumber(self):
+        self.assertEqual([3, 5], self.solution._260_singleNumber([1, 2, 1, 3, 2, 5]))
+
+    def test_264_nthUglyNumber(self):
+        self.assertEqual(12, self.solution._264_nthUglyNumber(10))
+
     def test_268_missingNumber(self):
         self.assertEqual(1, self.solution._268_missingNumber([0]))
         self.assertEqual(2, self.solution._268_missingNumber([3, 0, 1]))
@@ -1156,6 +1168,21 @@ class SolutionTest(unittest.TestCase):
         self.solution._283_moveZeroes(nums)
 
         self.assertEqual(answer, nums)
+
+    def test_284_PeekingIterator(self):
+        nums = [1, 2, 3]
+        iterator = self.solution._284_PeekingIterator(Iterator(nums))
+
+        self.assertTrue(iterator.hasNext())
+        self.assertEqual(1, iterator.peek())
+        self.assertEqual(1, iterator.next())
+
+        self.assertEqual(2, iterator.peek())
+        self.assertEqual(2, iterator.next())
+
+        self.assertEqual(3, iterator.next())
+        self.assertFalse(iterator.hasNext())
+        self.assertIsNone(iterator.peek())
 
     def test_344_reverseString(self):
         actual = ['h', 'e', 'l', 'l', 'o']

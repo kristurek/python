@@ -11,6 +11,37 @@ from common import Node
 from common import TreeNode
 
 
+class Iterator:
+    def __init__(self, nums):
+        self.nums = nums
+        self.index = -1
+
+    def hasNext(self):
+        return (self.index + 1) < len(self.nums)
+
+    def next(self):
+        self.index += 1
+        return self.nums[self.index]
+
+
+class PeekingIterator:
+    def __init__(self, iterator):
+        self.iterator = iterator
+        self.peekVal = self.iterator.next() if self.iterator.hasNext() else None
+
+    def peek(self):
+        return self.peekVal
+
+    def next(self):
+        tmp = self.peekVal
+        self.peekVal = self.iterator.next() if self.iterator.hasNext() else None
+
+        return tmp
+
+    def hasNext(self):
+        return self.peekVal != None
+
+
 class TrieNode:
     def __init__(self):
         self.children = {}
@@ -2588,6 +2619,25 @@ class Solution:
 
         return queue.get()
 
+    def _216_combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        nums = [x for x in range(1, 10)]
+        output = []
+
+        self._216_combinationSum3_backtrackig(output, [], k, n, 0, nums)
+
+        return output
+
+    def _216_combinationSum3_backtrackig(self, output: List[List[int]], tmp: List[int], k: int, n: int, begin: int,
+                                         nums: List[int]) -> List[List[int]]:
+        if len(tmp) == k:
+            if sum(tmp) == n:
+                output.append(list(tmp))
+
+        for i in range(begin, len(nums)):
+            tmp.append(nums[i])
+            self._216_combinationSum3_backtrackig(output, tmp, k, n, i + 1, nums)
+            tmp.pop()
+
     def _217_containsDuplicate(self, nums: List[int]) -> bool:
         if nums is None:
             return False
@@ -2775,6 +2825,34 @@ class Solution:
 
         return paths
 
+    def _260_singleNumber(self, nums: List[int]) -> List[int]:
+        map = {}
+
+        for num in nums:
+            map[num] = map.get(num, 0) + 1
+
+        return [k for (k, v) in map.items() if v == 1]
+
+    def _264_nthUglyNumber(self, n: int) -> int:
+        if n <= 0:
+            return 0
+
+        a, b, c = 0, 0, 0
+        nums = [1]
+
+        while len(nums) < n:
+            num = min(nums[a] * 2, min(nums[b] * 3, nums[c] * 5))
+            nums.append(num)
+
+            if num == nums[a] * 2:
+                a += 1
+            if num == nums[b] * 3:
+                b += 1
+            if num == nums[c] * 5:
+                c += 1
+
+        return nums[-1]
+
     def _268_missingNumber(self, nums: List[int]) -> int:
         nums = sorted(nums)
 
@@ -2795,6 +2873,9 @@ class Solution:
         while slow < len(nums):
             nums[slow] = 0
             slow += 1
+
+    def _284_PeekingIterator(self, iterator: Iterator) -> PeekingIterator:
+        return PeekingIterator(iterator)
 
     def _344_reverseString(self, s: List[str]) -> None:
         l = 0
