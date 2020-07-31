@@ -1184,6 +1184,19 @@ class SolutionTest(unittest.TestCase):
         self.assertFalse(iterator.hasNext())
         self.assertIsNone(iterator.peek())
 
+    def test_287_findDuplicate(self):
+        self.assertEqual(2, self.solution._287_findDuplicate([1, 3, 4, 2, 2]))
+
+    def test_313_nthSuperUglyNumber(self):
+        self.assertEqual(12, self.solution._313_nthSuperUglyNumber(10, [2, 3, 5]))
+        self.assertEqual(1, self.solution._313_nthSuperUglyNumber(12, [1]))
+        self.assertEqual(32, self.solution._313_nthSuperUglyNumber(12, [2, 7, 13, 19]))
+
+    def test_318_maxProduct(self):
+        self.assertEqual(16, self.solution._318_maxProduct(["abcw", "baz", "foo", "bar", "xtfn", "abcdef"]))
+        self.assertEqual(4, self.solution._318_maxProduct(["a", "ab", "abc", "d", "cd", "bcd", "abcd"]))
+        self.assertEqual(0, self.solution._318_maxProduct(["a", "aa", "aaa", "aaaa"]))
+
     def test_344_reverseString(self):
         actual = ['h', 'e', 'l', 'l', 'o']
         expected = ['o', 'l', 'l', 'e', 'h']

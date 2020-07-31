@@ -2840,16 +2840,23 @@ class Solution:
         a, b, c = 0, 0, 0
         nums = [1]
 
-        while len(nums) < n:
+        while n > 1:
+            n -= 1
+
             num = min(nums[a] * 2, min(nums[b] * 3, nums[c] * 5))
             nums.append(num)
 
             if num == nums[a] * 2:
+                print('# 2 ' + str(a))
                 a += 1
             if num == nums[b] * 3:
+                print('# 3 ' + str(b))
                 b += 1
             if num == nums[c] * 5:
+                print('# 5 ' + str(c))
                 c += 1
+
+        print('# ' + str(nums))
 
         return nums[-1]
 
@@ -2876,6 +2883,54 @@ class Solution:
 
     def _284_PeekingIterator(self, iterator: Iterator) -> PeekingIterator:
         return PeekingIterator(iterator)
+
+    def _287_findDuplicate(self, nums: List[int]) -> int:
+        hashSet = set()
+
+        for num in nums:
+            if num in hashSet:
+                return num
+            else:
+                hashSet.add(num)
+
+        return -1
+
+    def _313_nthSuperUglyNumber(self, n: int, primes: List[int]) -> int:
+        primesMap = OrderedDict()
+        for prime in primes:
+            primesMap[prime] = 0  # initial indexes
+
+        uglyNums = [1]
+
+        while n > 1:
+            n -= 1
+
+            minValue = 0x7fffffff  # hex(2**31-1) Integer.MAX_VALUE
+            for k, v in primesMap.items():
+                minValue = min(minValue, uglyNums[v] * k)
+
+            uglyNums.append(minValue)
+
+            for k, v in primesMap.items():
+                if minValue == uglyNums[v] * k:
+                    primesMap[k] = primesMap[k] + 1
+
+        return uglyNums[-1]
+
+    def _318_maxProduct(self, words: List[str]) -> int:
+        map = {}
+
+        for word in words:
+            map[word] = set(word)
+
+        maxProduct = 0
+
+        for i in range(len(words)):
+            for j in range(i + 1, len(words)):
+                if map[words[i]].isdisjoint(map[words[j]]):
+                    maxProduct = max(maxProduct, len(words[i]) * len(words[j]))
+
+        return maxProduct
 
     def _344_reverseString(self, s: List[str]) -> None:
         l = 0
