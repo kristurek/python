@@ -249,8 +249,8 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(expected, self.solution._49_groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
 
     def test_50_myPow(self):
-        self.assertEqual(8, self.solution._50_myPow(2, 3))
-        self.assertEqual(0, self.solution._50_myPow(2, -2147483648))
+        self.assertEqual(8, self.solution._50_myPow_v2(2, 3))
+        self.assertEqual(0, self.solution._50_myPow_v2(2, -2147483648))
 
     def test_53_maxSubArray(self):
         self.assertEqual(6, self.solution._53_maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
@@ -308,6 +308,13 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual("/c", self.solution._71_simplifyPath("/a/../../b/../c//.//"))
         self.assertEqual("/a/b/c", self.solution._71_simplifyPath("/a//b////c/d//././/.."))
 
+    def test_73_setZeroes(self):
+        answer = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]
+        expected = [[1, 0, 1], [0, 0, 0], [1, 0, 1]]
+        self.solution._73_setZeroes(answer)
+
+        self.assertEqual(expected, answer)
+
     def test_74_searchMatrix(self):
         self.assertTrue(self.solution._74_searchMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 7))
 
@@ -326,6 +333,23 @@ class SolutionTest(unittest.TestCase):
         expected = [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]
 
         self.assertEqual(expected, self.solution._78_subsets([1, 2, 3]))
+
+    def test_79_exist(self):
+        self.assertTrue(self.solution._79_exist([
+            ['A', 'B', 'C', 'E'],
+            ['S', 'F', 'C', 'S'],
+            ['A', 'D', 'E', 'E']
+        ], "ABCCED"))
+        self.assertTrue(self.solution._79_exist([
+            ['A', 'B', 'C', 'E'],
+            ['S', 'F', 'C', 'S'],
+            ['A', 'D', 'E', 'E']
+        ], "SEE"))
+        self.assertFalse(self.solution._79_exist([
+            ['A', 'B', 'C', 'E'],
+            ['S', 'F', 'C', 'S'],
+            ['A', 'D', 'E', 'E']
+        ], "ABCB"))
 
     def test_80_removeDuplicates(self):
         nums = [1, 1, 1, 2, 2, 3]

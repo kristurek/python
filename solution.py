@@ -461,6 +461,31 @@ class Solution:
         map[4] = "IV"
         map[1] = "I"
 
+        number = ""
+
+        for k, v in map.items():
+            while num // k > 0:
+                number += v
+                num = num - k
+
+        return number
+
+    def _12_intToRoman_V2(self, num: int) -> str:
+        map = OrderedDict()
+        map[1000] = "M"
+        map[900] = "CM"
+        map[500] = "D"
+        map[400] = "CD"
+        map[100] = "C"
+        map[90] = "XC"
+        map[50] = "L"
+        map[40] = "XL"
+        map[10] = "X"
+        map[9] = "IX"
+        map[5] = "V"
+        map[4] = "IV"
+        map[1] = "I"
+
         roman = ""
 
         for item in map.items():
@@ -519,6 +544,31 @@ class Solution:
         return [list(t) for t in groups]
 
     def _16_threeSumClosest(self, nums: List[int], target: int) -> int:
+        max_integer = 0x7fffffff  # hex(2**31-1) Integer.MAX_VALUE
+
+        nums = sorted(nums)
+        closestSum = max_integer
+
+        for i in range(0, len(nums)):
+            l = i + 1
+            h = len(nums) - 1
+
+            while l < h:
+                sum = nums[i] + nums[l] + nums[h]
+
+                if abs(target - sum) < abs(target - closestSum):
+                    closestSum = sum
+
+                if sum < target:
+                    l += 1
+                elif sum > target:
+                    h -= 1
+                else:
+                    return target
+
+        return closestSum
+
+    def _16_threeSumClosest_V2(self, nums: List[int], target: int) -> int:
         nums = sorted(nums)
 
         min_limit = -0x80000000  # hex(-2**31-1) Integer.MIN_VALUE
@@ -715,6 +765,35 @@ class Solution:
         return head.next
 
     def _24_swapPairs(self, head: ListNode) -> ListNode:
+        if head is None or head.next is None:
+            return head
+
+        dummy = ListNode(-1)
+        current = dummy
+
+        slow = head
+        fast = head.next
+
+        while fast != None:
+            tmp = fast.next
+
+            fast.next = None
+            slow.next = None
+
+            current.next = fast
+            current = current.next
+            current.next = slow
+            current = current.next
+
+            slow = tmp
+            fast = tmp.next if tmp != None else None
+
+        if slow != None:
+            current.next = slow
+
+        return dummy.next
+
+    def _24_swapPairs_V3(self, head: ListNode) -> ListNode:
         if head is None or head.next is None:
             return head
 
@@ -1022,10 +1101,27 @@ class Solution:
         return list(hashMap.values())
 
     def _50_myPow(self, x: float, n: int) -> float:
+        if n < 0:
+            return 1 / self._50_myPow_helper(x, -n)
+        else:
+            return self._50_myPow_helper(x, n)
+
+    def _50_myPow_helper(self, x: float, n: int) -> float:
         if n == 0:
             return 1
 
-        tmp = self._50_myPow(x, int(n / 2))
+        tmp = self._50_myPow_helper(x, int(n / 2))
+
+        if n % 2 == 0:
+            return tmp * tmp
+        else:
+            return (tmp * tmp) * x
+
+    def _50_myPow_v2(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1
+
+        tmp = self._50_myPow_v2(x, int(n / 2))
 
         if n % 2 == 0:
             return tmp * tmp
@@ -1211,6 +1307,21 @@ class Solution:
 
         return "/" + "/".join(stack) if stack else "/"
 
+    def _73_setZeroes(self, matrix: List[List[int]]) -> None:
+        rows = set()
+        cols = set()
+
+        for row in range(0, len(matrix)):
+            for col in range(0, len(matrix[row])):
+                if matrix[row][col] == 0:
+                    rows.add(row)
+                    cols.add(col)
+
+        for row in range(0, len(matrix)):
+            for col in range(0, len(matrix[row])):
+                if row in rows or col in cols:
+                    matrix[row][col] = 0
+
     def _74_searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         if matrix == None or len(matrix) == 0:
             return False
@@ -1294,6 +1405,35 @@ class Solution:
             tmp.append(nums[i])
             self._78_subsets_backtracking(output, tmp, nums, i + 1)
             tmp.pop()
+
+    def _79_exist(self, board: List[List[str]], word: str) -> bool:
+        for row in range(0, len(board)):
+            for col in range(0, len(board[row])):
+                if self._79_exist_search(board, row, col, list(word), 0):
+                    return True
+
+        return False
+
+    def _79_exist_search(self, board, row, col, wChars, i):
+        if i == len(wChars):
+            return True
+
+        if row < 0 or row >= len(board) or col < 0 or col >= len(board[row]):
+            return False
+
+        if board[row][col] == wChars[i]:
+            tmp = board[row][col]
+            board[row][col] = "*"
+
+            isFound = self._79_exist_search(board, row + 1, col, wChars, i + 1) or \
+                      self._79_exist_search(board, row - 1, col, wChars, i + 1) or \
+                      self._79_exist_search(board, row, col + 1, wChars, i + 1) or \
+                      self._79_exist_search(board, row, col - 1, wChars, i + 1)
+
+            board[row][col] = tmp
+
+            return isFound
+        return False
 
     def _80_removeDuplicates(self, nums: List[int]) -> int:
         slow = 1
@@ -1446,8 +1586,7 @@ class Solution:
 
         # Go to position m-1
         for i in range(1, m):
-            if (cNode.next != None):
-                cNode = cNode.next
+            cNode = cNode.next
 
         # reverse from m to n
         prevNode = None
@@ -2847,16 +2986,16 @@ class Solution:
             nums.append(num)
 
             if num == nums[a] * 2:
-                print('# 2 ' + str(a))
+                #print('# 2 ' + str(a))
                 a += 1
             if num == nums[b] * 3:
-                print('# 3 ' + str(b))
+                #print('# 3 ' + str(b))
                 b += 1
             if num == nums[c] * 5:
-                print('# 5 ' + str(c))
+                #print('# 5 ' + str(c))
                 c += 1
 
-        print('# ' + str(nums))
+        #print('# ' + str(nums))
 
         return nums[-1]
 
